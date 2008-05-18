@@ -147,7 +147,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="label" translatable="yes">load bug data</property>
+            <property name="label" translatable="yes">rebuild bug data</property>
             <property name="response_id">0</property>
           </widget>
           <packing>

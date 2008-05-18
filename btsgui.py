@@ -7,11 +7,12 @@ import sys
 import gtk
 import gtk.glade
 
-from bts import BtsModel
+from bts import Model, Controller
 
-class BtsGUI:
-	def __init__(self,model):
+class GUI:
+	def __init__(self,model,controller):
 		self.model = model
+		self.controller = controller
 		self.gladefile = "bts.glade"
 		self.wTree = gtk.glade.XML(self.gladefile,"window1")
 
@@ -23,7 +24,8 @@ class BtsGUI:
 		self.populate_treeview()
 
 	def populate_treeview(self):
-		model = self.model
+		self.controller.load_from_file("data.txt")
+		model = self.model = controller.model
 		tree = self.tree
 		treestore = gtk.TreeStore(int)
 		column = gtk.TreeViewColumn('bug number')
@@ -32,10 +34,12 @@ class BtsGUI:
 		cell = gtk.CellRendererText()
 		column.pack_start(cell, False)
 		column.add_attribute(cell, "text", 0)
+		print model.usertags
 		for bug in model.usertags['needs-attention']:
 			treestore.append(None, [ bug ])
 
 if __name__ == "__main__":
-	model = BtsModel()
-	gui = BtsGUI(model)
+	model = Model()
+	controller = Controller(model)
+	gui = GUI(model,controller) # XXX: only controller soon?
 	gtk.main()
