@@ -29,16 +29,23 @@ class GUI:
 		self.controller.load_from_file("data.txt")
 		model = self.model = controller.model
 		tree = self.tree
-		treestore = gtk.TreeStore(int)
-		column = gtk.TreeViewColumn('bug number')
+		treestore = gtk.TreeStore(int,str)
 		tree.set_model(treestore)
+
+		column = gtk.TreeViewColumn('id')
 		tree.append_column(column)
 		cell = gtk.CellRendererText()
 		column.pack_start(cell, False)
 		column.add_attribute(cell, "text", 0)
-		print model.usertags
+
+		column = gtk.TreeViewColumn('subject')
+		tree.append_column(column)
+		cell = gtk.CellRendererText()
+		column.pack_start(cell,False)
+		column.add_attribute(cell, "text", 1)
+
 		for bug in model.usertags['needs-attention']:
-			treestore.append(None, [ bug ])
+			treestore.append(None, [ bug, model.submitted[bug]['subject'] ])
 
 	def row_selected_cb(self,tree,path,column):
 		treemodel = tree.get_model()

@@ -7,7 +7,7 @@ from pickle import load
 class Model:
 	def __init__(self):
 		self.user = "jon+bts@alcopop.org"
-		self.submitted = []
+		self.submitted = {}
 		self.usertags = {}
 
 class Controller:
@@ -27,8 +27,18 @@ class Controller:
 
 	def reload(self):
 		model = self.model
-		model.submitted = self.server.get_bugs("submitter", model.user)._aslist()
-		print "debug: submitted = %d\n" % len(model.submitted)
+		tmp = self.server.get_bugs("submitter", model.user)._aslist()
+		#model.submitted = tmp._aslist()
+
+		# now unpack 'em somehow
+		foo = self.server.get_status(tmp)
+		# foo is a hash, foo[0] the results, (key 'item')
+		# foo[0] is a list
+		# each element is another soapy thing, k/v
+		# foo[0][x][1] is the stuff to save
+		for item in foo[0]:
+			model.submitted[item[1]['id']] = item[1]._asdict()
+
 		model.usertags  = self.server.get_usertag(model.user)._asdict()
 		print "debug: usertags  = %d\n" % len(model.usertags)
 		print model.usertags
