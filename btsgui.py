@@ -6,6 +6,7 @@
 import sys
 import gtk
 import gtk.glade
+import os
 
 from bts import Model, Controller
 
@@ -21,6 +22,7 @@ class GUI:
 		self.wTree.get_widget("window1").connect("destroy", gtk.main_quit)
 
 		self.tree = self.wTree.get_widget("treeview1")
+		self.tree.connect("row-activated", self.row_selected_cb)
 		self.populate_treeview()
 
 	def populate_treeview(self):
@@ -37,6 +39,11 @@ class GUI:
 		print model.usertags
 		for bug in model.usertags['needs-attention']:
 			treestore.append(None, [ bug ])
+
+	def row_selected_cb(self,tree,path,column):
+		treemodel = tree.get_model()
+		row = treemodel[path[0]][0]
+		os.system("x-www-browser http://bugs.debian.org/%s" % row)
 
 if __name__ == "__main__":
 	model = Model()
