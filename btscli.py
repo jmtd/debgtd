@@ -3,7 +3,7 @@ from bts import Model, Controller
 from pickle import dump
 model = Model()
 controller = Controller(model)
-path = "/home/jon/wd/mine/bts/data.txt"
+path = "data.txt"
 controller.reload()
 #controller.load_from_file(path)
 model = controller.model
