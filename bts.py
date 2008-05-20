@@ -2,6 +2,7 @@
 # see http://wiki.debian.org/DebbugsSoapInterface
 
 import SOAPpy
+import os
 from pickle import load
 
 class Model:
@@ -18,7 +19,13 @@ class Controller:
 
 		self.model = model
 
-		self.server = SOAPpy.SOAPProxy(self.url, self.namespace)
+		if os.environ.has_key("http_proxy"):
+			my_http_proxy=os.environ["http_proxy"].replace("http://","")
+		else:
+			my_http_proxy=None
+
+		self.server = SOAPpy.SOAPProxy(self.url, self.namespace,
+			http_proxy=my_http_proxy)
 
 	def load_from_file(self,file):
 		fp = open(file,"r")
