@@ -16,5 +16,3 @@ print model.submitted
 fp = open(path,"w")
 dump(model,fp)
 fp.close()
-
-# XXX: the array isn't being dumped :(

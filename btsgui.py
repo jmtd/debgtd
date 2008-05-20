@@ -44,8 +44,8 @@ class GUI:
 		column.pack_start(cell,False)
 		column.add_attribute(cell, "text", 1)
 
-		for bug in model.usertags['needs-attention']:
-			treestore.append(None, [ bug, model.submitted[bug]['subject'] ])
+		for key in model.bugs:
+			treestore.append(None, [ key, model.bugs[key]['subject'] ])
 
 	def row_selected_cb(self,tree,path,column):
 		treemodel = tree.get_model()
