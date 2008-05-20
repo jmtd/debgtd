@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sun May 18 18:59:22 2008 -->
+<!--Generated with glade3 3.4.3 on Tue May 20 19:35:56 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
     <child>
@@ -151,8 +151,8 @@
             <property name="response_id">0</property>
           </widget>
           <packing>
-            <property name="position">1</property>
             <property name="expand">False</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
@@ -171,6 +171,37 @@
           </widget>
           <packing>
             <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkHBox" id="hbox1">
+            <property name="visible">True</property>
+            <child>
+              <widget class="GtkButton" id="sleep_bug_button">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="label" translatable="yes">Sleep bug</property>
+                <property name="response_id">0</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="num_bugs_label">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">label</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">3</property>
           </packing>
         </child>
       </widget>
