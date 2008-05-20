@@ -152,6 +152,7 @@
           </widget>
           <packing>
             <property name="position">1</property>
+            <property name="expand">False</property>
           </packing>
         </child>
         <child>
