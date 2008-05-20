@@ -25,6 +25,9 @@ class GUI:
 		self.tree.connect("row-activated", self.row_selected_cb)
 		self.populate_treeview()
 
+		label = self.wTree.get_widget("num_bugs_label")
+		label.set_text("%d bugs" % len(self.model.bugs))
+
 	def populate_treeview(self):
 		self.controller.load_from_file("data.txt")
 		model = self.model = controller.model
