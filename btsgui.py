@@ -19,6 +19,7 @@ class GUI:
 
 		window = self.wTree.get_widget("window1")
 		window.show()
+		self.wTree.get_widget("quit_menu_item").connect("activate", gtk.main_quit)
 		self.wTree.get_widget("window1").connect("destroy", gtk.main_quit)
 
 		self.tree = self.wTree.get_widget("treeview1")

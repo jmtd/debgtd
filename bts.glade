@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.3 on Tue May 20 19:35:56 2008 -->
+<!--Generated with glade3 3.4.3 on Tue May 20 19:45:17 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
     <child>
@@ -55,7 +55,7 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkImageMenuItem" id="imagemenuitem5">
+                      <widget class="GtkImageMenuItem" id="quit_menu_item">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">gtk-quit</property>
                         <property name="use_underline">True</property>
