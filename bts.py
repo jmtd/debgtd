@@ -3,7 +3,7 @@
 
 import SOAPpy
 import os
-from pickle import load
+from pickle import load, dump
 
 class Model:
 	def __init__(self):
@@ -26,11 +26,20 @@ class Controller:
 
 		self.server = SOAPpy.SOAPProxy(self.url, self.namespace,
 			http_proxy=my_http_proxy)
+		self.needswrite = False
 
 	def load_from_file(self,file):
 		fp = open(file,"r")
 		self.model = load(fp)
 		fp.close()
+		self.needswrite = False
+
+	def save_to_file(self,file,force=False):
+		if not force and self.needswrite:
+			fp = open(file,"w")
+			dump(self.model,fp)
+			fp.close()
+			self.needswrite = False
 
 	def reload(self):
 		model = self.model
@@ -41,3 +50,9 @@ class Controller:
 			foo = self.server.get_status(model.usertags['needs-attention'])
 			for item in foo[0]:
 				model.bugs[item[1]['id']] = item[1]._asdict()
+
+	# we don't want to track this bug anymore. tag it 'ignore'
+	def sleep_bug(self,bug):
+		#os.system("bts usertag %d ignore '# courtesy of debstd'")
+		del self.model.bugs[bug]
+		self.needswrite = True
