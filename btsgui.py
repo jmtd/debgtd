@@ -121,7 +121,7 @@ if __name__ == "__main__":
 	model = Model()
 	controller = Controller(model)
 	gui = GUI(controller)
-	model.add_listener(gui)
+	controller.model.add_listener(gui)
 	gtk.main()
 	print "exiting..."
 	controller.save_to_file("data.txt")
