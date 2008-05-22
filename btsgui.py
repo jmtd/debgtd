@@ -51,6 +51,7 @@ class GUI:
 		cell = gtk.CellRendererText()
 		column.pack_start(cell,False)
 		column.add_attribute(cell, "text", 1)
+		column.set_sort_column_id(1)
 
 		column = gtk.TreeViewColumn('subject')
 		tree.append_column(column)
