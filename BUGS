@@ -1,0 +1,6 @@
+the new event stuff has some bad interactions - sleeping a bug
+causes a lot of the callbacks to complain about Nonetype..
+
+a finer-grained event system for row removed etc. would be better
+(better than clearing the whole list and repopulating it for a row
+removal)

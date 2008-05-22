@@ -1,0 +1,35 @@
+We want to track some bugs. The set of bugs we are interested in can not
+be described in terms of any existing classification: it may include bugs
+filed by ourselves, bugs that we have been bitten by but did not file; bugs
+filed against our packages. It might not include some bugs caught by those
+nets.
+
+We will use a usertag to describe a bug as being tracked by this workflow
+system. This usertag will be "debstd.tracked".
+
+If you tag all the bugs that you are interested in using this usertag, you
+can then present that list of bugs to yourself. The web interface sorts the
+bugs by severity. With a homebrew tool, you could also sort the list by date
+of submission, package name, or something arbitrary like the bug number.
+
+However what if you want a list of bugs that need your attention?
+
+Assume for a moment that all bugs that we are tracking need our attention.
+Why would a bug stop needing our attention?
+
+Looking at my tracked bugs, the top one is an RFP. At some point I filed this
+because I wanted the package. At this very point in time, does the bug demand
+my attention? No.
+
+We therefore want to hide bugs that are not relevant. We can do this with
+another usertag, "debstd.sleeping".
+
+At some point in the future, all such sleeping bugs should be reviewed. Is
+that RFP still relevant? Do I still want the package? Does it still exist?
+Should I point it out on a few mailing lists, or just close it? Has it been
+more than X amount of time that we are awaiting a maintainer response?
+
+We therefore need a way of reviewing such bugs. This is actually quite tough.
+If the bug's history includes the usertagging, we could fetch the bug in its
+entirety and see if anything had been appended since the usertag was applied.
+This could be quite expensive on the BTS.
