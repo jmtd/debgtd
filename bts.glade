@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.3 on Tue May 20 19:45:17 2008 -->
+<!--Generated with glade3 3.4.5 on Thu May 22 18:12:07 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
     <child>
@@ -181,8 +181,9 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">Sleep bug</property>
+                <property name="label" translatable="yes">Sleep bug (_z)</property>
                 <property name="response_id">0</property>
+                <accelerator key="z" modifiers="GDK_MOD1_MASK" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
