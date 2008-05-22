@@ -38,11 +38,18 @@ class Controller:
 			http_proxy=my_http_proxy)
 		self.needswrite = False
 
+		self.listeners = []
+
+	def add_listener(self,foo):
+		self.listeners.append(foo)
+
 	def load_from_file(self,file):
 		fp = open(file,"r")
 		self.model = load(fp)
 		fp.close()
 		self.needswrite = False
+		for listener in self.listeners:
+			listener.model_changed()
 
 	def save_to_file(self,file,force=False):
 		if not force and self.needswrite:
@@ -68,3 +75,5 @@ class Controller:
 			(self.model.user, bug))
 		del self.model.bugs[bug]
 		self.needswrite = True
+		for listener in self.listeners:
+			listener.model_changed()
