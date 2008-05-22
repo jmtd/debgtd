@@ -3,6 +3,7 @@
 
 import SOAPpy
 import os
+import sys
 from pickle import load, dump
 
 severities = {
@@ -18,8 +19,10 @@ severities = {
 class Model:
 	def __init__(self):
 		self.user = "jon+bts@alcopop.org"
-		self.usertags = {}
-		self.bugs = {}
+		self.usertags = {}    # an internal, semi-private structure
+		self.bugs = {}        # public hash of all known bugs
+		self.tracking = set() # bugs we are tracking (all of 'em)
+		self.interested = set() # bugs we wish to display
 
 class Controller:
 	def __init__(self,model):
@@ -38,18 +41,11 @@ class Controller:
 			http_proxy=my_http_proxy)
 		self.needswrite = False
 
-		self.listeners = []
-
-	def add_listener(self,foo):
-		self.listeners.append(foo)
-
 	def load_from_file(self,file):
 		fp = open(file,"r")
 		self.model = load(fp)
 		fp.close()
 		self.needswrite = False
-		for listener in self.listeners:
-			listener.model_changed()
 
 	def save_to_file(self,file,force=False):
 		if not force and self.needswrite:
@@ -62,11 +58,27 @@ class Controller:
 		model = self.model
 		model.usertags  = self.server.get_usertag(model.user)._asdict()
 
-		# import the ones of interest
-		if model.usertags.has_key("needs-attention"):
-			foo = self.server.get_status(model.usertags['needs-attention'])
-			for item in foo[0]:
-				model.bugs[item[1]['id']] = item[1]._asdict()
+		# usertag "needs-attention" is the master list of bugs we are
+		# tracking.
+		if not model.usertags.has_key("needs-attention"):
+			sys.stderr.write("error: nothing usertagged needs-attention\n")
+			sys.exit(1)
+		model.tracking = set(model.usertags['needs-attention'])
+
+		# there is a separate list of bugs we are interested in, at this
+		# point in time, because we may be ignoring some.
+		model.interested = model.tracking.copy()
+
+		# are we ignoring any sleeping bugs?
+		if model.usertags.has_key("debstd.sleeping"):
+			model.interested -= set(model.usertags['debstd.sleeping'])
+		else:
+			print "debug: no sleeping bugs"
+
+		# fetch the status of all bugs we are dealing with.
+		foo = self.server.get_status([x for x in model.tracking])
+		for item in foo[0]:
+			model.bugs[item[1]['id']] = item[1]._asdict()
 
 	# we don't want to track this bug anymore. tag it 'debstd.sleeping'
 	# XXX: we may need to shell-escape the model.user string
@@ -75,5 +87,3 @@ class Controller:
 			(self.model.user, bug))
 		del self.model.bugs[bug]
 		self.needswrite = True
-		for listener in self.listeners:
-			listener.model_changed()

@@ -26,11 +26,13 @@ class GUI:
 
 		self.tree = self.wTree.get_widget("treeview1")
 		self.tree.connect("row-activated", self.row_selected_cb)
+		self.populate_treeview()
+
+		label = self.wTree.get_widget("num_bugs_label")
+		label.set_text("%d bugs" % len(self.model.interested))
+
 		button = self.wTree.get_widget("sleep_bug_button")
 		button.connect("clicked", self.sleep_cb)
-
-		self.populate_treeview()
-		self.model_changed()
 
 	def populate_treeview(self):
 		self.controller.load_from_file("data.txt")
@@ -59,6 +61,10 @@ class GUI:
 		column.pack_start(cell,False)
 		column.add_attribute(cell, "text", 2)
 
+		for key in model.interested:
+			bug = model.bugs[key]
+			treestore.append(None, [key, bug['severity'], bug['subject']])
+
 	def row_selected_cb(self,tree,path,column):
 		treemodel = tree.get_model()
 		row = treemodel[path[0]][0]
@@ -82,23 +88,10 @@ class GUI:
 		bv = bts.severities[b]
 		return av - bv
 
-	def model_changed(self):
-		print "handling a model change"
-		treestore = self.tree.get_model()
-		model = self.controller.model
-		treestore.clear()
-		print "debug: %d\n" % len(model.bugs)
-		for key in model.bugs:
-			bug = model.bugs[key]
-			treestore.append(None, [key, bug['severity'], bug['subject']])
-		label = self.wTree.get_widget("num_bugs_label")
-		label.set_text("%d bugs" % len(self.model.bugs))
-
 if __name__ == "__main__":
 	model = Model()
 	controller = Controller(model)
 	gui = GUI(model,controller) # XXX: only controller soon?
-	controller.add_listener(gui)
 	gtk.main()
 	print "exiting..."
 	controller.save_to_file("data.txt")
