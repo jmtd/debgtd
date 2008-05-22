@@ -16,14 +16,31 @@ severities = {
 	"critical" : 6,
 }
 
+# the usertags we use. these should be changed to something memorable once
+# we've settled on a program name, etc.
+tracking = "needs-attention"
+sleeping = "debstd.sleeping"
+
 class Model:
 	def __init__(self):
 		self.user = "jon+bts@alcopop.org"
-		self.usertags = {}    # an internal, semi-private structure
-		self.bugs = {}        # public hash of all known bugs
-		self.tracking = set() # bugs we are tracking (all of 'em)
-		self.interested = set() # bugs we wish to display
-		self.sleeping = set() # bugs that are being slept
+		self.bugs = {}
+		self.listeners = []
+
+	def sleep_bug(self,bugnum):
+		bug = self.bugs[bugnum]
+
+		if sleeping not in bug['usertags']:
+			bug['usertags'].append(sleeping)
+
+		for listener in self.listeners:
+			listener.bug_changed(bugnum)
+
+	def get_sleeping_bugs(self):
+		return [x for x in self.bugs.values() if sleeping in x['usertags']]
+
+	def add_listener(self,foo):
+		self.listeners.append(foo)
 
 class Controller:
 	def __init__(self,model):
@@ -57,36 +74,34 @@ class Controller:
 
 	def reload(self):
 		model = self.model
-		model.usertags  = self.server.get_usertag(model.user)._asdict()
+		usertags  = self.server.get_usertag(model.user)._asdict()
 
-		# usertag "needs-attention" is the master list of bugs we are
+		# usertag tracking is the master list of bugs we are
 		# tracking.
-		if not model.usertags.has_key("needs-attention"):
+		if not usertags.has_key(tracking):
 			sys.stderr.write("error: nothing usertagged needs-attention\n")
+			sys.stderr.write("(insert import code here)\n")
 			sys.exit(1)
-		model.tracking = set(model.usertags['needs-attention'])
 
-		# there is a separate list of bugs we are interested in, at this
-		# point in time, because we may be ignoring some.
-		model.interested = model.tracking.copy()
-
-		# are we ignoring any sleeping bugs?
-		if model.usertags.has_key("debstd.sleeping"):
-			foo = set(model.usertags['debstd.sleeping'])
-			model.interested -= foo
-			model.sleeping = foo
-		else:
-			print "debug: no sleeping bugs"
-
-		# fetch the status of all bugs we are dealing with.
-		foo = self.server.get_status([x for x in model.tracking])
+		# fetch the details of all of these bugs
+		foo = self.server.get_status(usertags['needs-attention'])
 		for item in foo[0]:
 			model.bugs[item[1]['id']] = item[1]._asdict()
+
+		# now we need to annotate the bugs with userdata
+		sleeping = []
+		if usertags.has_key(sleeping):
+			sleeping = usertags[sleeping]
+
+		for bug in model.bugs.values():
+			bug['usertags'] = ['needs-attention']
+			if bug['id'] in sleeping:
+				bug['usertags'].append('debstd.sleeping')
 
 	# we don't want to track this bug anymore. tag it 'debstd.sleeping'
 	# XXX: we may need to shell-escape the model.user string
 	def sleep_bug(self,bug):
 		os.system("DEBEMAIL=\"%s\" bts usertag %d debstd.sleeping" %
 			(self.model.user, bug))
-		del self.model.bugs[bug]
+		self.model.sleep_bug(bug)
 		self.needswrite = True

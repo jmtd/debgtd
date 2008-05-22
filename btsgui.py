@@ -12,8 +12,7 @@ import bts
 from bts import Model, Controller
 
 class GUI:
-	def __init__(self,model,controller):
-		self.model = model
+	def __init__(self,controller):
 		self.controller = controller
 		self.gladefile = "bts.glade"
 		self.wTree = gtk.glade.XML(self.gladefile,"window1")
@@ -29,9 +28,14 @@ class GUI:
 		self.populate_treeview()
 
 		label = self.wTree.get_widget("num_bugs_label")
-		label.set_text("%d bugs (%d sleeping)" %
-			(len(self.model.interested), len(self.model.sleeping))
-		)
+		# XXX: also, move this to a callback
+		# XXX: we shouldn't prod the bug this internally, instead rely on a
+		# model method (or some chain of filter rules for what to display)
+		model = controller.model
+		total = len(model.bugs)
+		sleeping = len(model.get_sleeping_bugs())
+		interested = total - sleeping
+		label.set_text("%d bugs (%d sleeping)" % (interested,sleeping))
 
 		button = self.wTree.get_widget("sleep_bug_button")
 		button.connect("clicked", self.sleep_cb)
@@ -40,7 +44,7 @@ class GUI:
 
 	def populate_treeview(self):
 		self.controller.load_from_file("data.txt")
-		model = self.model = controller.model
+		model = controller.model
 		tree = self.tree
 		treestore = gtk.TreeStore(int,str,str)
 		tree.set_model(treestore)
@@ -65,14 +69,17 @@ class GUI:
 		column.pack_start(cell,False)
 		column.add_attribute(cell, "text", 2)
 
-		for key in model.interested:
-			bug = model.bugs[key]
-			treestore.append(None, [key, bug['severity'], bug['subject']])
+		for bug in model.bugs.values():
+			# XXX: we shouldn't prod the bug this internally, instead
+			# rely on a model method (or some chain of filter rules
+			# for what to display)
+			if not bts.sleeping in bug['usertags']:
+				treestore.append(None, [bug['id'], bug['severity'], bug['subject']])
 
 	def row_selected_cb(self,tree,path,column):
 		treemodel = tree.get_model()
 		row = treemodel[path[0]][0]
-		os.system("x-www-browser http://bugs.debian.org/%s" % row)
+		os.system("x-terminal-emulator -e bts show --mbox %s" % row)
 
 	def sleep_cb(self,button):
 		treemodel = self.tree.get_model()
@@ -95,10 +102,15 @@ class GUI:
 	def refresh_data_cb(self, button):
 		self.controller.reload()
 
+	def bug_changed(self, bug):
+		# aw, christ.
+		print "should handle %d changing, but aren't." % bug
+
 if __name__ == "__main__":
 	model = Model()
 	controller = Controller(model)
-	gui = GUI(model,controller) # XXX: only controller soon?
+	gui = GUI(controller)
+	model.add_listener(gui)
 	gtk.main()
 	print "exiting..."
 	controller.save_to_file("data.txt")
