@@ -51,8 +51,10 @@ class Controller:
 			for item in foo[0]:
 				model.bugs[item[1]['id']] = item[1]._asdict()
 
-	# we don't want to track this bug anymore. tag it 'ignore'
+	# we don't want to track this bug anymore. tag it 'debstd.sleeping'
+	# XXX: we may need to shell-escape the model.user string
 	def sleep_bug(self,bug):
-		#os.system("bts usertag %d ignore '# courtesy of debstd'")
+		os.system("DEBEMAIL=\"%s\" bts usertag %d debstd.sleeping" %
+			(self.model.user, bug))
 		del self.model.bugs[bug]
 		self.needswrite = True
