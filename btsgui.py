@@ -31,6 +31,7 @@ class GUI:
 		# XXX: also, move this to a callback
 		# XXX: we shouldn't prod the bug this internally, instead rely on a
 		# model method (or some chain of filter rules for what to display)
+		# TODO: not taking into account that we filter out done bugs below
 		model = controller.model
 		total = len(model.bugs)
 		sleeping = len(model.get_sleeping_bugs())
@@ -80,7 +81,7 @@ class GUI:
 			# XXX: we shouldn't prod the bug this internally, instead
 			# rely on a model method (or some chain of filter rules
 			# for what to display)
-			if not bts.sleeping in bug['usertags']:
+			if not bts.sleeping in bug['usertags'] and '' == bug['done']:
 				treestore.append(None, [bug['id'],
 				bug['package'],
 				bug['severity'],
