@@ -8,6 +8,7 @@ import gtk
 import gtk.glade
 import os
 
+import bts
 from bts import Model, Controller
 
 class GUI:
@@ -52,6 +53,7 @@ class GUI:
 		column.pack_start(cell,False)
 		column.add_attribute(cell, "text", 1)
 		column.set_sort_column_id(1)
+		treestore.set_sort_func(1, self.severity_sort_cb)
 
 		column = gtk.TreeViewColumn('subject')
 		tree.append_column(column)
@@ -78,6 +80,13 @@ class GUI:
 		# "model.bug changed". we need to implement events for that
 		# get an iter. somehow.
 		treemodel.remove(iter)
+	
+	def severity_sort_cb(self,treestore,iter1,iter2):
+		a = treestore.get_value(iter1, 1)
+		b = treestore.get_value(iter2, 1)
+		av = bts.severities[a]
+		bv = bts.severities[b]
+		return av - bv
 
 if __name__ == "__main__":
 	model = Model()

@@ -5,6 +5,16 @@ import SOAPpy
 import os
 from pickle import load, dump
 
+severities = {
+	"wishlist" : 0,
+	"minor"    : 1,
+	"normal"   : 2,
+	"important": 3,
+	"serious"  : 4,
+	"grave"    : 5,
+	"critical" : 6,
+}
+
 class Model:
 	def __init__(self):
 		self.user = "jon+bts@alcopop.org"
