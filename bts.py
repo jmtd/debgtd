@@ -22,8 +22,8 @@ tracking = "needs-attention"
 sleeping = "debstd.sleeping"
 
 class Model:
-	def __init__(self):
-		self.user = "jon+bts@alcopop.org"
+	def __init__(self,user):
+		self.user = user
 		self.bugs = {}
 		self.listeners = []
 
