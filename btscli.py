@@ -15,5 +15,5 @@ controller.reload()
 #controller.load_from_file(path)
 model = controller.model
 fp = open(path,"w")
-dump(model,fp)
+dump(model.serialize(),fp)
 fp.close()

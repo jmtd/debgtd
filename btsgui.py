@@ -118,7 +118,10 @@ class GUI:
 		print "should handle %d changing, but aren't." % bug
 
 if __name__ == "__main__":
-	model = Model()
+	if not os.environ.has_key("DEBEMAIL"):
+		sys.stderr.write("error: please define DEBEMAIL.\n")
+		sys.exit(1)
+	model = Model(os.environ["DEBEMAIL"])
 	controller = Controller(model)
 	gui = GUI(controller)
 	controller.model.add_listener(gui)
