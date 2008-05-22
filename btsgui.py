@@ -29,7 +29,9 @@ class GUI:
 		self.populate_treeview()
 
 		label = self.wTree.get_widget("num_bugs_label")
-		label.set_text("%d bugs" % len(self.model.interested))
+		label.set_text("%d bugs (%d sleeping)" %
+			(len(self.model.interested), len(self.model.sleeping))
+		)
 
 		button = self.wTree.get_widget("sleep_bug_button")
 		button.connect("clicked", self.sleep_cb)

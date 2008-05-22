@@ -23,6 +23,7 @@ class Model:
 		self.bugs = {}        # public hash of all known bugs
 		self.tracking = set() # bugs we are tracking (all of 'em)
 		self.interested = set() # bugs we wish to display
+		self.sleeping = set() # bugs that are being slept
 
 class Controller:
 	def __init__(self,model):
@@ -71,7 +72,9 @@ class Controller:
 
 		# are we ignoring any sleeping bugs?
 		if model.usertags.has_key("debstd.sleeping"):
-			model.interested -= set(model.usertags['debstd.sleeping'])
+			foo = set(model.usertags['debstd.sleeping'])
+			model.interested -= foo
+			model.sleeping = foo
 		else:
 			print "debug: no sleeping bugs"
 
