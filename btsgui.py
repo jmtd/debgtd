@@ -37,7 +37,7 @@ class GUI:
 		self.controller.load_from_file("data.txt")
 		model = self.model = controller.model
 		tree = self.tree
-		treestore = gtk.TreeStore(int,str)
+		treestore = gtk.TreeStore(int,str,str)
 		tree.set_model(treestore)
 
 		column = gtk.TreeViewColumn('id')
@@ -46,14 +46,21 @@ class GUI:
 		column.pack_start(cell, False)
 		column.add_attribute(cell, "text", 0)
 
-		column = gtk.TreeViewColumn('subject')
+		column = gtk.TreeViewColumn('severity')
 		tree.append_column(column)
 		cell = gtk.CellRendererText()
 		column.pack_start(cell,False)
 		column.add_attribute(cell, "text", 1)
 
+		column = gtk.TreeViewColumn('subject')
+		tree.append_column(column)
+		cell = gtk.CellRendererText()
+		column.pack_start(cell,False)
+		column.add_attribute(cell, "text", 2)
+
 		for key in model.bugs:
-			treestore.append(None, [ key, model.bugs[key]['subject'] ])
+			bug = model.bugs[key]
+			treestore.append(None, [key, bug['severity'], bug['subject']])
 
 	def row_selected_cb(self,tree,path,column):
 		treemodel = tree.get_model()
