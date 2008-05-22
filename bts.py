@@ -96,19 +96,19 @@ class Controller:
 			model.bugs[item[1]['id']] = item[1]._asdict()
 
 		# now we need to annotate the bugs with userdata
-		sleeping = []
+		sleepingbugs = []
 		if usertags.has_key(sleeping):
-			sleeping = usertags[sleeping]
+			sleepingbugs = usertags[sleeping]
 
 		for bug in model.bugs.values():
 			bug['usertags'] = ['needs-attention']
-			if bug['id'] in sleeping:
-				bug['usertags'].append('debstd.sleeping')
+			if bug['id'] in sleepingbugs:
+				bug['usertags'].append(sleeping)
 
 	# we don't want to track this bug anymore. tag it 'debstd.sleeping'
 	# XXX: we may need to shell-escape the model.user string
 	def sleep_bug(self,bug):
-		os.system("DEBEMAIL=\"%s\" bts usertag %d debstd.sleeping" %
-			(self.model.user, bug))
+		os.system("DEBEMAIL=\"%s\" bts usertag %d %s" %
+			(self.model.user, bug, sleeping))
 		self.model.sleep_bug(bug)
 		self.needswrite = True
