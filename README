@@ -5,7 +5,7 @@ filed against our packages. It might not include some bugs caught by those
 nets.
 
 We will use a usertag to describe a bug as being tracked by this workflow
-system. This usertag will be "debstd.tracked".
+system. This usertag will be "debgtd.tracked".
 
 If you tag all the bugs that you are interested in using this usertag, you
 can then present that list of bugs to yourself. The web interface sorts the
@@ -22,7 +22,7 @@ because I wanted the package. At this very point in time, does the bug demand
 my attention? No.
 
 We therefore want to hide bugs that are not relevant. We can do this with
-another usertag, "debstd.sleeping".
+another usertag, "debgtd.sleeping".
 
 At some point in the future, all such sleeping bugs should be reviewed. Is
 that RFP still relevant? Do I still want the package? Does it still exist?
