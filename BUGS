@@ -1,6 +1,6 @@
-the new event stuff has some bad interactions - sleeping a bug
-causes a lot of the callbacks to complain about Nonetype..
+we can't pickle the GTK stuff so need to only pickle/unpickle an internal
+part of the Model class and not the list of listeners.
 
-a finer-grained event system for row removed etc. would be better
-(better than clearing the whole list and repopulating it for a row
-removal)
+probably provide serialize methods in Model which pack/unpack the bugs
+hash and use them in controller. this would have the advantage of not
+invalidating model pointers after a load.
