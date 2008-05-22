@@ -27,6 +27,13 @@ class Model:
 		self.bugs = {}
 		self.listeners = []
 
+	def serialize(self):
+		return (self.user,self.bugs)
+
+	def unserialize(self,tuple):
+		self.user = tuple[0]
+		self.bugs = tuple[1]
+
 	def sleep_bug(self,bugnum):
 		bug = self.bugs[bugnum]
 
@@ -61,14 +68,14 @@ class Controller:
 
 	def load_from_file(self,file):
 		fp = open(file,"r")
-		self.model = load(fp)
+		self.model.unserialize(load(fp))
 		fp.close()
 		self.needswrite = False
 
 	def save_to_file(self,file,force=False):
 		if not force and self.needswrite:
 			fp = open(file,"w")
-			dump(self.model,fp)
+			dump(self.model.serialize(),fp)
 			fp.close()
 			self.needswrite = False
 
