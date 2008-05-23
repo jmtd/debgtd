@@ -49,3 +49,10 @@ http://www.debian.org/doc/developers-reference/ch-pkgs.en.html#s-nmu
     * prepare nmu
     * upload to delayed queue
     * send final patch to bts, explain 7 day reaction
+
+annotations
+-----------
+
+looking at my bug pile right now, I see some bugs that could use some
+attention, perhaps to see if they still apply, etc.: I cant' do the actual
+work now, but I could do with making a note of the identified "next action"
