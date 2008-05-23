@@ -33,3 +33,8 @@ We therefore need a way of reviewing such bugs. This is actually quite tough.
 If the bug's history includes the usertagging, we could fetch the bug in its
 entirety and see if anything had been appended since the usertag was applied.
 This could be quite expensive on the BTS.
+
+
+Maybe a certain bug is only present on a certain machine. I may not be
+interested in that bug unless I am using that machine (and could then provide
+further diagnosis).
