@@ -38,3 +38,14 @@ This could be quite expensive on the BTS.
 Maybe a certain bug is only present on a certain machine. I may not be
 interested in that bug unless I am using that machine (and could then provide
 further diagnosis).
+
+NMU procedural information:
+http://www.debian.org/doc/developers-reference/ch-pkgs.en.html#s-nmu
+    * file the bug
+    * wait "a few days" for a response
+    * submit a patch
+    * wait "a few more days"
+    * announce nmu intention
+    * prepare nmu
+    * upload to delayed queue
+    * send final patch to bts, explain 7 day reaction
