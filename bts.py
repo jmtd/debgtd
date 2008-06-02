@@ -91,12 +91,14 @@ class Controller:
 			sys.exit(1)
 
 		# fetch the details of all of these bugs
+		# christ, someone point me at something which will make the
+		# following clear.
 		foo = self.server.get_status(usertags[tracking])
-		for item in foo[0]:
-			print type(foo[0])
-			print foo[0]
-			print item
-			model.bugs[item[1]['id']] = item[1]._asdict()
+		foo2 = foo._asdict().values()
+		foo3 = foo2[0]
+		for item in foo3:
+			item2 = item['value']
+			model.bugs[item2['id']] = item2._asdict()
 
 		# now we need to annotate the bugs with userdata
 		sleepingbugs = []
