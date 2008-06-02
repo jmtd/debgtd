@@ -91,8 +91,11 @@ class Controller:
 			sys.exit(1)
 
 		# fetch the details of all of these bugs
-		foo = self.server.get_status(usertags['needs-attention'])
+		foo = self.server.get_status(usertags[tracking])
 		for item in foo[0]:
+			print type(foo[0])
+			print foo[0]
+			print item
 			model.bugs[item[1]['id']] = item[1]._asdict()
 
 		# now we need to annotate the bugs with userdata
@@ -101,7 +104,7 @@ class Controller:
 			sleepingbugs = usertags[sleeping]
 
 		for bug in model.bugs.values():
-			bug['usertags'] = ['needs-attention']
+			bug['usertags'] = [tracking]
 			if bug['id'] in sleepingbugs:
 				bug['usertags'].append(sleeping)
 
