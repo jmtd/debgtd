@@ -1,0 +1,26 @@
+the bit that unravels usertags is failing :(
+
+self.server.get_status(usertags['needs-attention'])
+                       ^- list of ints
+
+>>> foo = server.get_status(usertags['needs-attention'])
+>>> type(foo)
+<type 'instance'>
+>>> foo
+<SOAPpy.Types.structType s-gensym3 at 3078527436>: {
+	'item': <SOAPpy.Types.structType item at 3078526412>: {
+		'value': <SOAPpy.Types.structType value at 3078527724>: {
+		'fixed_versions': ['1:2.22.0-2'], 'blockedby': '', 'owner': '', 'done': 'Sven Arvidsson <sa@whiz.se>', 'unarchived': '', 'keywords': '', 'id': 461475, 'subject': 'gnome-session: prompt about differing x keyboard and gnome keyboard settings', 'forwarded': '', 'msgid': '<20080118204808.GA6341@qusp.dowland>', 'source': 'unknown', 'location': 'archive', 'pending': 'done', 'found_date': [], 'originator': 'Jon Dowland <jon+bts@alcopop.org>', 'blocks': '', 'tags': '', 'date': 1200689462, 'mergedwith': '', 'severity': 'normal', 'package': 'gnome-control-center', 'log_modified': 1211355687, 'fixed_date': [], 'found_versions': ['control-center/1:2.20.1-2'], 'found': <SOAPpy.Types.structType found at 3078527180>: {
+		'item': <SOAPpy.Types.structType item at 3078527308>: {
+		'value': None, 'key': 'control-center/1:2.20.1-2'}
+		}
+		, 'fixed': <SOAPpy.Types.structType fixed at 3078526540>: {
+		'item': <SOAPpy.Types.structType item at 3078488044>: {
+		'value': None, 'key': '1:2.22.0-2'}
+		}
+		}
+		, 'key': 461475
+	}
+}
+
+
