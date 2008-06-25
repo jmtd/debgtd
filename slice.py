@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import sys
 import os
 from os import environ
 from sys import exit,stderr
@@ -25,20 +26,22 @@ server = SOAPpy.SOAPProxy(url, namespace,http_proxy=my_http_proxy)
 usertags  = server.get_usertag(user)._asdict()
 if not usertags.has_key(tracking):
 	sys.exit(1)
-print usertags
-sys.exit(0)
 
-# for some reason, a 1-element list or a 1 pair hash
+# wrapped up in a soap:map for some reason
 foo = server.get_status(usertags[tracking])
 foo2 = foo._aslist()[0]
 # foo2 is now a list of items, one per requested bug
 
+# if we only requested one bug, irrespective of whether it was in
+# an array in the soap request, the response will be unboxed.
+if len(usertags[tracking]) == 1:
+    print "reboxing the thingummy"
+    foo2 = { 'value': foo2[1] }
+
 hash = {}
 for item in foo2:
-    # this should nevar happen!!1
-    if int == type(item):
-        print "bah, int: %d"%item
-    else:
-        # each 'item' returned is a two-element hash, keys 'key' and 'value'
-        item2 = item._asdict()['value']
-        hash[item2['id']] = item2._asdict()
+    # each 'item' returned is a two-element hash, keys 'key' and 'value'
+    item2 = item._asdict()['value']
+    hash[item2['id']] = item2._asdict()
+
+print hash.keys()
