@@ -1,0 +1,37 @@
+POST http://bugs.debian.org/cgi-bin/soap.cgi HTTP/1.0
+Host: bugs.debian.org
+User-agent: SOAPpy 0.12.0 (pywebsvcs.sf.net)
+Content-type: text/xml; charset="UTF-8"
+Content-length: 521
+SOAPAction: "get_status"
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:xsd="http://www.w3.org/1999/XMLSchema"
+>
+<SOAP-ENV:Body>
+<ns1:get_status xmlns:ns1="Debbugs/SOAP" SOAP-ENC:root="1">
+<v1 xsi:type="xsd:int">404502</v1>
+</ns1:get_status>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+HTTP/1.0 200 OK
+Date: Wed, 25 Jun 2008 15:35:50 GMT
+Server: Apache/2.2.3 (Debian) mod_python/3.2.10 Python/2.4.4
+SOAPServer: SOAP::Lite/Perl/0.69
+Content-Length: 2028
+Content-Type: text/xml; charset=utf-8
+X-Cache: MISS from bucket0.ncl.ac.uk
+X-Cache-Lookup: MISS from bucket0.ncl.ac.uk:8080
+Via: 1.0 bucket0.ncl.ac.uk:8080 (squid/2.6.STABLE13)
+Proxy-Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:apachens="http://xml.apache.org/xml-soap" xmlns:xsd="http://www.w3.org/1999/XMLSchema" soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><get_statusResponse xmlns="Debbugs/SOAP"><s-gensym3 xsi:type="apachens:Map"><item><key xsi:type="xsd:int">404502</key><value><source xsi:type="xsd:string">unknown</source><found_versions soapenc:arrayType="xsd:string[1]" xsi:type="soapenc:Array"><item xsi:t
+ype="xsd:string">desktop-base/4.0.0</item></found_versions><done xsi:type="xsd:string" /><blocks xsi:type="xsd:string" /><date xsi:type="xsd:int">1167073381</date><fixed /><fixed_versions soapenc:arrayType="xsd:ur-type[0]" xsi:type="soapenc:Array" /><mergedwith xsi:type="xsd:int">407038</mergedwith><found xsi:type="apachens:Map"><item><key xsi:type="xsd:string">desktop-base/4.0.0</key><value xsi:null="1" /></item></found><unarchived
+ xsi:type="xsd:string" /><blockedby xsi:type="xsd:string" /><keywords xsi:type="xsd:string" /><msgid xsi:type="xsd:string">&lt;20061225185153.GA654@kitenet.net&gt;</msgid><id xsi:type="xsd:int">404502</id><forwarded xsi:type="xsd:string" /><severity xsi:type="xsd:string">important</severity><owner xsi:type="xsd:string" /><log_modified xsi:type="xsd:int">1170163097</log_modified><location xsi:type="xsd:string">db-h</location><originator xsi:type="xsd:string">Joey Hess &lt;joeyh@debian.org&gt;</originator><subject xsi:type="xsd:string">gdm window not wide enough for all messages</subject><pending xsi:type="xsd:string">pending</pending><tags xsi:type="xsd:string" /><fixed_date soapenc:arrayType="xsd:ur-type[0]" xsi:type="soapenc:Array" /><package xsi:type="xsd:string">desktop-base</package><found_date soapenc:arrayType="xsd:ur-type[0]" xsi:type="soapenc:Array" /></value></item></s-gensym3></get_statusResponse></soap:Body></soap:Envelope>
