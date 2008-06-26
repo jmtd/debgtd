@@ -18,7 +18,7 @@ severities = {
 
 # the usertags we use. these should be changed to something memorable once
 # we've settled on a program name, etc.
-tracking = "needs-attention"
+tracking = "debstd.tracking"
 sleeping = "debstd.sleeping"
 
 class Model:
