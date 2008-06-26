@@ -19,7 +19,7 @@ severities = {
 # the usertags we use. these should be changed to something memorable once
 # we've settled on a program name, etc.
 tracking = "debgtd.tracking"
-sleeping = "debstd.sleeping"
+sleeping = "debgtd.sleeping"
 
 class Model:
 	def __init__(self,user):
