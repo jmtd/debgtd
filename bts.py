@@ -18,7 +18,7 @@ severities = {
 
 # the usertags we use. these should be changed to something memorable once
 # we've settled on a program name, etc.
-tracking = "debstd.tracking"
+tracking = "debgtd.tracking"
 sleeping = "debstd.sleeping"
 
 class Model:
@@ -86,7 +86,7 @@ class Controller:
 		# usertag tracking is the master list of bugs we are
 		# tracking.
 		if not usertags.has_key(tracking):
-			sys.stderr.write("error: nothing usertagged needs-attention\n")
+			sys.stderr.write("error: nothing usertagged %s\n"% tracking)
 			sys.stderr.write("(insert import code here)\n")
 			sys.exit(1)
 
