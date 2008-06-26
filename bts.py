@@ -93,12 +93,15 @@ class Controller:
 		# fetch the details of all of these bugs
 		# christ, someone point me at something which will make the
 		# following clear.
-		foo = self.server.get_status(usertags[tracking])
-		foo2 = foo._asdict().values()
-		foo3 = foo2[0]
-		for item in foo3:
-			item2 = item['value']
-			model.bugs[item2['id']] = item2._asdict()
+		foo = self.server.get_status(usertags[tracking])[0]
+		if 1 == len(usertags[tracking]):
+			# work around debbts unboxing "feature"
+			foo = foo['value']
+			model.bugs[foo['id']] = foo._asdict()
+		else:
+			for item in foo:
+				item2 = item['value']
+				model.bugs[item2['id']] = item2._asdict()
 
 		# now we need to annotate the bugs with userdata
 		sleepingbugs = []
