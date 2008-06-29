@@ -97,7 +97,7 @@ class GUI:
 	def row_selected_cb(self,tree,path,column):
 		treemodel = tree.get_model()
 		row = treemodel[path[0]][0]
-		os.system("x-terminal-emulator -e bts show --mbox %s" % row)
+		os.system("x-www-browser http://bugs.debian.org/%s" % row)
 
 	def sleep_cb(self,button):
 		treemodel = self.tree.get_model()
