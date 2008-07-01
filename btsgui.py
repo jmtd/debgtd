@@ -96,7 +96,9 @@ class GUI:
 			# XXX: we shouldn't prod the bug this internally, instead
 			# rely on a model method (or some chain of filter rules
 			# for what to display)
-			if not bts.sleeping in bug['usertags'] and '' == bug['done']:
+			if not bts.sleeping in bug['usertags'] \
+			and not bts.ignoring in bug['usertags'] \
+			and '' == bug['done']:
 				treestore.append(None, [bug['id'],
 				bug['package'],
 				bug['severity'],
