@@ -41,7 +41,7 @@ class GUI:
 		model = self.controller.model
 		label = self.wTree.get_widget("num_bugs_label")
 
-		total = len(model.bugs)
+		total = len(filter(lambda bug: '' == bug['done'], model.bugs.values()))
 		sleeping = len(model.get_sleeping_bugs())
 		interested = total - sleeping
 
