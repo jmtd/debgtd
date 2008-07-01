@@ -32,6 +32,9 @@ class GUI:
 		button = self.wTree.get_widget("sleep_bug_button")
 		button.connect("clicked", self.sleep_cb)
 
+		button = self.wTree.get_widget("ignore_bug_button")
+		button.connect("clicked", self.ignore_cb)
+
 	# XXX: we shouldn't prod the bug this internally, instead rely on a
 	# model method (or some chain of filter rules for what to display)
 	# TODO: not taking into account that we filter out done bugs below
@@ -40,10 +43,14 @@ class GUI:
 		label = self.wTree.get_widget("num_bugs_label")
 
 		total = len(filter(lambda bug: '' == bug['done'], model.bugs.values()))
+		# XXX BUG there might be an intersection between these
+		# should use real set logic instead of arithmetic
 		sleeping = len(model.get_sleeping_bugs())
-		interested = total - sleeping
+		ignored = len(model.get_ignored_bugs())
+		interested = total - sleeping - ignored
 
-		label.set_text("%d bugs (%d sleeping)" % (interested,sleeping))
+		label.set_text("%d bugs (%d sleeping; %d ignored)" % \
+			(interested,sleeping,ignored))
 
 	def populate_treeview(self):
 		self.controller.load_from_file("data.txt")
@@ -100,6 +107,18 @@ class GUI:
 		treemodel = tree.get_model()
 		row = treemodel[path[0]][0]
 		os.system("x-www-browser http://bugs.debian.org/%s" % row)
+
+	def ignore_cb(self,button):
+		treemodel = self.tree.get_model()
+		offs,col = self.tree.get_cursor()
+		row = self.tree.get_model()[offs[0]][0]
+		iter = treemodel.get_iter(offs)
+		self.controller.ignore_bug(row)
+		# TODO: the following should be moved to an event handler for
+		# "model.bug changed". we need to implement events for that
+		# get an iter. somehow.
+		treemodel.remove(iter)
+		self.update_summary_label()
 
 	def sleep_cb(self,button):
 		treemodel = self.tree.get_model()

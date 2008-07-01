@@ -177,13 +177,26 @@
               </packing>
             </child>
             <child>
+              <widget class="GtkButton" id="ignore_bug_button">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="label" translatable="yes">Ignore bug</property>
+                <property name="response_id">0</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+
+            <child>
               <widget class="GtkLabel" id="num_bugs_label">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">label</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </widget>

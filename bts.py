@@ -20,6 +20,7 @@ severities = {
 # we've settled on a program name, etc.
 tracking = "debgtd.tracking"
 sleeping = "debgtd.sleeping"
+ignoring = "debgtd.ignoring"
 
 class Model:
 	def __init__(self,user):
@@ -45,6 +46,18 @@ class Model:
 
 	def get_sleeping_bugs(self):
 		return [x for x in self.bugs.values() if sleeping in x['usertags']]
+	
+	def ignore_bug(self,bugnum):
+		bug = self.bugs[bugnum]
+
+		if ignoring not in bug['usertags']:
+			bug['usertags'].append(ignoring)
+
+		for listener in self.listeners:
+			listener.bug_changed(bugnum)
+
+	def get_ignored_bugs(self):
+		return [x for x in self.bugs.values() if ignoring in x['usertags']]
 
 	def add_listener(self,foo):
 		self.listeners.append(foo)
@@ -119,4 +132,12 @@ class Controller:
 		os.system("DEBEMAIL=\"%s\" bts usertag %d %s" %
 			(self.model.user, bug, sleeping))
 		self.model.sleep_bug(bug)
+		self.needswrite = True
+
+	# we don't want to track this bug anymore, ever. tag it
+	# XXX: we may need to shell-escape the model.user string
+	def ignore_bug(self,bug):
+		os.system("DEBEMAIL=\"%s\" bts usertag %d %s" %
+			(self.model.user, bug, ignoring))
+		self.model.ignore_bug(bug)
 		self.needswrite = True
