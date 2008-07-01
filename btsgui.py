@@ -27,21 +27,25 @@ class GUI:
 		self.tree.connect("row-activated", self.row_selected_cb)
 		self.populate_treeview()
 
-		label = self.wTree.get_widget("num_bugs_label")
-		# XXX: also, move this to a callback
-		# XXX: we shouldn't prod the bug this internally, instead rely on a
-		# model method (or some chain of filter rules for what to display)
-		# TODO: not taking into account that we filter out done bugs below
-		model = controller.model
-		total = len(model.bugs)
-		sleeping = len(model.get_sleeping_bugs())
-		interested = total - sleeping
-		label.set_text("%d bugs (%d sleeping)" % (interested,sleeping))
+		self.update_summary_label()
 
 		button = self.wTree.get_widget("sleep_bug_button")
 		button.connect("clicked", self.sleep_cb)
 		button = self.wTree.get_widget("refresh_data_button")
 		button.connect("clicked", self.refresh_data_cb)
+
+	# XXX: we shouldn't prod the bug this internally, instead rely on a
+	# model method (or some chain of filter rules for what to display)
+	# TODO: not taking into account that we filter out done bugs below
+	def update_summary_label(self):
+		model = self.controller.model
+		label = self.wTree.get_widget("num_bugs_label")
+
+		total = len(model.bugs)
+		sleeping = len(model.get_sleeping_bugs())
+		interested = total - sleeping
+
+		label.set_text("%d bugs (%d sleeping)" % (interested,sleeping))
 
 	def populate_treeview(self):
 		self.controller.load_from_file("data.txt")
