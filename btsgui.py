@@ -31,8 +31,6 @@ class GUI:
 
 		button = self.wTree.get_widget("sleep_bug_button")
 		button.connect("clicked", self.sleep_cb)
-		button = self.wTree.get_widget("refresh_data_button")
-		button.connect("clicked", self.refresh_data_cb)
 
 	# XXX: we shouldn't prod the bug this internally, instead rely on a
 	# model method (or some chain of filter rules for what to display)
@@ -121,9 +119,6 @@ class GUI:
 		av = bts.severities[a]
 		bv = bts.severities[b]
 		return av - bv
-
-	def refresh_data_cb(self, button):
-		self.controller.reload()
 
 	def bug_changed(self, bug):
 		# aw, christ.

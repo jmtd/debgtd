@@ -143,19 +143,6 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkButton" id="refresh_data_button">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="label" translatable="yes">rebuild bug data</property>
-            <property name="response_id">0</property>
-          </widget>
-          <packing>
-            <property name="expand">False</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
           <widget class="GtkScrolledWindow" id="scrolledwindow1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
