@@ -113,6 +113,7 @@ class GUI:
 		# "model.bug changed". we need to implement events for that
 		# get an iter. somehow.
 		treemodel.remove(iter)
+		self.update_summary_label()
 	
 	def severity_sort_cb(self,treestore,iter1,iter2):
 		a = treestore.get_value(iter1, 2)
