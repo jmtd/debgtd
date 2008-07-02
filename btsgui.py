@@ -105,28 +105,14 @@ class GUI:
 		os.system("x-www-browser http://bugs.debian.org/%s" % row)
 
 	def ignore_cb(self,button):
-		treemodel = self.tree.get_model()
 		offs,col = self.tree.get_cursor()
-		row = self.tree.get_model()[offs[0]][0]
-		iter = treemodel.get_iter(offs)
-		self.controller.ignore_bug(row)
-		# TODO: the following should be moved to an event handler for
-		# "model.bug changed". we need to implement events for that
-		# get an iter. somehow.
-		treemodel.remove(iter)
-		self.update_summary_label()
+		num = self.tree.get_model()[offs[0]][0]
+		self.controller.ignore_bug(num)
 
 	def sleep_cb(self,button):
-		treemodel = self.tree.get_model()
 		offs,col = self.tree.get_cursor()
-		row = self.tree.get_model()[offs[0]][0]
-		iter = treemodel.get_iter(offs)
-		self.controller.sleep_bug(row)
-		# TODO: the following should be moved to an event handler for
-		# "model.bug changed". we need to implement events for that
-		# get an iter. somehow.
-		treemodel.remove(iter)
-		self.update_summary_label()
+		num = self.tree.get_model()[offs[0]][0]
+		self.controller.sleep_bug(num)
 	
 	def severity_sort_cb(self,treestore,iter1,iter2):
 		a = treestore.get_value(iter1, 2)
@@ -139,10 +125,6 @@ class GUI:
 		self.controller.import_new_bugs()
 
 	### listener methods for Model events
-
-	def bug_changed(self, bug):
-		# aw, christ.
-		print "should handle %d changing, but aren't." % bug
 
 	def bug_added(self, bug):
 		# XXX: we shouldn't prod the bug this internally, instead
@@ -157,6 +139,27 @@ class GUI:
 			bug['severity'],
 			bug['subject']])
 		self.update_summary_label()
+
+	def bug_sleeping(self, bug):
+		self.hide_bug(bug)
+
+	def bug_ignored(self, bug):
+		self.hide_bug(bug)
+
+	### helper methods for model event listener callbacks 
+
+	def hide_bug(self,bug):
+		treemodel = self.tree.get_model()
+		offs,col = self.tree.get_cursor()
+		row = self.tree.get_model()[offs[0]][0]
+		iter = treemodel.get_iter(offs)
+		# TODO: this only works if the callstack is guaranteed to be
+		# self.ignore_cb -> ... -> self.bug_ignored: i.e., if at some
+		# point an external influence could ignore a bug, we will
+		# need to iterate.
+		treemodel.remove(iter)
+		self.update_summary_label()
+
 
 if __name__ == "__main__":
 	if not os.environ.has_key("DEBEMAIL"):

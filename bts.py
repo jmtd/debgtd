@@ -41,7 +41,7 @@ class Model:
 			bug['debgtd'].append(sleeping)
 
 		for listener in self.listeners:
-			listener.bug_changed(bugnum)
+			listener.bug_sleeping(bugnum)
 
 	def get_sleeping_bugs(self):
 		return [x for x in self.bugs.values() if sleeping in x['debgtd']]
@@ -53,7 +53,7 @@ class Model:
 			bug['debgtd'].append(ignoring)
 
 		for listener in self.listeners:
-			listener.bug_changed(bugnum)
+			listener.bug_ignored(bugnum)
 
 	def get_ignored_bugs(self):
 		return [x for x in self.bugs.values() if ignoring in x['debgtd']]
