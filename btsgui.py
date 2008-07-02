@@ -6,6 +6,7 @@
 import sys
 import gtk
 import gtk.glade
+import gobject
 import os
 
 import bts
@@ -57,10 +58,10 @@ class GUI:
 	def populate_treeview(self):
 		model = controller.model
 		tree = self.tree
-		treestore = gtk.TreeStore(int,str,str,str)
+		treestore = gtk.TreeStore(int,str,str,str,gobject.TYPE_BOOLEAN)
 		treefilter = treestore.filter_new()
-		treefilter.set_visible_func(self.row_visibility_func)
-		tree.set_model(treestore)
+		treefilter.set_visible_column(5)
+		tree.set_model(treefilter)
 
 		column = gtk.TreeViewColumn('id')
 		tree.append_column(column)
@@ -93,26 +94,16 @@ class GUI:
 			treestore.append(None, [bug['id'],
 				bug['package'],
 				bug['severity'],
-				bug['subject']])
-	
-	def row_visibility_func(self, model, iter):
-		path = model.get_path(iter)
-		num = model[path][0]
-		if not 0 == num: # XXX: why do we get 0 sometimes?
-			bug = self.controller.model.bugs[num]
-			if bts.sleeping in bug['debgtd']:
-				#print "not displaying sleeping bug %d" % num
-				return False
-			if bts.ignoring not in bug['debgtd']:
-				#print "not displaying ignored bug %d" % num
-				return False
-			if '' != bug['done']:
-				#print "not displaying done bug %d" % num
-				return False
-		else:
-			print "WTF got 0 "
-			print path
-			print list(model[path])
+				bug['subject'],
+				self.row_visible(bug)])
+
+	def row_visible(self,bug):
+		if bts.sleeping in bug['debgtd']:
+			return False
+		if bts.ignoring not in bug['debgtd']:
+			return False
+		if '' != bug['done']:
+			return False
 		return True
 
 	def row_selected_cb(self,tree,path,column):
