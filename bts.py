@@ -99,9 +99,11 @@ class Controller:
 		"""
 		model = self.model
 		foo = self.server.get_bugs("submitter", model.user)
+		usertags = self.server.get_usertag(model.user)._asdict()
 		# remove ones we already know about
 		foo = filter(lambda x: x not in self.model.bugs, foo)
 		# for now, don't actually execute this
+        foo2 = 
 		execme = "bts " + \
 			" , ".join(map(lambda b: "usertag %d + %s"%(b,tracking), foo))
 		print execme
