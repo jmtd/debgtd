@@ -88,13 +88,13 @@ class GUI:
 		column.add_attribute(cell, "text", 3)
 
 		for bug in model.bugs.values():
-			# XXX: we shouldn't prod the bug this internally, instead
+			# xxx: we shouldn't prod the bug this internally, instead
 			# rely on a model method (or some chain of filter rules
 			# for what to display)
 			if not bts.sleeping in bug['debgtd'] \
 			and not bts.ignoring in bug['debgtd'] \
 			and '' == bug['done']:
-				treestore.append(None, [bug['id'],
+				treestore.append(none, [bug['id'],
 				bug['package'],
 				bug['severity'],
 				bug['subject']])
@@ -138,9 +138,25 @@ class GUI:
 	def refresh_data_cb(self, button):
 		self.controller.import_new_bugs()
 
+	### listener methods for Model events
+
 	def bug_changed(self, bug):
 		# aw, christ.
 		print "should handle %d changing, but aren't." % bug
+
+	def bug_added(self, bug):
+		# XXX: we shouldn't prod the bug this internally, instead
+		# rely on a model method (or some chain of filter rules
+		# for what to display)
+		treestore = self.tree.get_model()
+		if not bts.sleeping in bug['debgtd'] \
+		and not bts.ignoring in bug['debgtd'] \
+		and '' == bug['done']:
+			treestore.append(None, [bug['id'],
+			bug['package'],
+			bug['severity'],
+			bug['subject']])
+		self.update_summary_label()
 
 if __name__ == "__main__":
 	if not os.environ.has_key("DEBEMAIL"):

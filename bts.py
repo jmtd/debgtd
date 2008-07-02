@@ -63,6 +63,8 @@ class Model:
 
 	def add_bug(self,bug):
 		self.bugs[bug['id']] = bug
+		for listener in self.listeners:
+			listener.bug_added(bug)
 
 class Controller:
 	def __init__(self,model):
@@ -123,16 +125,14 @@ class Controller:
 		foo = self.server.get_status(bugs)[0]
 		if 1 == len(bugs):
 			# work around debbts unboxing "feature"
-			foo = foo['value']
-			model.add_bug(foo._asdict())
+			bug = foo['value']._asdict()
+			bug ['debgtd'] = [tracking]
+			model.add_bug(bug)
 		else:
 			for item in foo:
-				item2 = item['value']
-				model.add_bug(item2._asdict())
-
-		# now we need to annotate the bugs with our local data
-		for bug in model.bugs.values():
-			bug['debgtd'] = [tracking]
+				bug = item['value']._asdict()
+				bug['debgtd'] = [tracking]
+				model.add_bug(bug)
 
 	# we don't want to track this bug anymore. tag it 'debstd.sleeping'
 	def sleep_bug(self,bug):
