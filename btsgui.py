@@ -148,7 +148,8 @@ if __name__ == "__main__":
 		sys.exit(1)
 	model = Model(os.environ["DEBEMAIL"])
 	controller = Controller(model)
-	controller.load_from_file("data.txt")
+	if os.path.isfile("data.txt"):
+		controller.load_from_file("data.txt")
 	gui = GUI(controller)
 	controller.model.add_listener(gui)
 	gtk.main()
