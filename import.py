@@ -1,7 +1,9 @@
 #!/usr/bin/python
+import os
 from bts import Model, Controller
 from pickle import dump
 from os import environ
+from os.path import isfile
 from sys import exit,stderr
 
 if not environ.has_key("DEBEMAIL"):
@@ -11,7 +13,9 @@ if not environ.has_key("DEBEMAIL"):
 model = Model(environ["DEBEMAIL"])
 controller = Controller(model)
 path = "data.txt"
-controller.load_from_file(path)
+if isfile(path):
+    controller.load_from_file(path)
+
 controller.import_new_bugs()
 
 # save the results
