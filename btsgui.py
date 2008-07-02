@@ -56,7 +56,7 @@ class GUI:
 		self.controller.load_from_file("data.txt")
 		model = controller.model
 		tree = self.tree
-		treestore = gtk.TreeStore(int,str,str,str,str)
+		treestore = gtk.TreeStore(int,str,str,str)
 		tree.set_model(treestore)
 
 		column = gtk.TreeViewColumn('id')
@@ -80,29 +80,22 @@ class GUI:
 		column.set_sort_column_id(2)
 		treestore.set_sort_func(2, self.severity_sort_cb)
 
-		column = gtk.TreeViewColumn('usertags')
+		column = gtk.TreeViewColumn('subject')
 		tree.append_column(column)
 		cell = gtk.CellRendererText()
 		column.pack_start(cell,False)
 		column.add_attribute(cell, "text", 3)
 
-		column = gtk.TreeViewColumn('subject')
-		tree.append_column(column)
-		cell = gtk.CellRendererText()
-		column.pack_start(cell,False)
-		column.add_attribute(cell, "text", 4)
-
 		for bug in model.bugs.values():
 			# XXX: we shouldn't prod the bug this internally, instead
 			# rely on a model method (or some chain of filter rules
 			# for what to display)
-			if not bts.sleeping in bug['usertags'] \
-			and not bts.ignoring in bug['usertags'] \
+			if not bts.sleeping in bug['debgtd'] \
+			and not bts.ignoring in bug['debgtd'] \
 			and '' == bug['done']:
 				treestore.append(None, [bug['id'],
 				bug['package'],
 				bug['severity'],
-				', '.join(bug['usertags']),
 				bug['subject']])
 
 	def row_selected_cb(self,tree,path,column):
