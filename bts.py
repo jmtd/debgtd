@@ -103,6 +103,7 @@ class Controller:
 
 		# assume the above executed ok and update our local data
 		if 0 < len(foo):
+			self.needswrite = True
 			self.reload_backend(foo)
 
 	def reload(self):
