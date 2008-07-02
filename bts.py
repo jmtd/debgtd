@@ -145,10 +145,16 @@ class Controller:
 		if usertags.has_key(sleeping):
 			sleepingbugs = usertags[sleeping]
 
+		ignoredbugs = []
+		if usertags.has_key(ignoring):
+			ignoredbugs = usertags[ignoring]
+
 		for bug in model.bugs.values():
 			bug['usertags'] = [tracking]
 			if bug['id'] in sleepingbugs:
 				bug['usertags'].append(sleeping)
+			if bug['id'] in ignoredbugs:
+				bug['usertags'].append(ignoring)
 
 	# we don't want to track this bug anymore. tag it 'debstd.sleeping'
 	# XXX: we may need to shell-escape the model.user string
