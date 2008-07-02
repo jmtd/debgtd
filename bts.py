@@ -61,6 +61,9 @@ class Model:
 	def add_listener(self,foo):
 		self.listeners.append(foo)
 
+	def add_bug(self,bug):
+		self.bugs[bug['id']] = bug
+
 class Controller:
 	def __init__(self,model):
 
@@ -121,11 +124,11 @@ class Controller:
 		if 1 == len(bugs):
 			# work around debbts unboxing "feature"
 			foo = foo['value']
-			model.bugs[foo['id']] = foo._asdict()
+			model.add_bug(foo._asdict())
 		else:
 			for item in foo:
 				item2 = item['value']
-				model.bugs[item2['id']] = item2._asdict()
+				model.add_bug(item2._asdict())
 
 		# now we need to annotate the bugs with our local data
 		for bug in model.bugs.values():
