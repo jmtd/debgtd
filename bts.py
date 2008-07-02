@@ -102,11 +102,19 @@ class Controller:
 		usertags = self.server.get_usertag(model.user)._asdict()
 		# remove ones we already know about
 		foo = filter(lambda x: x not in self.model.bugs, foo)
+
+		# nothing to do?
+		if 0 == len(foo):
+			return
+
+		# any bugs not already usertagged should be marked tracking
 		# for now, don't actually execute this
-        foo2 = 
-		execme = "bts " + \
-			" , ".join(map(lambda b: "usertag %d + %s"%(b,tracking), foo))
-		print execme
+		foo2 = filter(lambda x: x not in usertags[tracking], foo)
+		if 0 < len(foo2):
+			execme = "bts " + \
+				" , ".join(map(lambda b: "usertag %d + %s"%(b,tracking), foo2))
+			print execme
+
 		# assume the above executed ok and update our local data
 		self.reload_backend(foo)
 
