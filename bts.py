@@ -92,9 +92,25 @@ class Controller:
 			fp.close()
 			self.needswrite = False
 
+	def import_new_bugs(self):
+		"""
+			Grab bugs from the BTS that match certain criteria and import
+			them into our system.
+		"""
+		model = self.model
+		foo = self.server.get_bugs("submitter", model.user)
+		# remove ones we already know about
+		foo = filter(lambda x: x not in self.model.bugs, foo)
+		# for now, don't actually execute this
+		execme = "bts " + \
+			" , ".join(map(lambda b: "usertag %d + %s"%(b,tracking), foo))
+		print execme
+		# assume the above executed ok and update our local data
+		self.reload_backend(foo)
+
 	def reload(self):
 		model = self.model
-		usertags  = self.server.get_usertag(model.user)._asdict()
+		usertags = self.server.get_usertag(model.user)._asdict()
 
 		# usertag tracking is the master list of bugs we are
 		# tracking.
@@ -103,11 +119,18 @@ class Controller:
 			sys.stderr.write("(insert import code here)\n")
 			sys.exit(1)
 
+		self.reload_backend(usertags[tracking])
+
+	# split off from reload because we'll use it for import too
+	# XXX: rename.
+	def reload_backend(self, bugs):
+		model = self.model
+		usertags = self.server.get_usertag(model.user)._asdict()
 		# fetch the details of all of these bugs
 		# christ, someone point me at something which will make the
 		# following clear.
-		foo = self.server.get_status(usertags[tracking])[0]
-		if 1 == len(usertags[tracking]):
+		foo = self.server.get_status(bugs)[0]
+		if 1 == len(bugs):
 			# work around debbts unboxing "feature"
 			foo = foo['value']
 			model.bugs[foo['id']] = foo._asdict()
@@ -117,6 +140,7 @@ class Controller:
 				model.bugs[item2['id']] = item2._asdict()
 
 		# now we need to annotate the bugs with userdata
+		# (the BTS doesn't include it in the bugs y'see)
 		sleepingbugs = []
 		if usertags.has_key(sleeping):
 			sleepingbugs = usertags[sleeping]
