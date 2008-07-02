@@ -94,7 +94,7 @@ class GUI:
 			if not bts.sleeping in bug['debgtd'] \
 			and not bts.ignoring in bug['debgtd'] \
 			and '' == bug['done']:
-				treestore.append(none, [bug['id'],
+				treestore.append(None, [bug['id'],
 				bug['package'],
 				bug['severity'],
 				bug['subject']])
