@@ -58,6 +58,8 @@ class GUI:
 		model = controller.model
 		tree = self.tree
 		treestore = gtk.TreeStore(int,str,str,str)
+		treefilter = treestore.filter_new()
+		treefilter.set_visible_func(self.row_visibility_func)
 		tree.set_model(treestore)
 
 		column = gtk.TreeViewColumn('id')
@@ -88,16 +90,30 @@ class GUI:
 		column.add_attribute(cell, "text", 3)
 
 		for bug in model.bugs.values():
-			# xxx: we shouldn't prod the bug this internally, instead
-			# rely on a model method (or some chain of filter rules
-			# for what to display)
-			if not bts.sleeping in bug['debgtd'] \
-			and not bts.ignoring in bug['debgtd'] \
-			and '' == bug['done']:
-				treestore.append(None, [bug['id'],
+			treestore.append(None, [bug['id'],
 				bug['package'],
 				bug['severity'],
 				bug['subject']])
+	
+	def row_visibility_func(self, model, iter):
+		path = model.get_path(iter)
+		num = model[path][0]
+		if not 0 == num: # XXX: why do we get 0 sometimes?
+			bug = self.controller.model.bugs[num]
+			if bts.sleeping in bug['debgtd']:
+				#print "not displaying sleeping bug %d" % num
+				return False
+			if bts.ignoring not in bug['debgtd']:
+				#print "not displaying ignored bug %d" % num
+				return False
+			if '' != bug['done']:
+				#print "not displaying done bug %d" % num
+				return False
+		else:
+			print "WTF got 0 "
+			print path
+			print list(model[path])
+		return True
 
 	def row_selected_cb(self,tree,path,column):
 		treemodel = tree.get_model()
@@ -127,14 +143,8 @@ class GUI:
 	### listener methods for Model events
 
 	def bug_added(self, bug):
-		# XXX: we shouldn't prod the bug this internally, instead
-		# rely on a model method (or some chain of filter rules
-		# for what to display)
 		treestore = self.tree.get_model()
-		if not bts.sleeping in bug['debgtd'] \
-		and not bts.ignoring in bug['debgtd'] \
-		and '' == bug['done']:
-			treestore.append(None, [bug['id'],
+		treestore.append(None, [bug['id'],
 			bug['package'],
 			bug['severity'],
 			bug['subject']])

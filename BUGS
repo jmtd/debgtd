@@ -1,0 +1,5 @@
+the filter stuff simply isn't working.
+
+maybe try adding a boolean column to the rows and ensuring that value
+represents where or not the row should be shown --
+gtk.TreeModelFilter.set_visible_column (column number)
