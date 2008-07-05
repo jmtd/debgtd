@@ -1,4 +1,4 @@
-debgtd (0.200807151742-1) UNRELEASED; urgency=low
+debgtd (0.200807151742-1) experimental; urgency=low
 
   * Initial release. (Closes: #XXXXXX)
 
