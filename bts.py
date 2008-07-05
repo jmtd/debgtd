@@ -104,6 +104,7 @@ class Controller:
 
 	def save_to_file(self,file,force=False):
 		if not force and self.needswrite:
+            # TODO: ensure all the dirs in the path exist
 			fp = open(file,"w")
 			dump(self.model.serialize(),fp)
 			fp.close()
