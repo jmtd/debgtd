@@ -1,9 +1,9 @@
 DESTDIR=
-PREFIX=/usr/local
-BINDIR=$(DESTDIR)$(PREFIX)/bin
-SHAREDIR=$(DESTDIR)$(PREFIX)/share
-LIBDIR=$(DESTDIR)$(PREFIX)/lib/python2.5/site-packages
-MANDIR=$(DESTDIR)$(PREFIX)/share/man
+PREFIX=$(DESTDIR)/usr/local
+BINDIR=$(PREFIX)/bin
+SHAREDIR=$(PREFIX)/share
+LIBDIR=$(PREFIX)/lib/python2.5/site-packages
+MANDIR=$(PREFIX)/share/man
 
 default:
 	echo $(PREFIX)
