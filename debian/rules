@@ -9,6 +9,7 @@ clean:
 	dh_testdir
 	dh_testroot
 	dh_clean
+	make clean
 
 VERSION=$(shell dpkg-parsechangelog | grep ^Version | cut -d' ' -f2-)
 UPSTREAM=$(shell echo $(VERSION) | cut -d- -f1)
