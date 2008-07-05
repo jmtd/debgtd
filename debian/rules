@@ -10,7 +10,7 @@ clean:
 	dh_clean
 
 GITREPO = http://alcopop.org/code/debian/debgtd/git
-dest=$(CURDIR)/debian/tmp
+dest=$(CURDIR)/debian/debgtd
 
 get-orig-source:
 	git-archive --remote=$(GITREPO) | gzip > 
@@ -22,10 +22,13 @@ install:
 	dh_installdirs
 	make install PREFIX=/usr DESTDIR=$(dest)
 
+binary-arch:
+
 binary-indep: install
 	dh_testdir
 	dh_testroot
 	dh_pycentral
+	dh_fixperms
 	dh_installdeb
 	dh_gencontrol
 	dh_md5sums

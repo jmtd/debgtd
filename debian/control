@@ -4,15 +4,16 @@ Priority: optional
 Maintainer: Jon Dowland <jon+bts@alcopop.org>
 Uploaders: Jon Dowland <jon+bts@alcopop.org>
 DM-Upload-Allowed: yes
-Standards-Version: 3.7.3
+Standards-Version: 3.8.0
 Homepage: http://jmtd.net/computing/software/debgtd/
 Vcs-Svn: http://alcopop.org/code/debian/gtd/git
 XS-Python-Version: current, >= 2.4
 Build-Depends-Indep: python-central
+Build-Depends: debhelper (>= 4)
 
 Package: debgtd
 Architecture: all
-Depends: ${python:Depends}, devscripts, www-browser
+Depends: ${python:Depends}, devscripts, epiphany-gecko | www-browser
 XB-Python-Version: ${python:Versions}
 Description: tool to help organise and prioritise your Debian bugs
  debgtd ("getting things done") is a GUI tool which allows you
