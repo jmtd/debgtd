@@ -15,6 +15,9 @@ install:
 	install -D -m 0644 bts.py $(DESTDIR)$(LIBDIR)/bts.py
 	install -D -m 0644 debgtd.1 $(DESTDIR)$(MANDIR)/man1/debgtd.1
 
+clean:
+	rm -f *.pyc
+
 FILES=$(DESTDIR)$(BINDIR)/debgtd \
 		$(DESTDIR)$(SHAREDIR)/debgtd/bts.glade \
 		$(DESTDIR)$(LIBDIR)/bts.py \
