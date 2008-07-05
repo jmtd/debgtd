@@ -1,0 +1,22 @@
+Source: debgtd
+Section: utils
+Priority: optional
+Maintainer: Jon Dowland <jon+bts@alcopop.org>
+Uploaders: Jon Dowland <jon+bts@alcopop.org>
+DM-Upload-Allowed: yes
+Standards-Version: 3.7.3
+Homepage: http://jmtd.net/computing/software/debgtd/
+Vcs-Svn: http://alcopop.org/code/debian/gtd/git
+
+Package: debgtd
+Architecture: all
+Depends: ${python:Depends}, devscripts, www-browser
+Description: tool to help organise and prioritise your Debian bugs
+ debgtd ("getting things done") is a GUI tool which allows you
+ to visualise, sort and filter a list of bugs from the Debian
+ Bug Tracker (BTS).
+ .
+ debgtd is intended to help users contribute to Debian by
+ keeping track of which bugs they have submitted and determine
+ need more the user's attention (such as requiring more
+ information, etc.)
