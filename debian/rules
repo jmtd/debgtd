@@ -1,0 +1,32 @@
+#!/usr/bin/make -f
+
+build:
+
+binary: binary-indep install
+
+clean:
+	dh_testdir
+	dh_testroot
+	dh_clean
+
+GITREPO := http://alcopop.org/code/debian/debgtd/git
+
+get-orig-source:
+	git-archive --remote=$(GITREPO) | gzip > 
+
+install:
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+binary-indep: install
+	dh_testdir
+	dh_testroot
+	dh_installdocs
+	dh_installmenu
+	dh_pycentral
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
