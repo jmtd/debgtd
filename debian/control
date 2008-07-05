@@ -7,10 +7,13 @@ DM-Upload-Allowed: yes
 Standards-Version: 3.7.3
 Homepage: http://jmtd.net/computing/software/debgtd/
 Vcs-Svn: http://alcopop.org/code/debian/gtd/git
+XS-Python-Version: current, >= 2.4
+Build-Depends-Indep: python-central
 
 Package: debgtd
 Architecture: all
 Depends: ${python:Depends}, devscripts, www-browser
+XB-Python-Version: ${python:Versions}
 Description: tool to help organise and prioritise your Debian bugs
  debgtd ("getting things done") is a GUI tool which allows you
  to visualise, sort and filter a list of bugs from the Debian
