@@ -14,10 +14,15 @@ install:
 	install -D -m 0644 bts.py $(LIBDIR)/bts.py
 	install -D -m 0644 debgtd.1 $(MANDIR)/man1/debgtd.1
 
-uninstall:
-	rm -f $(BINDIR)/debgtd \
+FILES=$(BINDIR)/debgtd \
 		$(SHAREDIR)/debgtd/bts.glade \
 		$(LIBDIR)/bts.py \
 		$(MANDIR)/man1/debgtd.1
 
-.PHONY: default install
+list:
+	ls -dl $(FILES)
+
+uninstall:
+	rm -f $(FILES)
+
+.PHONY: default install list uninstall
