@@ -185,8 +185,15 @@ if __name__ == "__main__":
 		sys.exit(1)
 	model = Model(os.environ["DEBEMAIL"])
 	controller = Controller(model)
-	if os.path.isfile("data.txt"):
-		controller.load_from_file("data.txt")
+
+	# find the data file
+	base=os.environ["HOME"] + "/.local/share"
+	if "XDG_DATA_HOME" in os.environ:
+		base= os.environ["XDG_DATA_HOME"]
+	datafile = base + "/debgtd/data.txt"
+	print "DEBUG: datafile=%s"% datafile
+	if os.path.isfile(datafile):
+		controller.load_from_file(datafile)
 	gui = GUI(controller)
 	controller.model.add_listener(gui)
 	gtk.main()
