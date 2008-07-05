@@ -17,7 +17,7 @@ UPSTREAM=$(shell echo $(VERSION) | cut -d- -f1)
 # XXX: since archive does not support http remote repos, we assume
 # we're in a checked-out git archive here. This may not be the case.
 get-orig-source:
-	git-archive --prefix=$(UPSTREAM)/ master |\
+	git-archive --prefix=debgtd-$(UPSTREAM)/ master |\
 		gzip -9c > debgtd_$(UPSTREAM).orig.tar.gz
 
 dest=$(CURDIR)/debian/debgtd
