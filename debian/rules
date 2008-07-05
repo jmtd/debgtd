@@ -30,6 +30,8 @@ binary-indep: install
 	dh_testdir
 	dh_testroot
 	dh_pysupport
+	dh_installman
+	dh_compress
 	dh_fixperms
 	dh_installdeb
 	dh_gencontrol

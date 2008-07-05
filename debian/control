@@ -1,8 +1,8 @@
 Source: debgtd
 Section: utils
 Priority: optional
-Maintainer: Jon Dowland <jon+bts@alcopop.org>
-Uploaders: Jon Dowland <jon+bts@alcopop.org>
+Maintainer: Jon Dowland <jon@alcopop.org>
+Uploaders: Jon Dowland <jon@alcopop.org>
 DM-Upload-Allowed: yes
 Standards-Version: 3.8.0
 Homepage: http://jmtd.net/computing/software/debgtd/
