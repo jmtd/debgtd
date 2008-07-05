@@ -14,7 +14,14 @@ from bts import Model, Controller
 class GUI:
 	def __init__(self,controller):
 		self.controller = controller
-		self.gladefile = "bts.glade"
+
+		if os.path.isfile("bts.glade"):
+			self.gladefile = "bts.glade"
+		elif os.path.isfile("/usr/local/share/debgtd/bts.glade"):
+			self.gladefile = "/usr/local/share/debgtd/bts.glade"
+		else:
+			self.gladefile = "/usr/share/debgtd/bts.glade"
+
 		self.wTree = gtk.glade.XML(self.gladefile,"window1")
 
 		window = self.wTree.get_widget("window1")
