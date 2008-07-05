@@ -8,8 +8,7 @@ Standards-Version: 3.8.0
 Homepage: http://jmtd.net/computing/software/debgtd/
 Vcs-Svn: http://alcopop.org/code/debian/gtd/git
 XS-Python-Version: current, >= 2.4
-Build-Depends-Indep: python-central
-Build-Depends: debhelper (>= 4)
+Build-Depends: debhelper (>= 4), python-support
 
 Package: debgtd
 Architecture: all
