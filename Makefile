@@ -6,8 +6,8 @@ MANDIR=$(PREFIX)/share/man
 
 DESTDIR=
 
-default:
-	echo $(PREFIX)
+help:
+	printf "make install\t\tinstall the tool\n"
 
 install:
 	install -D -m 0755 debgtd.py $(DESTDIR)$(BINDIR)/debgtd
