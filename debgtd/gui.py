@@ -26,12 +26,12 @@ class Gui:
 	def __init__(self,controller):
 		self.controller = controller
 
-		if os.path.isfile("bts.glade"):
-			self.gladefile = "bts.glade"
-		elif os.path.isfile("/usr/local/share/debgtd/bts.glade"):
-			self.gladefile = "/usr/local/share/debgtd/bts.glade"
+		if os.path.isfile("debgtd.glade"):
+			self.gladefile = "debgtd.glade"
+		elif os.path.isfile("/usr/local/share/debgtd/debgtd.glade"):
+			self.gladefile = "/usr/local/share/debgtd/debgtd.glade"
 		else:
-			self.gladefile = "/usr/share/debgtd/bts.glade"
+			self.gladefile = "/usr/share/debgtd/debgtd.glade"
 
 		self.wTree = gtk.glade.XML(self.gladefile,"window1")
 
