@@ -10,17 +10,23 @@ default:
 	echo $(PREFIX)
 
 install:
-	install -D -m 0755 btsgui.py $(DESTDIR)$(BINDIR)/debgtd
-	install -D -m 0644 bts.glade $(DESTDIR)$(SHAREDIR)/debgtd/bts.glade
-	install -D -m 0644 bts.py $(DESTDIR)$(LIBDIR)/bts.py
+	install -D -m 0755 debgtd.py $(DESTDIR)$(BINDIR)/debgtd
+	install -D -m 0644 debgtd.glade $(DESTDIR)$(SHAREDIR)/debgtd/debgtd.glade
+	install -D -m 0644 debgtd/controller.py $(DESTDIR)$(LIBDIR)/debgtd/controller.py
+	install -D -m 0644 debgtd/model.py $(DESTDIR)$(LIBDIR)/debgtd/model.py
+	install -D -m 0644 debgtd/gui.py $(DESTDIR)$(LIBDIR)/debgtd/gui.py
+	install -D -m 0644 debgtd/__init__.py $(DESTDIR)$(LIBDIR)/debgtd/__init__.py
 	install -D -m 0644 debgtd.1 $(DESTDIR)$(MANDIR)/man1/debgtd.1
 
 clean:
 	rm -f *.pyc
 
 FILES=$(DESTDIR)$(BINDIR)/debgtd \
-		$(DESTDIR)$(SHAREDIR)/debgtd/bts.glade \
-		$(DESTDIR)$(LIBDIR)/bts.py \
+		$(DESTDIR)$(SHAREDIR)/debgtd/debgtd.glade \
+		$(DESTDIR)$(LIBDIR)/debgtd/model.py \
+		$(DESTDIR)$(LIBDIR)/debgtd/controller.py \
+		$(DESTDIR)$(LIBDIR)/debgtd/gui.py \
+		$(DESTDIR)$(LIBDIR)/debgtd/__init__.py \
 		$(DESTDIR)$(MANDIR)/man1/debgtd.1
 
 list:
