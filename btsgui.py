@@ -45,8 +45,6 @@ class GUI:
 		self.tree.connect("row-activated", self.row_selected_cb)
 		self.populate_treeview()
 
-		self.update_summary_label()
-
 		button = self.wTree.get_widget("sleep_bug_button")
 		button.connect("clicked", self.sleep_cb)
 		button = self.wTree.get_widget("refresh_data_button")
@@ -54,6 +52,8 @@ class GUI:
 
 		button = self.wTree.get_widget("ignore_bug_button")
 		button.connect("clicked", self.ignore_cb)
+
+		self.wTree.get_widget("user_email").set_text("jon+bts@alcopop.org")
 
 	# XXX: we shouldn't prod the bug this internally, instead rely on a
 	# model method (or some chain of filter rules for what to display)
@@ -105,18 +105,6 @@ class GUI:
 		column.pack_start(cell,False)
 		column.add_attribute(cell, "text", 3)
 
-		for bug in model.bugs.values():
-			# xxx: we shouldn't prod the bug this internally, instead
-			# rely on a model method (or some chain of filter rules
-			# for what to display)
-			if not bts.sleeping in bug['debgtd'] \
-			and not bts.ignoring in bug['debgtd'] \
-			and '' == bug['done']:
-				treestore.append(None, [bug['id'],
-				bug['package'],
-				bug['severity'],
-				bug['subject']])
-
 	def row_selected_cb(self,tree,path,column):
 		treemodel = tree.get_model()
 		row = treemodel[path[0]][0]
@@ -140,7 +128,16 @@ class GUI:
 		return av - bv
 
 	def refresh_data_cb(self, button):
-		self.controller.import_new_bugs()
+		model = self.controller.model
+		user  = self.wTree.get_widget("user_email").get_text()
+		if not model:
+			controller = self.controller
+			controller.model = Model(user)
+			controller.model.add_listener(self)
+			controller.import_new_bugs()
+		else:
+			# XXX handle me
+			self.controller.import_new_bugs()
 
 	### listener methods for Model events
 
@@ -180,11 +177,7 @@ class GUI:
 
 
 if __name__ == "__main__":
-	if not os.environ.has_key("DEBEMAIL"):
-		sys.stderr.write("error: please define DEBEMAIL.\n")
-		sys.exit(1)
-	model = Model(os.environ["DEBEMAIL"])
-	controller = Controller(model)
+	controller = Controller()
 
 	# find the data file
 	base=os.environ["HOME"] + "/.local/share"
@@ -195,7 +188,6 @@ if __name__ == "__main__":
 	if os.path.isfile(datafile):
 		controller.load_from_file(datafile)
 	gui = GUI(controller)
-	controller.model.add_listener(gui)
 	gtk.main()
 	print "exiting..."
 	controller.save_to_file("data.txt")

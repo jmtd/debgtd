@@ -80,7 +80,7 @@ class Model:
 			listener.bug_added(bug)
 
 class Controller:
-	def __init__(self,model):
+	def __init__(self,model=None):
 
 		self.url = 'http://bugs.debian.org/cgi-bin/soap.cgi'
 		self.namespace = 'Debbugs/SOAP'
