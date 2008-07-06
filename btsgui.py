@@ -186,5 +186,4 @@ if __name__ == "__main__":
 	gui = GUI(controller)
 	controller.add_view(gui)
 	controller.go()
-	print "exiting..."
 	controller.save_to_file()

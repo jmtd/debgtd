@@ -132,14 +132,10 @@ class Controller:
 			if "XDG_DATA_HOME" in os.environ:
 				base= os.environ["XDG_DATA_HOME"]
 			df = base + "/debgtd/" + self.email_to_filename()
-			print "datafile: returning " + df
 			return df 
-		else:
-			print "datafile: no model"
 		return None
 
 	def load_from_file(self):
-		print "load_from_file:"
 		fp = open(self.datafile(),"r")
 		self.model.unserialize(load(fp))
 		fp.close()
@@ -158,17 +154,11 @@ class Controller:
 			Grab bugs from the BTS that match certain criteria and import
 			them into our system.
 		"""
-		print "yay! fetching new bugs from server"
 		model = self.model
 		if not model:
 			return
 		submitter  = self.server.get_bugs("submitter", model.user)._aslist()
-		maintainer = self.server.get_bugs("maint", model.user)
-		print model.user
-		print maintainer
-		maintainer = maintainer._aslist()
-		print "maintainer:"
-		print maintainer
+		maintainer = self.server.get_bugs("maint", model.user)._aslist()
 		foo = list( set(submitter) | set(maintainer) )
 		# remove ones we already know about, if any
 		foo = filter(lambda x: x not in self.model.bugs, foo)
@@ -186,8 +176,6 @@ class Controller:
 	# XXX: rename.
 	def reload_backend(self, bugs):
 		model = self.model
-		print "reload_backend called with:"
-		print bugs
 		# fetch the details of all of these bugs
 		# christ, someone point me at something which will make the
 		# following clear.
@@ -221,8 +209,4 @@ class Controller:
 			view.clear()
 			self.model.add_listener(view)
 		if os.path.isfile(self.datafile()):
-			print "loading data from file"
 			self.load_from_file()
-		else:
-			print "no local datafile for this user"
-
