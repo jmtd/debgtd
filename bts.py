@@ -107,15 +107,8 @@ class Controller:
 	def go(self):
 		"""and they're off!"""
 		if os.environ.has_key("DEBEMAIL"):
-			print "model created based on environment variable DEBEMAIL"
-			self.model = Model(os.environ["DEBEMAIL"])
-			for view in self.views:
-				self.model.add_listener(view)
-			if os.path.isfile(self.datafile()):
-				print "loading data from file"
-				self.load_from_file()
-			else:
-				print "no local datafile for this user"
+			self.set_user(os.environ["DEBEMAIL"])
+
 		for view in self.views:
 			# XXX: the view might block, so if we do have more than one,
 			# we may only start one at a time.
@@ -169,7 +162,14 @@ class Controller:
 		model = self.model
 		if not model:
 			return
-		foo = self.server.get_bugs("submitter", model.user)
+		submitter  = self.server.get_bugs("submitter", model.user)._aslist()
+		maintainer = self.server.get_bugs("maint", model.user)
+		print model.user
+		print maintainer
+		maintainer = maintainer._aslist()
+		print "maintainer:"
+		print maintainer
+		foo = list( set(submitter) | set(maintainer) )
 		# remove ones we already know about, if any
 		foo = filter(lambda x: x not in self.model.bugs, foo)
 
@@ -212,3 +212,16 @@ class Controller:
 	def ignore_bug(self,bug):
 		self.model.ignore_bug(bug)
 		self.needswrite = True
+	
+	def set_user(self, user):
+		if self.model and self.model.user == user:
+				return
+		self.model = Model(user)
+		for view in self.views:
+			self.model.add_listener(view)
+		if os.path.isfile(self.datafile()):
+			print "loading data from file"
+			self.load_from_file()
+		else:
+			print "no local datafile for this user"
+

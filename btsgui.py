@@ -128,16 +128,9 @@ class GUI:
 		return av - bv
 
 	def refresh_data_cb(self, button):
-		model = self.controller.model
-		user  = self.wTree.get_widget("user_email").get_text()
-		if not model:
-			controller = self.controller
-			controller.model = Model(user)
-			controller.model.add_listener(self)
-			controller.import_new_bugs()
-		else:
-			# XXX handle me
-			self.controller.import_new_bugs()
+		user = self.wTree.get_widget("user_email").get_text()
+		self.controller.set_user(user)
+		self.controller.import_new_bugs()
 
 	### listener methods for Model events
 
