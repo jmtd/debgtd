@@ -83,8 +83,14 @@ class Controller:
 
 	def save_to_file(self,force=False):
 		if not force and self.needswrite:
-			# TODO: ensure all the dirs in the path exist
-			fp = open(self.datafile(),"w")
+			df = self.datafile()
+
+			# TODO: it would be nicer to use pure python here
+			dirname = os.path.dirname(df)
+			if not os.path.isdir(dirname):
+				os.system("mkdir -p %s" % dirname)
+
+			fp = open(df,"w")
 			dump(self.model.serialize(),fp)
 			fp.close()
 			self.needswrite = False
