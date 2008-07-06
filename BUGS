@@ -1,0 +1,2 @@
+if DEBEMAIL is set, we load data where appropriate and the treeview is
+populated, but the user entry box is not.
