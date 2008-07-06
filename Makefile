@@ -19,7 +19,7 @@ install:
 	install -D -m 0644 debgtd.1 $(DESTDIR)$(MANDIR)/man1/debgtd.1
 
 clean:
-	rm -f *.pyc
+	rm -f *.pyc debgtd/*.pyc
 
 FILES=$(DESTDIR)$(BINDIR)/debgtd \
 		$(DESTDIR)$(SHAREDIR)/debgtd/debgtd.glade \
