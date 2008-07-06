@@ -19,6 +19,10 @@ import sys
 import debgtd
 from pickle import load, dump
 
+# serialize_format will be used to be backwards-compatible
+# whenever we change the serialize or unserialize methods
+serialize_format = 1
+
 class Model:
 	def __init__(self,user):
 		self.user = user
@@ -26,11 +30,12 @@ class Model:
 		self.listeners = []
 
 	def serialize(self):
-		return (self.user,self.bugs.values())
+		return (serialize_format, self.user, self.bugs.values())
 
+	# TODO: should consider handling serialize_format
 	def unserialize(self,tuple):
-		self.user = tuple[0]
-		bugs = tuple[1]
+		self.user = tuple[1]
+		bugs = tuple[2]
 		for bug in bugs:
 			self.add_bug(bug)
 
