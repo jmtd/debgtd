@@ -19,19 +19,19 @@ import gtk
 import gtk.glade
 import os
 
-import bts
-from bts import Model, Controller
+import debgtd
+from debgtd.controller import Controller
 
-class GUI:
+class Gui:
 	def __init__(self,controller):
 		self.controller = controller
 
-		if os.path.isfile("bts.glade"):
-			self.gladefile = "bts.glade"
-		elif os.path.isfile("/usr/local/share/debgtd/bts.glade"):
-			self.gladefile = "/usr/local/share/debgtd/bts.glade"
+		if os.path.isfile("debgtd.glade"):
+			self.gladefile = "debgtd.glade"
+		elif os.path.isfile("/usr/local/share/debgtd/debgtd.glade"):
+			self.gladefile = "/usr/local/share/debgtd/debgtd.glade"
 		else:
-			self.gladefile = "/usr/share/debgtd/bts.glade"
+			self.gladefile = "/usr/share/debgtd/debgtd.glade"
 
 		self.wTree = gtk.glade.XML(self.gladefile,"window1")
 
@@ -44,8 +44,6 @@ class GUI:
 		self.tree = self.wTree.get_widget("treeview1")
 		self.tree.connect("row-activated", self.row_selected_cb)
 		self.populate_treeview()
-
-		self.update_summary_label()
 
 		button = self.wTree.get_widget("sleep_bug_button")
 		button.connect("clicked", self.sleep_cb)
@@ -73,7 +71,7 @@ class GUI:
 			(interested,sleeping,ignored))
 
 	def populate_treeview(self):
-		model = controller.model
+		model = self.controller.model
 		tree = self.tree
 		treestore = gtk.TreeStore(int,str,str,str)
 		tree.set_model(treestore)
@@ -105,18 +103,6 @@ class GUI:
 		column.pack_start(cell,False)
 		column.add_attribute(cell, "text", 3)
 
-		for bug in model.bugs.values():
-			# xxx: we shouldn't prod the bug this internally, instead
-			# rely on a model method (or some chain of filter rules
-			# for what to display)
-			if not bts.sleeping in bug['debgtd'] \
-			and not bts.ignoring in bug['debgtd'] \
-			and '' == bug['done']:
-				treestore.append(None, [bug['id'],
-				bug['package'],
-				bug['severity'],
-				bug['subject']])
-
 	def row_selected_cb(self,tree,path,column):
 		treemodel = tree.get_model()
 		row = treemodel[path[0]][0]
@@ -135,11 +121,13 @@ class GUI:
 	def severity_sort_cb(self,treestore,iter1,iter2):
 		a = treestore.get_value(iter1, 2)
 		b = treestore.get_value(iter2, 2)
-		av = bts.severities[a]
-		bv = bts.severities[b]
+		av = debgtd.severities[a]
+		bv = debgtd.severities[b]
 		return av - bv
 
 	def refresh_data_cb(self, button):
+		user = self.wTree.get_widget("user_email").get_text()
+		self.controller.set_user(user)
 		self.controller.import_new_bugs()
 
 	### listener methods for Model events
@@ -149,8 +137,8 @@ class GUI:
 		# rely on a model method (or some chain of filter rules
 		# for what to display)
 		treestore = self.tree.get_model()
-		if not bts.sleeping in bug['debgtd'] \
-		and not bts.ignoring in bug['debgtd'] \
+		if not debgtd.sleeping in bug['debgtd'] \
+		and not debgtd.ignoring in bug['debgtd'] \
 		and '' == bug['done']:
 			treestore.append(None, [bug['id'],
 			bug['package'],
@@ -163,12 +151,23 @@ class GUI:
 
 	def bug_ignored(self, bug):
 		self.hide_bug(bug)
+	
+	def clear(self):
+		treestore = self.tree.get_model()
+		treestore.clear()
+		# XXX: should clear the user too?
 
 	### helper methods for model event listener callbacks 
 
 	def hide_bug(self,bug):
 		treemodel = self.tree.get_model()
+		if not treemodel:
+			print "hide_bug: wtf, no treemodel?!"
+			return
 		offs,col = self.tree.get_cursor()
+		if not offs:
+			print "hide_bug: wtf, no offs?!"
+			return
 		row = self.tree.get_model()[offs[0]][0]
 		iter = treemodel.get_iter(offs)
 		# TODO: this only works if the callstack is guaranteed to be
@@ -178,24 +177,8 @@ class GUI:
 		treemodel.remove(iter)
 		self.update_summary_label()
 
+	def go(self):
+		gtk.main()
 
-if __name__ == "__main__":
-	if not os.environ.has_key("DEBEMAIL"):
-		sys.stderr.write("error: please define DEBEMAIL.\n")
-		sys.exit(1)
-	model = Model(os.environ["DEBEMAIL"])
-	controller = Controller(model)
-
-	# find the data file
-	base=os.environ["HOME"] + "/.local/share"
-	if "XDG_DATA_HOME" in os.environ:
-		base= os.environ["XDG_DATA_HOME"]
-	datafile = base + "/debgtd/data.txt"
-	print "DEBUG: datafile=%s"% datafile
-	if os.path.isfile(datafile):
-		controller.load_from_file(datafile)
-	gui = GUI(controller)
-	controller.model.add_listener(gui)
-	gtk.main()
-	print "exiting..."
-	controller.save_to_file("data.txt")
+	def user_changed(self, user):
+		self.wTree.get_widget("user_email").set_text(user)
