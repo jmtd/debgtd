@@ -20,7 +20,7 @@ import gtk.glade
 import os
 
 import debgtd
-from debgtd import Controller
+from debgtd.controller import Controller
 
 class Gui:
 	def __init__(self,controller):
@@ -71,7 +71,7 @@ class Gui:
 			(interested,sleeping,ignored))
 
 	def populate_treeview(self):
-		model = controller.model
+		model = self.controller.model
 		tree = self.tree
 		treestore = gtk.TreeStore(int,str,str,str)
 		tree.set_model(treestore)
@@ -121,8 +121,8 @@ class Gui:
 	def severity_sort_cb(self,treestore,iter1,iter2):
 		a = treestore.get_value(iter1, 2)
 		b = treestore.get_value(iter2, 2)
-		av = bts.severities[a]
-		bv = bts.severities[b]
+		av = debgtd.severities[a]
+		bv = debgtd.severities[b]
 		return av - bv
 
 	def refresh_data_cb(self, button):
@@ -137,8 +137,8 @@ class Gui:
 		# rely on a model method (or some chain of filter rules
 		# for what to display)
 		treestore = self.tree.get_model()
-		if not bts.sleeping in bug['debgtd'] \
-		and not bts.ignoring in bug['debgtd'] \
+		if not debgtd.sleeping in bug['debgtd'] \
+		and not debgtd.ignoring in bug['debgtd'] \
 		and '' == bug['done']:
 			treestore.append(None, [bug['id'],
 			bug['package'],

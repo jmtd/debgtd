@@ -14,11 +14,12 @@
 #
 # see "LICENSE" for the full GPL-2.
 
-from debgtd import Controller, Gui
+from debgtd.controller import Controller
+from debgtd.gui import Gui
 
 if __name__ == "__main__":
 	controller = Controller()
-	gui = GUI(controller)
+	gui = Gui(controller)
 	controller.add_view(gui)
 	controller.go()
 	controller.save_to_file()

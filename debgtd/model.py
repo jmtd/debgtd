@@ -37,26 +37,26 @@ class Model:
 	def sleep_bug(self,bugnum):
 		bug = self.bugs[bugnum]
 
-		if sleeping not in bug['debgtd']:
-			bug['debgtd'].append(sleeping)
+		if debgtd.sleeping not in bug['debgtd']:
+			bug['debgtd'].append(debgts.sleeping)
 
 		for listener in self.listeners:
 			listener.bug_sleeping(bugnum)
 
 	def get_sleeping_bugs(self):
-		return [x for x in self.bugs.values() if sleeping in x['debgtd']]
+		return [x for x in self.bugs.values() if debgtd.sleeping in x['debgtd']]
 	
 	def ignore_bug(self,bugnum):
 		bug = self.bugs[bugnum]
 
-		if ignoring not in bug['debgtd']:
-			bug['debgtd'].append(ignoring)
+		if debgtd.ignoring not in bug['debgtd']:
+			bug['debgtd'].append(debgtd.ignoring)
 
 		for listener in self.listeners:
 			listener.bug_ignored(bugnum)
 
 	def get_ignored_bugs(self):
-		return [x for x in self.bugs.values() if ignoring in x['debgtd']]
+		return [x for x in self.bugs.values() if debgtd.ignoring in x['debgtd']]
 
 	def add_listener(self,foo):
 		self.listeners.append(foo)

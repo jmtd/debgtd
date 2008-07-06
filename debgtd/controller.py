@@ -19,6 +19,7 @@ import os
 import sys
 import debgtd
 from pickle import load, dump
+from debgtd.model import Model
 
 class Controller:
 	def __init__(self):
