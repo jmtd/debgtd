@@ -110,7 +110,7 @@ class Controller:
 
 	def reload(self):
 		model = self.model
-		self.reload_backend(usertags[tracking])
+		self.reload_backend(usertags[debgtd.tracking])
 
 	# split off from reload because we'll use it for import too
 	# XXX: rename.
@@ -123,12 +123,12 @@ class Controller:
 		if 1 == len(bugs):
 			# work around debbts unboxing "feature"
 			bug = foo['value']._asdict()
-			bug ['debgtd'] = [tracking]
+			bug ['debgtd'] = [debgtd.tracking]
 			model.add_bug(bug)
 		else:
 			for item in foo:
 				bug = item['value']._asdict()
-				bug['debgtd'] = [tracking]
+				bug['debgtd'] = [debgtd.tracking]
 				model.add_bug(bug)
 
 	# we don't want to track this bug anymore. tag it 'debstd.sleeping'
