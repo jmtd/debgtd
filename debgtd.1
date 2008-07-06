@@ -11,13 +11,26 @@ Bug Tracker (BTS).
 .PP
 debgtd is intended to help users contribute to Debian by
 keeping track of which bugs they have submitted and determine
-need more the user's attention (such as requiring more
+which need more the user's attention (such as requiring more
 information, etc.)
-.SH INVOCATION
-Before invoking debgtd, please ensure that the environment variable
-.I DEBEMAIL
-is defined to the e-mail address you use to report bugs to the Debian
-Bug Tracking System.
+.PP
+Place the e-mail address that you use to report bugs into the 
+text field at the top of the
+.B debgtd
+window and click the adjacent button to populate the list.
+.PP
+If you define the
+.B DEBEMAIL
+environment variable prior to invoking debgtd, it will auto-populate
+the text field.
+.SH FILES
+.B debgtd
+honours the XDG desktop specification. By default, data files are
+kept at
+.B ~/.local/share/debgtd
+, but you can override this location by defining the
+.B XDG_DATA_HOME
+environment variable.
 .SH BUGS
 debgtd is in an early stage of development. A list of known bugs
 can be found in /usr/share/doc/debgtd/BUGS.
