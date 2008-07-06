@@ -165,7 +165,13 @@ class GUI:
 
 	def hide_bug(self,bug):
 		treemodel = self.tree.get_model()
+		if not treemodel:
+			print "hide_bug: wtf, no treemodel?!"
+			return
 		offs,col = self.tree.get_cursor()
+		if not offs:
+			print "hide_bug: wtf, no offs?!"
+			return
 		row = self.tree.get_model()[offs[0]][0]
 		iter = treemodel.get_iter(offs)
 		# TODO: this only works if the callstack is guaranteed to be
@@ -175,19 +181,14 @@ class GUI:
 		treemodel.remove(iter)
 		self.update_summary_label()
 
+	def go(self):
+		gtk.main()
+
 
 if __name__ == "__main__":
 	controller = Controller()
-
-	# find the data file
-	base=os.environ["HOME"] + "/.local/share"
-	if "XDG_DATA_HOME" in os.environ:
-		base= os.environ["XDG_DATA_HOME"]
-	datafile = base + "/debgtd/data.txt"
-	print "DEBUG: datafile=%s"% datafile
-	if os.path.isfile(datafile):
-		controller.load_from_file(datafile)
 	gui = GUI(controller)
-	gtk.main()
+	controller.add_view(gui)
+	controller.go()
 	print "exiting..."
-	controller.save_to_file("data.txt")
+	controller.save_to_file()
