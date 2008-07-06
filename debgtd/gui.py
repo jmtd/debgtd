@@ -19,10 +19,10 @@ import gtk
 import gtk.glade
 import os
 
-import bts
-from bts import Model, Controller
+import debgtd
+from debgtd import Controller
 
-class GUI:
+class Gui:
 	def __init__(self,controller):
 		self.controller = controller
 
@@ -179,11 +179,3 @@ class GUI:
 
 	def go(self):
 		gtk.main()
-
-
-if __name__ == "__main__":
-	controller = Controller()
-	gui = GUI(controller)
-	controller.add_view(gui)
-	controller.go()
-	controller.save_to_file()
