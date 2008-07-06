@@ -108,11 +108,6 @@ class Controller:
 			self.needswrite = True
 			self.reload_backend(foo)
 
-	def reload(self):
-		model = self.model
-		self.reload_backend(usertags[debgtd.tracking])
-
-	# split off from reload because we'll use it for import too
 	# XXX: rename.
 	def reload_backend(self, bugs):
 		model = self.model
