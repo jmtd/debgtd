@@ -218,6 +218,7 @@ class Controller:
 				return
 		self.model = Model(user)
 		for view in self.views:
+			view.clear()
 			self.model.add_listener(view)
 		if os.path.isfile(self.datafile()):
 			print "loading data from file"

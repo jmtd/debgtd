@@ -153,6 +153,11 @@ class GUI:
 
 	def bug_ignored(self, bug):
 		self.hide_bug(bug)
+	
+	def clear(self):
+		treestore = self.tree.get_model()
+		treestore.clear()
+		# XXX: should clear the user too?
 
 	### helper methods for model event listener callbacks 
 
