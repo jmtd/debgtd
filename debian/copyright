@@ -1,0 +1,20 @@
+debgtd is copyright (c) 2008 Jon Dowland <jon@alcopop.org>
+
+It was downloaded from http://jmtd.net/computing/software/debgtd/
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; version 2.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+details.
+
+On Debian systems, the complete text of the GNU General Public License,
+version 2, can be found in /usr/share/common-licenses/GPL-2.
+
+debgtd debianized by Jon Dowland <jon@alcopop.org>
+
+The debian packaging also copyright (c) 2008 Jon Dowland <jon@alcopop.org>,
+distributed under the same terms as above.
