@@ -33,12 +33,14 @@ install:
 
 binary-arch:
 
+DOCS = $(wildcard BUGS)
+
 binary-indep: install
 	dh_testdir
 	dh_testroot
 	dh_pysupport
 	dh_installman
-	dh_installdocs BUGS
+	dh_installdocs $(DOCS)
 	dh_installchangelogs
 	dh_compress
 	dh_fixperms
