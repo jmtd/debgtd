@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sun Jul  6 01:36:24 2008 -->
+<!--Generated with glade3 3.4.5 on Sun Jul  6 11:07:20 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
     <child>
@@ -156,14 +156,9 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkComboBoxEntry" id="user_email_combo">
+              <widget class="GtkEntry" id="user_email">
                 <property name="visible">True</property>
-                <child internal-child="entry">
-                  <widget class="GtkEntry" id="user_email">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                  </widget>
-                </child>
+                <property name="can_focus">True</property>
               </widget>
               <packing>
                 <property name="position">1</property>
