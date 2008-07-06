@@ -53,8 +53,6 @@ class GUI:
 		button = self.wTree.get_widget("ignore_bug_button")
 		button.connect("clicked", self.ignore_cb)
 
-		self.wTree.get_widget("user_email").set_text("jon+bts@alcopop.org")
-
 	# XXX: we shouldn't prod the bug this internally, instead rely on a
 	# model method (or some chain of filter rules for what to display)
 	# TODO: not taking into account that we filter out done bugs below
