@@ -38,7 +38,7 @@ class Model:
 		bug = self.bugs[bugnum]
 
 		if debgtd.sleeping not in bug['debgtd']:
-			bug['debgtd'].append(debgts.sleeping)
+			bug['debgtd'].append(debgtd.sleeping)
 
 		for listener in self.listeners:
 			listener.bug_sleeping(bugnum)
