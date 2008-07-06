@@ -179,3 +179,6 @@ class Gui:
 
 	def go(self):
 		gtk.main()
+
+	def user_changed(self, user):
+		self.wTree.get_widget("user_email").set_text(user)

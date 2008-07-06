@@ -142,6 +142,7 @@ class Controller:
 		self.model = Model(user)
 		for view in self.views:
 			view.clear()
+			view.user_changed(user)
 			self.model.add_listener(view)
 		if os.path.isfile(self.datafile()):
 			self.load_from_file()
