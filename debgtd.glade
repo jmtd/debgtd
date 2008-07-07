@@ -234,7 +234,7 @@
             <child>
               <widget class="GtkLabel" id="num_bugs_label">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">label</property>
+                <property name="label" translatable="yes"></property>
               </widget>
               <packing>
                 <property name="expand">False</property>
