@@ -40,33 +40,15 @@
                     <child>
                       <widget class="GtkImageMenuItem" id="imagemenuitem6">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">gtk-cut</property>
+                        <property name="label" translatable="yes">Sleep (_z)</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
                       </widget>
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="imagemenuitem7">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">gtk-copy</property>
+                        <property name="label" translatable="yes">_Ignore</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkImageMenuItem" id="imagemenuitem8">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">gtk-paste</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkImageMenuItem" id="imagemenuitem9">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">gtk-delete</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
                       </widget>
                     </child>
                   </widget>
