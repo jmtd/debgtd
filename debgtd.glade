@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sun Jul  6 11:07:20 2008 -->
+<!--Generated with glade3 3.4.5 on Mon Jul  7 17:54:41 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
     <child>
@@ -38,17 +38,19 @@
                   <widget class="GtkMenu" id="menu2">
                     <property name="visible">True</property>
                     <child>
-                      <widget class="GtkImageMenuItem" id="imagemenuitem6">
+                      <widget class="GtkImageMenuItem" id="sleep_menu_item">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Sleep (_z)</property>
+                        <property name="label" translatable="yes">Slee_p</property>
                         <property name="use_underline">True</property>
+                        <accelerator key="p" modifiers="GDK_CONTROL_MASK" signal="activate"/>
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkImageMenuItem" id="imagemenuitem7">
+                      <widget class="GtkImageMenuItem" id="ignore_menu_item">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">_Ignore</property>
                         <property name="use_underline">True</property>
+                        <accelerator key="i" modifiers="GDK_CONTROL_MASK" signal="activate"/>
                       </widget>
                     </child>
                   </widget>
@@ -128,10 +130,9 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">Sleep bug (_z)</property>
+                <property name="label" translatable="yes">Sleep bug</property>
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
-                <accelerator key="z" modifiers="GDK_MOD1_MASK" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -153,7 +154,6 @@
             <child>
               <widget class="GtkLabel" id="num_bugs_label">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes"></property>
               </widget>
               <packing>
                 <property name="expand">False</property>
