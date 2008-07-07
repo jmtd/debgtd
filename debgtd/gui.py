@@ -47,11 +47,15 @@ class Gui:
 
 		button = self.wTree.get_widget("sleep_bug_button")
 		button.connect("clicked", self.sleep_cb)
+		self.wTree.get_widget("sleep_menu_item").connect("activate",
+			self.sleep_cb)
 		button = self.wTree.get_widget("refresh_data_button")
 		button.connect("clicked", self.refresh_data_cb)
 
 		button = self.wTree.get_widget("ignore_bug_button")
 		button.connect("clicked", self.ignore_cb)
+		self.wTree.get_widget("ignore_menu_item").connect("activate",
+			self.ignore_cb)
 
 	# XXX: we shouldn't prod the bug this internally, instead rely on a
 	# model method (or some chain of filter rules for what to display)
@@ -137,6 +141,7 @@ class Gui:
 		# rely on a model method (or some chain of filter rules
 		# for what to display)
 		treestore = self.tree.get_model()
+		self.wTree.get_widget("refresh_data_button").set_label("Update")
 		if not debgtd.sleeping in bug['debgtd'] \
 		and not debgtd.ignoring in bug['debgtd'] \
 		and '' == bug['done']:
@@ -154,6 +159,7 @@ class Gui:
 	
 	def clear(self):
 		treestore = self.tree.get_model()
+		self.wTree.get_widget("refresh_data_button").set_label("Fetch")
 		treestore.clear()
 		# XXX: should clear the user too?
 
