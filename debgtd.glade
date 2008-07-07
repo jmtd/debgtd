@@ -156,6 +156,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="label" translatable="yes">Sleep bug (_z)</property>
+                <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <accelerator key="z" modifiers="GDK_MOD1_MASK" signal="clicked"/>
               </widget>
