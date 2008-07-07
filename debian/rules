@@ -11,7 +11,7 @@ clean:
 	dh_clean
 	make clean
 
-VERSION=$(shell dpkg-parsechangelog | grep ^Version | cut -d' ' -f2-)
+VERSION=$(shell dpkg-parsechangelog | sed -ne 's,^Version: ,,p')
 UPSTREAM=$(shell echo $(VERSION) | cut -d- -f1)
 
 # XXX: since archive does not support http remote repos, we assume
@@ -33,14 +33,12 @@ install:
 
 binary-arch:
 
-DOCS = $(wildcard BUGS)
-
 binary-indep: install
 	dh_testdir
 	dh_testroot
 	dh_pysupport
 	dh_installman
-	dh_installdocs $(DOCS)
+	dh_installdocs
 	dh_installchangelogs
 	dh_compress
 	dh_fixperms
