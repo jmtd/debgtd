@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Mon Jul  7 17:54:41 2008 -->
+<!--Generated with glade3 3.4.5 on Mon Jul  7 17:58:09 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
     <child>
@@ -89,7 +89,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">fetch/update</property>
+                <property name="label" translatable="yes">Fetch</property>
                 <property name="response_id">0</property>
               </widget>
               <packing>

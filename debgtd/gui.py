@@ -141,6 +141,7 @@ class Gui:
 		# rely on a model method (or some chain of filter rules
 		# for what to display)
 		treestore = self.tree.get_model()
+		self.wTree.get_widget("refresh_data_button").set_label("Update")
 		if not debgtd.sleeping in bug['debgtd'] \
 		and not debgtd.ignoring in bug['debgtd'] \
 		and '' == bug['done']:
@@ -158,6 +159,7 @@ class Gui:
 	
 	def clear(self):
 		treestore = self.tree.get_model()
+		self.wTree.get_widget("refresh_data_button").set_label("Fetch")
 		treestore.clear()
 		# XXX: should clear the user too?
 
