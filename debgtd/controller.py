@@ -124,12 +124,12 @@ class Controller:
 		if 1 == len(bugs):
 			# work around debbts unboxing "feature"
 			bug = foo['value']._asdict()
-			bug ['debgtd'] = [debgtd.tracking]
+			bug ['debgtd'] = [debgtd.tracking] # TODO: remove
 			model.add_bug(bug)
 		else:
 			for item in foo:
 				bug = item['value']._asdict()
-				bug['debgtd'] = [debgtd.tracking]
+				bug['debgtd'] = [debgtd.tracking] # TODO: remove
 				model.add_bug(bug)
 
 	# we don't want to track this bug anymore. tag it 'debstd.sleeping'
