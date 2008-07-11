@@ -64,7 +64,7 @@ class Controller:
 			self.set_user(os.environ["DEBEMAIL"])
 		else:
 			if "user" in self.confdata:
-				user = self.confdata['user']
+				self.set_user(self.confdata['user'])
 
 		for view in self.views:
 			# XXX: the view might block, so if we do have more than one,
