@@ -114,13 +114,15 @@ class Gui:
 
 	def ignore_cb(self,button):
 		offs,col = self.tree.get_cursor()
-		num = self.tree.get_model()[offs[0]][0]
-		self.controller.ignore_bug(num)
+		if offs:
+			num = self.tree.get_model()[offs[0]][0]
+			self.controller.ignore_bug(num)
 
 	def sleep_cb(self,button):
 		offs,col = self.tree.get_cursor()
-		num = self.tree.get_model()[offs[0]][0]
-		self.controller.sleep_bug(num)
+		if offs:
+			num = self.tree.get_model()[offs[0]][0]
+			self.controller.sleep_bug(num)
 	
 	def severity_sort_cb(self,treestore,iter1,iter2):
 		a = treestore.get_value(iter1, 2)
