@@ -82,7 +82,7 @@ class Model:
 			listener.bug_sleeping(bugnum)
 
 	def get_sleeping_bugs(self):
-		return [x for x in self.bugs.values() if x.sleeping]
+		return [x for x in self.bugs.values() if x.sleeping()]
 	
 	def ignore_bug(self,bugnum):
 		bug = self.bugs[bugnum]
@@ -95,7 +95,7 @@ class Model:
 			listener.bug_ignored(bugnum)
 
 	def get_ignored_bugs(self):
-		return [x for x in self.bugs.values() if x.ignoring]
+		return [x for x in self.bugs.values() if x.ignoring()]
 
 	def add_listener(self,foo):
 		self.listeners.append(foo)
