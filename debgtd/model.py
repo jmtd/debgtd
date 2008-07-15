@@ -22,7 +22,7 @@ from pickle import load, dump
 
 # serialize_format will be used to be backwards-compatible
 # whenever we change the serialize or unserialize methods
-serialize_format = -1
+serialize_format = 2
 
 class Bug(dict):
 	def __init__(self, hash={}):
@@ -35,10 +35,12 @@ class Bug(dict):
 			for key in hash:
 				self[key] = hash[key]
 
-	def sleep(self):
+	def sleep(self,slept_at=datetime.datetime.now()):
+		print "phew! ZzZz"
+		print slept_at
 		self._sleeping = True
-		self.slept_at = datetime.datetime.now()
-	
+		self.slept_at = slept_at
+
 	def sleeping(self):
 		return self._sleeping
 
@@ -64,14 +66,53 @@ class Model:
 		self.listeners = []
 
 	def serialize(self):
+		print "serialize called"
 		return (serialize_format, self.user, self.bugs.values())
 
 	# TODO: should consider handling serialize_format
 	def unserialize(self,tuple):
+		fmt = tuple[0]
 		self.user = tuple[1]
-		bugs = tuple[2]
-		for bug in bugs:
-			self.add_bug(bug)
+
+		# convert pure-hash format to class-and-hash
+		if fmt == 1:
+			for hash in tuple[2]:
+				bug = Bug(hash)
+				if 'debgtd.sleeping' in bug['debgtd']:
+					print "found a sleeping"
+					if 'debgtd.slept_at' in bug['debgtd']:
+						print "found a slept-at"
+						index = bug['debgtd'].index('debgtd.slept_at')
+						date = bug['debgtd'][index]
+						del bug['debgtd'][index]
+						bug.sleep(date)
+					else:
+						bug.sleep()
+					index = bug['debgtd'].index('debgtd.sleeping')
+					del bug['debgtd'][index]
+				if 'debgtd.ignoring' in bug['debgtd']:
+					print "found an ignoring"
+					bug.ignore()
+					index = bug['debgtd'].index('debgtd.ignoring')
+					del bug['debgtd'][index]
+				if 'debgtd.tracking' in bug['debgtd']:
+					print "found a tracking"
+					index = bug['debgtd'].index('debgtd.tracking')
+					del bug['debgtd'][index]
+				if [] != bug['debgtd']:
+					print "weird, found the following:"
+					print bug['debgtd']
+				else:
+					del bug['debgtd']
+				self.add_bug(bug)
+
+		elif fmt >= 2:
+			bugs = tuple[2]
+			for bug in bugs:
+				self.add_bug(bug)
+		else:
+			sys.stderr.write("unsupported format %d\n" % fmt)
+			sys.exit(1)
 
 	def sleep_bug(self,bugnum):
 		bug = self.bugs[bugnum]
