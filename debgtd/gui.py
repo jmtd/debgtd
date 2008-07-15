@@ -57,14 +57,11 @@ class Gui:
 		self.wTree.get_widget("ignore_menu_item").connect("activate",
 			self.ignore_cb)
 
-	# XXX: we shouldn't prod the bug this internally, instead rely on a
-	# model method (or some chain of filter rules for what to display)
-	# TODO: not taking into account that we filter out done bugs below
 	def update_summary_label(self):
 		model = self.controller.model
 		label = self.wTree.get_widget("num_bugs_label")
 
-		total = len(filter(lambda bug: '' == bug['done'], model.bugs.values()))
+		total = len(filter(lambda bug: not bug.is_done(), model.bugs.values()))
 		# XXX BUG there might be an intersection between these
 		# should use real set logic instead of arithmetic
 		sleeping = len(model.get_sleeping_bugs())
@@ -110,7 +107,7 @@ class Gui:
 	def row_selected_cb(self,tree,path,column):
 		treemodel = tree.get_model()
 		row = treemodel[path[0]][0]
-		os.system("sensible-browser http://bugs.debian.org/%s" % row)
+		os.system("sensible-browser http://bugs.debian.org/%s &" % row)
 
 	def ignore_cb(self,button):
 		offs,col = self.tree.get_cursor()
@@ -139,14 +136,9 @@ class Gui:
 	### listener methods for Model events
 
 	def bug_added(self, bug):
-		# XXX: we shouldn't prod the bug this internally, instead
-		# rely on a model method (or some chain of filter rules
-		# for what to display)
 		treestore = self.tree.get_model()
 		self.wTree.get_widget("refresh_data_button").set_label("Update")
-		if not debgtd.sleeping in bug['debgtd'] \
-		and not debgtd.ignoring in bug['debgtd'] \
-		and '' == bug['done']:
+		if not bug.sleeping() and not bug.ignoring() and not bug.is_done():
 			treestore.append(None, [bug['id'],
 			bug['package'],
 			bug['severity'],
