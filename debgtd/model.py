@@ -31,9 +31,12 @@ class Bug(dict):
 		self._ignoring = False
 		self._sleeping = False
 
-		if hash:
-			for key in hash:
-				self[key] = hash[key]
+		hash and self.update_hash(hash)
+
+	# XXX: TODO: if a status has changed, we need to inform the listeners
+	def update_hash(self,hash):
+		for key in hash:
+			self[key] = hash[key]
 
 	def sleep(self,slept_at=datetime.datetime.now()):
 		self._sleeping = True

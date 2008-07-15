@@ -125,8 +125,9 @@ class Controller:
 		submitter  = self.server.get_bugs("submitter", model.user)._aslist()
 		maintainer = self.server.get_bugs("maint", model.user)._aslist()
 		foo = list( set(submitter) | set(maintainer) )
-		# remove ones we already know about, if any
-		foo = filter(lambda x: x not in self.model.bugs, foo)
+		# remove ones we don't care about
+		foo = filter(lambda x: \
+			not (x in self.model.bugs and self.model.bugs[x].ignoring()), foo)
 
 		# assume the above executed ok and update our local data
 		if 0 < len(foo):
@@ -142,12 +143,22 @@ class Controller:
 		foo = self.server.get_status(bugs)[0]
 		if 1 == len(bugs):
 			# work around debbts unboxing "feature"
-			bug = foo['value']._asdict()
-			model.add_bug(Bug(bug))
+			hash = foo['value']._asdict()
+			if hash['id'] in model.bugs:
+				bug = model.bugs[hash['id']]
+				bug.update_hash(hash)
+			else:
+				bug = Bug(hash)
+				model.add_bug(bug)
 		else:
 			for item in foo:
-				bug = item['value']._asdict()
-				model.add_bug(Bug(bug))
+				hash = item['value']._asdict()
+				if hash['id'] in model.bugs:
+					bug = model.bugs[hash['id']]
+					bug.update_hash(hash)
+				else:
+					bug = Bug(hash)
+					model.add_bug(bug)
 
 	# we don't need to see this bug for now.
 	def sleep_bug(self,bug):
