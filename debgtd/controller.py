@@ -29,6 +29,8 @@ class Controller:
 
 		if os.environ.has_key("http_proxy"):
 			my_http_proxy=os.environ["http_proxy"].replace("http://","")
+			if my_http_proxy[-1] == '/':
+				my_http_proxy = my_http_proxy[:-1]
 		else:
 			my_http_proxy=None
 
