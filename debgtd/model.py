@@ -67,7 +67,6 @@ class Model:
 		self.listeners = []
 
 	def serialize(self):
-		print "serialize called"
 		return (serialize_format, self.user, self.bugs.values())
 
 	# TODO: should consider handling serialize_format
