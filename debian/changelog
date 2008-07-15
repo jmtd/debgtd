@@ -1,3 +1,10 @@
+debgtd (XXX) UNRELEASED; urgency=low
+
+  * New upstream version:
+    * no longer mentions the file "BUGS" in the manpage. Closes: #490724
+
+ -- Jon Dowland <jon@alcopop.org>  Tue, 15 Jul 2008 18:17:47 +0100
+
 debgtd (1.1-2) unstable; urgency=low
 
   * add required python modules to Depends:.
