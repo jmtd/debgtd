@@ -36,8 +36,6 @@ class Bug(dict):
 				self[key] = hash[key]
 
 	def sleep(self,slept_at=datetime.datetime.now()):
-		print "phew! ZzZz"
-		print slept_at
 		self._sleeping = True
 		self.slept_at = slept_at
 
@@ -79,9 +77,7 @@ class Model:
 			for hash in tuple[2]:
 				bug = Bug(hash)
 				if 'debgtd.sleeping' in bug['debgtd']:
-					print "found a sleeping"
 					if 'debgtd.slept_at' in bug['debgtd']:
-						print "found a slept-at"
 						index = bug['debgtd'].index('debgtd.slept_at')
 						date = bug['debgtd'][index]
 						del bug['debgtd'][index]
@@ -91,12 +87,10 @@ class Model:
 					index = bug['debgtd'].index('debgtd.sleeping')
 					del bug['debgtd'][index]
 				if 'debgtd.ignoring' in bug['debgtd']:
-					print "found an ignoring"
 					bug.ignore()
 					index = bug['debgtd'].index('debgtd.ignoring')
 					del bug['debgtd'][index]
 				if 'debgtd.tracking' in bug['debgtd']:
-					print "found a tracking"
 					index = bug['debgtd'].index('debgtd.tracking')
 					del bug['debgtd'][index]
 				if [] != bug['debgtd']:
@@ -139,8 +133,7 @@ class Model:
 	def add_listener(self,foo):
 		self.listeners.append(foo)
 
-	def add_bug(self,hash):
-		bug = Bug(hash)
+	def add_bug(self,bug):
 		self.bugs[bug['id']] = bug
 		for listener in self.listeners:
 			listener.bug_added(bug)
