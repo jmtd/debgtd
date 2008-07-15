@@ -16,6 +16,7 @@
 
 import os
 import sys
+import datetime
 import debgtd
 from pickle import load, dump
 
@@ -44,6 +45,7 @@ class Model:
 
 		if debgtd.sleeping not in bug['debgtd']:
 			bug['debgtd'].append(debgtd.sleeping)
+			bug['slept_at'] = datetime.datetime.now()
 
 		for listener in self.listeners:
 			listener.bug_sleeping(bugnum)

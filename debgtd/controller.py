@@ -39,6 +39,20 @@ class Controller:
 		self.model = None
 		self.views = []
 
+		# read in configuration data
+		self.confdata_format = 1
+
+		base=os.environ["HOME"] + "/.config"
+		if "XDG_CONFIG_HOME" in os.environ:
+			base= os.environ["XDG_CONFIG_HOME"]
+		self.conffile = base + "/debgtd/" + "config"
+		self.confdata = {}
+		if os.path.isfile(self.conffile):
+			fp = open(self.conffile)
+			data = load(fp)
+			fp.close()
+			self.confdata = data[1]
+
 	def add_view(self,view):
 		if self.model:
 			self.model.add_listener(view)
@@ -48,6 +62,9 @@ class Controller:
 		"""and they're off!"""
 		if os.environ.has_key("DEBEMAIL"):
 			self.set_user(os.environ["DEBEMAIL"])
+		else:
+			if "user" in self.confdata:
+				self.set_user(self.confdata['user'])
 
 		for view in self.views:
 			# XXX: the view might block, so if we do have more than one,
@@ -152,3 +169,17 @@ class Controller:
 			self.model.add_listener(view)
 		if os.path.isfile(self.datafile()):
 			self.load_from_file()
+
+		# write out configuration data if necessary
+		if not ("user" in self.confdata and user == self.confdata['user']):
+			self.confdata['user'] = user
+
+			# TODO: would be nice to have pure python here
+			dirname = os.path.dirname(self.conffile)
+			if not os.path.isdir(dirname):
+				os.system("mkdir -p %s" % dirname)
+
+			fp = open(self.conffile, "w")
+			data = dump((self.confdata_format, self.confdata), fp)
+			fp.close()
+
