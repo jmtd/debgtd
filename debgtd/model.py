@@ -75,7 +75,7 @@ class Model:
 
 	def sleep_bug(self,bugnum):
 		bug = self.bugs[bugnum]
-		bug.sleep
+		bug.sleep()
 
 		# TODO: move this up to a bug-level listener
 		for listener in self.listeners:
@@ -86,9 +86,7 @@ class Model:
 	
 	def ignore_bug(self,bugnum):
 		bug = self.bugs[bugnum]
-
-		if debgtd.ignoring not in bug['debgtd']:
-			bug['debgtd'].append(debgtd.ignoring)
+		bug.ignore()
 
 		# TODO: move this up to a bug-level listener
 		for listener in self.listeners:
