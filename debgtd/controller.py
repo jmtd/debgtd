@@ -66,7 +66,6 @@ class Controller:
 			self.set_user(os.environ["DEBEMAIL"])
 		else:
 			if "user" in self.confdata:
-				print "using saved config info"
 				self.set_user(self.confdata['user'])
 
 		for view in self.views:
