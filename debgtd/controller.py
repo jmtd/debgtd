@@ -146,7 +146,7 @@ class Controller:
 			hash = foo['value']._asdict()
 			if hash['id'] in model.bugs:
 				bug = model.bugs[hash['id']]
-				bug.update_hash(hash)
+				model.update_bug(hash)
 			else:
 				bug = Bug(hash)
 				model.add_bug(bug)
@@ -155,7 +155,7 @@ class Controller:
 				hash = item['value']._asdict()
 				if hash['id'] in model.bugs:
 					bug = model.bugs[hash['id']]
-					bug.update_hash(hash)
+					model.update_bug(hash)
 				else:
 					bug = Bug(hash)
 					model.add_bug(bug)
