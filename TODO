@@ -1,5 +1,8 @@
 document versioning policy
 move listener stuff into Bug class
+    don't: we can't serialize the listeners (since the view
+    pulls in the gtk stuff)
+    instead model should have a update_bug method which handles it
 implement a check in the update_hash Bug method that checks for "status
 changes"
 what is a status change?
