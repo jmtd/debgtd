@@ -19,7 +19,7 @@ import os
 import sys
 import debgtd
 from pickle import load, dump
-from debgtd.model import Model
+from debgtd.model import Model, Bug
 
 class Controller:
 	def __init__(self):
