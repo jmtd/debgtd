@@ -10,7 +10,7 @@ Build-Depends: debhelper (>= 7), python-support (>= 0.8.1), python (>= 2.5)
 
 Package: debgtd
 Architecture: all
-Depends: ${python:Depends}, devscripts, epiphany-gecko | www-browser
+Depends: ${python:Depends}, devscripts, epiphany-gecko | www-browser, python-glade2, python-soappy, python-gtk2
 Description: tool to help organise and prioritise your Debian bugs
  debgtd ("getting things done") is a GUI tool which allows you
  to visualise, sort and filter a list of bugs from the Debian

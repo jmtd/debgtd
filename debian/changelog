@@ -1,9 +1,18 @@
-debgtd (1.1-3) unstable; urgency=low
+debgtd (XXX) UNRELEASED; urgency=low
 
-  * Provide some boiler-plate about reporting bugs
-    in the "BUGS" file. Thanks Stephen Kitt. Closes: #490724.
+  * New upstream version:
+    * no longer mentions the file "BUGS" in the manpage. Closes: #490724;
+    * strip trailing / from http_proxy if present. Closes: #490720;
 
- -- Jon Dowland <jon@alcopop.org>  Mon, 14 Jul 2008 11:55:27 +0100
+ -- Jon Dowland <jon@alcopop.org>  Tue, 15 Jul 2008 18:21:28 +0100
+
+debgtd (1.1-2) unstable; urgency=low
+
+  * add required python modules to Depends:.
+    Thanks Luca Brivio. Closes: #490078.
+
+ -- Jon Dowland <jon@alcopop.org>  Wed, 09 Jul 2008 18:23:40 +0100
+>>>>>>> origin/debian:debian/changelog
 
 debgtd (1.1-1) unstable; urgency=low
 
