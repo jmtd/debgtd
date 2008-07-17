@@ -19,7 +19,7 @@ import os
 import sys
 import debgtd
 from pickle import load, dump
-from debgtd.model import Model
+from debgtd.model import Model, Bug
 
 class Controller:
 	def __init__(self):
@@ -146,7 +146,7 @@ class Controller:
 			hash = foo['value']._asdict()
 			if hash['id'] in model.bugs:
 				bug = model.bugs[hash['id']]
-				bug.update_hash(hash)
+				model.update_bug(hash)
 			else:
 				bug = Bug(hash)
 				model.add_bug(bug)
@@ -155,7 +155,7 @@ class Controller:
 				hash = item['value']._asdict()
 				if hash['id'] in model.bugs:
 					bug = model.bugs[hash['id']]
-					bug.update_hash(hash)
+					model.update_bug(hash)
 				else:
 					bug = Bug(hash)
 					model.add_bug(bug)

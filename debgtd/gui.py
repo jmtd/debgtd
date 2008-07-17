@@ -146,11 +146,15 @@ class Gui:
 		self.update_summary_label()
 
 	def bug_sleeping(self, bug):
-		self.hide_bug(bug)
+		self.hide_bug(bug['id'])
 
 	def bug_ignored(self, bug):
-		self.hide_bug(bug)
+		self.hide_bug(bug['id'])
 	
+	def bug_changed(self, bug):
+		if bug.sleeping() or bug.ignoring() or bug.is_done():
+			self.hide_bug(bug['id'])
+
 	def clear(self):
 		treestore = self.tree.get_model()
 		self.wTree.get_widget("refresh_data_button").set_label("Fetch")
@@ -159,22 +163,32 @@ class Gui:
 
 	### helper methods for model event listener callbacks 
 
-	def hide_bug(self,bug):
+	def hide_bug(self,bugnum):
 		treemodel = self.tree.get_model()
-		if not treemodel:
-			print "hide_bug: wtf, no treemodel?!"
-			return
 		offs,col = self.tree.get_cursor()
-		if not offs:
-			print "hide_bug: wtf, no offs?!"
-			return
-		row = self.tree.get_model()[offs[0]][0]
-		iter = treemodel.get_iter(offs)
-		# TODO: this only works if the callstack is guaranteed to be
-		# self.ignore_cb -> ... -> self.bug_ignored: i.e., if at some
-		# point an external influence could ignore a bug, we will
-		# need to iterate.
-		treemodel.remove(iter)
+		column = 0 # TODO: enumerate these somewhere
+		# quick optimisation if the correct row is already selected
+		if offs:
+			iter = treemodel.get_iter(offs)
+			rowid = treemodel.get_value(iter, column)
+			if rowid == bugnum:
+				treemodel.remove(iter)
+				self.update_summary_label()
+				return
+
+		iter = treemodel.get_iter_first()
+		rowid = bugnum + 1 # a fake value
+		while rowid != bugnum:
+			rowid = treemodel.get_value(iter, column)
+			if rowid == bugnum:
+				treemodel.remove(iter)
+				break
+			else:
+				iter = treemodel.iter_next(iter)
+				# the bug isn't being displayed at the moment anyway
+				if not iter:
+					break
+
 		self.update_summary_label()
 
 	def go(self):

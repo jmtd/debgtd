@@ -33,7 +33,6 @@ class Bug(dict):
 
 		hash and self.update_hash(hash)
 
-	# XXX: TODO: if a status has changed, we need to inform the listeners
 	def update_hash(self,hash):
 		for key in hash:
 			self[key] = hash[key]
@@ -114,9 +113,8 @@ class Model:
 		bug = self.bugs[bugnum]
 		bug.sleep()
 
-		# TODO: move this up to a bug-level listener
 		for listener in self.listeners:
-			listener.bug_sleeping(bugnum)
+			listener.bug_sleeping(bug)
 
 	def get_sleeping_bugs(self):
 		return [x for x in self.bugs.values() if x.sleeping()]
@@ -125,9 +123,8 @@ class Model:
 		bug = self.bugs[bugnum]
 		bug.ignore()
 
-		# TODO: move this up to a bug-level listener
 		for listener in self.listeners:
-			listener.bug_ignored(bugnum)
+			listener.bug_ignored(bug)
 
 	def get_ignored_bugs(self):
 		return [x for x in self.bugs.values() if x.ignoring()]
@@ -139,3 +136,11 @@ class Model:
 		self.bugs[bug['id']] = bug
 		for listener in self.listeners:
 			listener.bug_added(bug)
+
+	def update_bug(self, hash):
+		bug = self.bugs[hash['id']]
+		# this relies on the Bug class still comparing like dicts
+		if bug != hash: 
+			bug.update_hash(hash)
+			for listener in self.listeners:
+				listener.bug_changed(bug)
