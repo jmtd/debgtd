@@ -11,13 +11,13 @@ clean:
 	dh_clean
 	make clean
 
-VERSION=$(shell dpkg-parsechangelog | grep ^Version | cut -d' ' -f2-)
+VERSION=$(shell dpkg-parsechangelog | sed -ne 's,^Version: ,,p')
 UPSTREAM=$(shell echo $(VERSION) | cut -d- -f1)
 
 # XXX: since archive does not support http remote repos, we assume
 # we're in a checked-out git archive here. This may not be the case.
 get-orig-source:
-	git-archive --prefix=debgtd-$(UPSTREAM)/ master |\
+	git-archive --prefix=debgtd-$(UPSTREAM)/ $(UPSTREAM) |\
 		gzip -9c > debgtd_$(UPSTREAM).orig.tar.gz
 
 dest=$(CURDIR)/debian/debgtd
@@ -33,14 +33,12 @@ install:
 
 binary-arch:
 
-DOCS = $(wildcard BUGS)
-
 binary-indep: install
 	dh_testdir
 	dh_testroot
 	dh_pysupport
 	dh_installman
-	dh_installdocs $(DOCS)
+	dh_installdocs
 	dh_installchangelogs
 	dh_compress
 	dh_fixperms

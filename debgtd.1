@@ -1,3 +1,7 @@
+.de URL
+\\$2 \(laURL: \\$1 \(ra\\$3
+..
+.if \n[.g] .mso www.tmac
 .TH debgtd 1
 .SH NAME
 debgtd \- a tool to help organise and prioritise your Debian bugs
@@ -32,8 +36,10 @@ kept at
 .B XDG_DATA_HOME
 environment variable.
 .SH BUGS
-debgtd is in an early stage of development. A list of known bugs
-can be found in /usr/share/doc/debgtd/BUGS.
+debgtd is in an early stage of development.  If you find a bug, please
+check to see if it has been reported at 
+.URL "http://www.debian.org/Bugs/" "the Debian Bug Tracking System"
+.
 .SH GET INVOLVED
 debgtd is written to be a useful tool for workflow. Comments and
 suggestions and patches to the author are very welcome.

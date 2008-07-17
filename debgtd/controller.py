@@ -29,6 +29,8 @@ class Controller:
 
 		if os.environ.has_key("http_proxy"):
 			my_http_proxy=os.environ["http_proxy"].replace("http://","")
+			if my_http_proxy[-1] == '/':
+				my_http_proxy = my_http_proxy[:-1]
 		else:
 			my_http_proxy=None
 
@@ -39,6 +41,20 @@ class Controller:
 		self.model = None
 		self.views = []
 
+		# read in configuration data
+		self.confdata_format = 1
+
+		base=os.environ["HOME"] + "/.config"
+		if "XDG_CONFIG_HOME" in os.environ:
+			base= os.environ["XDG_CONFIG_HOME"]
+		self.conffile = base + "/debgtd/" + "config"
+		self.confdata = {}
+		if os.path.isfile(self.conffile):
+			fp = open(self.conffile)
+			data = load(fp)
+			fp.close()
+			self.confdata = data[1]
+
 	def add_view(self,view):
 		if self.model:
 			self.model.add_listener(view)
@@ -46,8 +62,11 @@ class Controller:
 
 	def go(self):
 		"""and they're off!"""
-		if os.environ.has_key("DEBEMAIL"):
+		if os.environ.has_key("DEBEMAIL") and '' != os.environ['DEBEMAIL']:
 			self.set_user(os.environ["DEBEMAIL"])
+		else:
+			if "user" in self.confdata:
+				self.set_user(self.confdata['user'])
 
 		for view in self.views:
 			# XXX: the view might block, so if we do have more than one,
@@ -106,8 +125,9 @@ class Controller:
 		submitter  = self.server.get_bugs("submitter", model.user)._aslist()
 		maintainer = self.server.get_bugs("maint", model.user)._aslist()
 		foo = list( set(submitter) | set(maintainer) )
-		# remove ones we already know about, if any
-		foo = filter(lambda x: x not in self.model.bugs, foo)
+		# remove ones we don't care about
+		foo = filter(lambda x: \
+			not (x in self.model.bugs and self.model.bugs[x].ignoring()), foo)
 
 		# assume the above executed ok and update our local data
 		if 0 < len(foo):
@@ -123,21 +143,29 @@ class Controller:
 		foo = self.server.get_status(bugs)[0]
 		if 1 == len(bugs):
 			# work around debbts unboxing "feature"
-			bug = foo['value']._asdict()
-			bug ['debgtd'] = [debgtd.tracking]
-			model.add_bug(bug)
+			hash = foo['value']._asdict()
+			if hash['id'] in model.bugs:
+				bug = model.bugs[hash['id']]
+				bug.update_hash(hash)
+			else:
+				bug = Bug(hash)
+				model.add_bug(bug)
 		else:
 			for item in foo:
-				bug = item['value']._asdict()
-				bug['debgtd'] = [debgtd.tracking]
-				model.add_bug(bug)
+				hash = item['value']._asdict()
+				if hash['id'] in model.bugs:
+					bug = model.bugs[hash['id']]
+					bug.update_hash(hash)
+				else:
+					bug = Bug(hash)
+					model.add_bug(bug)
 
-	# we don't want to track this bug anymore. tag it 'debstd.sleeping'
+	# we don't need to see this bug for now.
 	def sleep_bug(self,bug):
 		self.model.sleep_bug(bug)
 		self.needswrite = True
 
-	# we don't want to track this bug anymore, ever. tag it
+	# we don't want to track this bug anymore.
 	def ignore_bug(self,bug):
 		self.model.ignore_bug(bug)
 		self.needswrite = True
@@ -152,3 +180,17 @@ class Controller:
 			self.model.add_listener(view)
 		if os.path.isfile(self.datafile()):
 			self.load_from_file()
+
+		# write out configuration data if necessary
+		if not ("user" in self.confdata and user == self.confdata['user']):
+			self.confdata['user'] = user
+
+			# TODO: would be nice to have pure python here
+			dirname = os.path.dirname(self.conffile)
+			if not os.path.isdir(dirname):
+				os.system("mkdir -p %s" % dirname)
+
+			fp = open(self.conffile, "w")
+			data = dump((self.confdata_format, self.confdata), fp)
+			fp.close()
+
