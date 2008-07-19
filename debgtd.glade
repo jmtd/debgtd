@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sat Jul 19 18:05:13 2008 -->
+<!--Generated with glade3 3.4.5 on Sat Jul 19 18:06:22 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
     <child>
@@ -152,13 +152,26 @@
               </packing>
             </child>
             <child>
+              <widget class="GtkButton" id="button1">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="label" translatable="yes">triage new bugs</property>
+                <property name="response_id">0</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
               <widget class="GtkLabel" id="num_bugs_label">
                 <property name="visible">True</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
                 <property name="pack_type">GTK_PACK_END</property>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </widget>
