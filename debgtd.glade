@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sat Jul 19 18:06:22 2008 -->
+<!--Generated with glade3 3.4.5 on Sat Jul 19 18:16:39 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
     <child>
@@ -152,7 +152,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkButton" id="button1">
+              <widget class="GtkButton" id="triage_button">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -191,7 +191,7 @@
           <widget class="GtkVBox" id="vbox3">
             <property name="visible">True</property>
             <child>
-              <widget class="GtkProgressBar" id="progressbar1">
+              <widget class="GtkProgressBar" id="progressbarb">
                 <property name="visible">True</property>
                 <property name="text" translatable="yes"></property>
               </widget>
@@ -200,7 +200,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label3">
+              <widget class="GtkLabel" id="progresslabel">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">74 / 100, 74% done</property>
               </widget>
@@ -215,7 +215,7 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkLabel" id="label4">
+          <widget class="GtkLabel" id="summarylabel">
             <property name="visible">True</property>
             <property name="label" translatable="yes">bug summary</property>
           </widget>
@@ -237,7 +237,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkTextView" id="textview1">
+              <widget class="GtkTextView" id="nextaction">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
               </widget>
@@ -254,7 +254,7 @@
           <widget class="GtkHBox" id="hbox4">
             <property name="visible">True</property>
             <child>
-              <widget class="GtkButton" id="button8">
+              <widget class="GtkButton" id="applybutton">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -267,7 +267,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkButton" id="button6">
+              <widget class="GtkButton" id="sleepbutton">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -280,7 +280,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkButton" id="button7">
+              <widget class="GtkButton" id="ignorebutton">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -293,7 +293,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkButton" id="button5">
+              <widget class="GtkButton" id="closebutton">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
