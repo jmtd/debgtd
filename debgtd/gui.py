@@ -30,9 +30,9 @@ class TriageWindow:
 		window.resize(640,400)
 
 		# signals
-		window.connect("destroy", lambda x: window.hide())
+		window.connect("destroy", self.close)
 		self.wTree.get_widget("closebutton").connect("clicked",
-			lambda x: window.hide())
+			lambda x: self.close)
 		self.wTree.get_widget("applybutton").connect("clicked",
 			self.apply_button)
 		self.wTree.get_widget("sleepbutton").connect("clicked",
@@ -42,34 +42,44 @@ class TriageWindow:
 
 		# initialisation
 		self.processed = 0
+		self.target = 0
 
 		self.get_next_bug()
 		window.show()
 
+	def close(self):
+		self.processed = 0
+		self.target    = 0
+		self.wTree.get_widget("triage_window").hide()
+
 	def get_next_bug(self):
-		self.bugs_todo = filter(lambda b: \
+		bugs_todo = filter(lambda b: \
 		not b.has_nextaction() and not b.ignoring() and not b.sleeping() and
 		not b.is_done(),
 			self.controller.model.bugs.values())
-		self.current_bug = self.bugs_todo[0]
+		self.current_bug = bugs_todo[0]
 		buf = self.wTree.get_widget("nextaction").get_buffer()
 		buf.delete(buf.get_start_iter(), buf.get_end_iter())
+		if not self.target:
+			self.target = len(bugs_todo)
 		self.update_currentbug()
 		self.update_progress()
 
 	def apply_button(self,button):
 		buf = self.wTree.get_widget("nextaction").get_buffer()
 		text = buf.get_text(buf.get_start_iter(), buf.get_end_iter())
-		self.current_bug.set_nextaction(text)
+		self.controller.set_nextaction(self.current_bug, text)
 		self.processed += 1
 		self.get_next_bug()
 
 	def sleep_button(self,button):
 		self.controller.sleep_bug(self.current_bug['id'])
+		self.processed += 1
 		self.get_next_bug()
 
 	def ignore_button(self,button):
 		self.controller.ignore_bug(self.current_bug['id'])
+		self.processed += 1
 		self.get_next_bug()
 
 	def update_currentbug(self):
@@ -79,9 +89,8 @@ class TriageWindow:
 	def update_progress(self):
 		progressbar = self.wTree.get_widget("progressbar")
 		progresslabel = self.wTree.get_widget("progresslabel")
-		todo = len(self.bugs_todo)
-		# XXX: % done too
-		progresslabel.set_text("%d / %d" % (self.processed, todo))
+		progresslabel.set_text("%d / %d" % (self.processed, self.target))
+		progressbar.set_fraction( float(self.processed) / float(self.target) )
 
 class Gui:
 	def __init__(self,controller):
