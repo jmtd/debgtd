@@ -41,6 +41,9 @@ class TriageWindow:
 			self.sleep_button)
 		self.wTree.get_widget("ignorebutton").connect("clicked",
 			self.ignore_button)
+		self.wTree.get_widget("summarybutton").connect("clicked", lambda x: \
+			os.system("sensible-browser http://bugs.debian.org/%s &" \
+			% self.current_bug['id']))
 
 		# initialisation
 		self.processed = 0
@@ -87,9 +90,6 @@ class TriageWindow:
 	def update_currentbug(self):
 		buginfo = self.wTree.get_widget("summarybutton")
 		buginfo.set_label(self.current_bug['subject'])
-		buginfo.connect("clicked", lambda x: \
-			os.system("sensible-browser http://bugs.debian.org/%s &" \
-			% self.current_bug['id']))
 
 	def update_progress(self):
 		progressbar = self.wTree.get_widget("progressbar")
