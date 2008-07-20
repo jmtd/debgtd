@@ -30,15 +30,20 @@ class TriageWindow:
 		window.resize(640,400)
 
 		# signals
-		window.connect("destroy", self.close)
+		window.connect("destroy", lambda x: self.close())
 		self.wTree.get_widget("closebutton").connect("clicked",
-			lambda x: self.close)
+			lambda x: self.close())
 		self.wTree.get_widget("applybutton").connect("clicked",
+			self.apply_button)
+		self.wTree.get_widget("nextaction").connect("activate",
 			self.apply_button)
 		self.wTree.get_widget("sleepbutton").connect("clicked",
 			self.sleep_button)
 		self.wTree.get_widget("ignorebutton").connect("clicked",
 			self.ignore_button)
+		self.wTree.get_widget("summarybutton").connect("clicked", lambda x: \
+			os.system("sensible-browser http://bugs.debian.org/%s &" \
+			% self.current_bug['id']))
 
 		# initialisation
 		self.processed = 0
@@ -50,7 +55,9 @@ class TriageWindow:
 	def close(self):
 		self.processed = 0
 		self.target    = 0
-		self.wTree.get_widget("triage_window").hide()
+		window = self.wTree.get_widget("triage_window")
+		if window:
+			window.hide()
 
 	def get_next_bug(self):
 		bugs_todo = filter(lambda b: \
@@ -58,16 +65,14 @@ class TriageWindow:
 		not b.is_done(),
 			self.controller.model.bugs.values())
 		self.current_bug = bugs_todo[0]
-		buf = self.wTree.get_widget("nextaction").get_buffer()
-		buf.delete(buf.get_start_iter(), buf.get_end_iter())
+		self.wTree.get_widget("nextaction").set_text('')
 		if not self.target:
 			self.target = len(bugs_todo)
 		self.update_currentbug()
 		self.update_progress()
 
 	def apply_button(self,button):
-		buf = self.wTree.get_widget("nextaction").get_buffer()
-		text = buf.get_text(buf.get_start_iter(), buf.get_end_iter())
+		text = self.wTree.get_widget("nextaction").get_text()
 		self.controller.set_nextaction(self.current_bug, text)
 		self.processed += 1
 		self.get_next_bug()
@@ -83,8 +88,8 @@ class TriageWindow:
 		self.get_next_bug()
 
 	def update_currentbug(self):
-		buginfo = self.wTree.get_widget("summarylabel")
-		buginfo.set_text(self.current_bug['subject'])
+		buginfo = self.wTree.get_widget("summarybutton")
+		buginfo.set_label(self.current_bug['subject'])
 
 	def update_progress(self):
 		progressbar = self.wTree.get_widget("progressbar")

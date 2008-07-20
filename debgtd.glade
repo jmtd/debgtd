@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sat Jul 19 18:58:16 2008 -->
+<!--Generated with glade3 3.4.5 on Sun Jul 20 13:41:46 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
     <child>
@@ -215,9 +215,12 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkLabel" id="summarylabel">
+          <widget class="GtkButton" id="summarybutton">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">bug summary</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="label" translatable="yes">button</property>
+            <property name="response_id">0</property>
           </widget>
           <packing>
             <property name="position">1</property>
@@ -237,7 +240,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkTextView" id="nextaction">
+              <widget class="GtkEntry" id="nextaction">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
               </widget>
