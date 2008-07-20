@@ -22,9 +22,6 @@ import os
 import debgtd
 from debgtd.controller import Controller
 
-def prnt(x):
-	print x
-
 class TriageWindow:
 	def __init__(self,controller,gladefile):
 		self.controller = controller
@@ -90,7 +87,7 @@ class TriageWindow:
 		buginfo.set_label(self.current_bug['subject'])
 		buginfo.connect("clicked", lambda x: \
 			os.system("sensible-browser http://bugs.debian.org/%s &" \
-			% self.current_bug['id']) and prnt("Running"))
+			% self.current_bug['id']))
 
 	def update_progress(self):
 		progressbar = self.wTree.get_widget("progressbar")
