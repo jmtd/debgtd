@@ -35,6 +35,8 @@ class TriageWindow:
 			lambda x: self.close())
 		self.wTree.get_widget("applybutton").connect("clicked",
 			self.apply_button)
+		self.wTree.get_widget("nextaction").connect("activate",
+			self.apply_button)
 		self.wTree.get_widget("sleepbutton").connect("clicked",
 			self.sleep_button)
 		self.wTree.get_widget("ignorebutton").connect("clicked",
