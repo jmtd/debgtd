@@ -63,6 +63,9 @@ class Bug(dict):
 	def set_nextaction(self, na):
 		self._nextaction = na
 
+	def get_nextaction(self):
+		return self._nextaction
+
 	def is_done(self):
 		return self['done'] != ''
 
