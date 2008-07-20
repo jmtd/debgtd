@@ -30,7 +30,7 @@ class TriageWindow:
 		window.resize(640,400)
 
 		# signals
-		window.connect("destroy", lambda x: self.close)
+		window.connect("destroy", self.close)
 		self.wTree.get_widget("closebutton").connect("clicked",
 			lambda x: self.close)
 		self.wTree.get_widget("applybutton").connect("clicked",
