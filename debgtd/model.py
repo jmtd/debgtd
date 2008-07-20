@@ -144,6 +144,9 @@ class Model:
 	def get_ignored_bugs(self):
 		return [x for x in self.bugs.values() if x.ignoring()]
 
+	def get_nextaction_bugs(self):
+		return [x for x in self.bugs.values() if x.has_nextaction()]
+
 	def add_listener(self,foo):
 		self.listeners.append(foo)
 

@@ -142,10 +142,11 @@ class Gui:
 		# should use real set logic instead of arithmetic
 		sleeping = len(model.get_sleeping_bugs())
 		ignored = len(model.get_ignored_bugs())
+		nextactions = len(model.get_nextaction_bugs())
 		interested = total - sleeping - ignored
 
-		label.set_text("%d bugs (%d sleeping; %d ignored)" % \
-			(interested,sleeping,ignored))
+		label.set_text("displaying %d bugs, %d to triage (%d sleeping; %d ignored; %d total)" % \
+			(nextactions,interested - nextactions, sleeping,ignored,total))
 
 	def populate_treeview(self):
 		model = self.controller.model
