@@ -220,7 +220,8 @@ class Gui:
 	def bug_added(self, bug):
 		treestore = self.tree.get_model()
 		self.wTree.get_widget("refresh_data_button").set_label("Update")
-		if not bug.sleeping() and not bug.ignoring() and not bug.is_done():
+		if not bug.sleeping() and not bug.ignoring() and \
+			bug.has_nextaction() and not bug.is_done():
 			treestore.append(None, [bug['id'],
 			bug['package'],
 			bug['severity'],
