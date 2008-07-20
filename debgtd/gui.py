@@ -83,8 +83,11 @@ class TriageWindow:
 		self.get_next_bug()
 
 	def update_currentbug(self):
-		buginfo = self.wTree.get_widget("summarylabel")
-		buginfo.set_text(self.current_bug['subject'])
+		buginfo = self.wTree.get_widget("summarybutton")
+		buginfo.set_label(self.current_bug['subject'])
+		buginfo.connect("clicked", lambda x: \
+			os.system("sensible-browser http://bugs.debian.org/%s &" \
+			% self.current_bug['id']))
 
 	def update_progress(self):
 		progressbar = self.wTree.get_widget("progressbar")
