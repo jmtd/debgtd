@@ -30,9 +30,9 @@ class TriageWindow:
 		window.resize(640,400)
 
 		# signals
-		window.connect("destroy", lambda x: self.close)
+		window.connect("destroy", lambda x: self.close())
 		self.wTree.get_widget("closebutton").connect("clicked",
-			lambda x: self.close)
+			lambda x: self.close())
 		self.wTree.get_widget("applybutton").connect("clicked",
 			self.apply_button)
 		self.wTree.get_widget("sleepbutton").connect("clicked",
@@ -50,7 +50,9 @@ class TriageWindow:
 	def close(self):
 		self.processed = 0
 		self.target    = 0
-		self.wTree.get_widget("triage_window").hide()
+		window = self.wTree.get_widget("triage_window")
+		if window:
+			window.hide()
 
 	def get_next_bug(self):
 		bugs_todo = filter(lambda b: \
