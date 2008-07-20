@@ -48,6 +48,7 @@ class TriageWindow:
 		# initialisation
 		self.processed = 0
 		self.target = 0
+		self.current_bug = None
 
 		self.get_next_bug()
 		window.show()
@@ -64,10 +65,14 @@ class TriageWindow:
 		not b.has_nextaction() and not b.ignoring() and not b.sleeping() and
 		not b.is_done(),
 			self.controller.model.bugs.values())
-		self.current_bug = bugs_todo[0]
+		if 0 < len(bugs_todo):
+			self.current_bug = bugs_todo[0]
+			if not self.target:
+				self.target = len(bugs_todo)
+		else:
+			self.current_bug = None
+			self.target = 0
 		self.wTree.get_widget("nextaction").set_text('')
-		if not self.target:
-			self.target = len(bugs_todo)
 		self.update_currentbug()
 		self.update_progress()
 
@@ -89,13 +94,19 @@ class TriageWindow:
 
 	def update_currentbug(self):
 		buginfo = self.wTree.get_widget("summarybutton")
-		buginfo.set_label(self.current_bug['subject'])
+		if self.current_bug:
+			buginfo.set_label(self.current_bug['subject'])
+		else:
+			buginfo.set_label('there are no bugs to triage.')
 
 	def update_progress(self):
 		progressbar = self.wTree.get_widget("progressbar")
 		progresslabel = self.wTree.get_widget("progresslabel")
 		progresslabel.set_text("%d / %d" % (self.processed, self.target))
-		progressbar.set_fraction( float(self.processed) / float(self.target) )
+		if 0 == self.target:
+			progressbar.set_fraction( 1.0 )
+		else:
+			progressbar.set_fraction( float(self.processed) / float(self.target) )
 
 class Gui:
 	def __init__(self,controller):
