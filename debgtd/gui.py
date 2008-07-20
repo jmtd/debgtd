@@ -147,11 +147,20 @@ class Gui:
 
 		button = self.wTree.get_widget("triage_button")
 		button.connect("clicked", self.open_triage_window)
+		button.set_sensitive(False)
 
 		self.tw = TriageWindow(self.controller,self.gladefile)
 
 	def open_triage_window(self,button):
 		self.tw.open()
+
+	def toggle_triage_button(self):
+		bugs_todo = filter(lambda b: \
+			not b.has_nextaction() and not b.ignoring() and not b.sleeping() and
+			not b.is_done(),
+				self.controller.model.bugs.values())
+		if len(bugs_todo) > 0:
+			button.set_sensitive(False)
 
 	def update_summary_label(self):
 		model = self.controller.model
