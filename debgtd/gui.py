@@ -60,16 +60,14 @@ class TriageWindow:
 		not b.is_done(),
 			self.controller.model.bugs.values())
 		self.current_bug = bugs_todo[0]
-		buf = self.wTree.get_widget("nextaction").get_buffer()
-		buf.delete(buf.get_start_iter(), buf.get_end_iter())
+		self.wTree.get_widget("nextaction").set_text('')
 		if not self.target:
 			self.target = len(bugs_todo)
 		self.update_currentbug()
 		self.update_progress()
 
 	def apply_button(self,button):
-		buf = self.wTree.get_widget("nextaction").get_buffer()
-		text = buf.get_text(buf.get_start_iter(), buf.get_end_iter())
+		text = self.wTree.get_widget("nextaction").get_text()
 		self.controller.set_nextaction(self.current_bug, text)
 		self.processed += 1
 		self.get_next_bug()
