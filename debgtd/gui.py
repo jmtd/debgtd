@@ -64,8 +64,7 @@ class TriageWindow:
 
 	def get_next_bug(self):
 		bugs_todo = filter(lambda b: \
-		not b.has_nextaction() and not b.ignoring() and not b.sleeping() and
-		not b.is_done(),
+		not b.has_nextaction() and not b.ignoring() and not b.sleeping(),
 			self.controller.model.bugs.values())
 		if 0 < len(bugs_todo):
 			self.current_bug = bugs_todo[0]
@@ -255,7 +254,7 @@ class Gui:
 		treestore = self.tree.get_model()
 		self.wTree.get_widget("refresh_data_button").set_label("Update")
 		if not bug.sleeping() and not bug.ignoring() and \
-			bug.has_nextaction() and not bug.is_done():
+			bug.has_nextaction():
 			treestore.append(None, [bug['id'],
 			bug['package'],
 			bug['severity'],
