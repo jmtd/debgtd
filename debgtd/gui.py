@@ -157,7 +157,6 @@ class Gui:
 		bugs_todo = filter(lambda b: \
 			not b.has_nextaction() and not b.ignoring() and not b.sleeping(),
 			self.controller.model.bugs.values())
-		print "debug  : %d\n" % len(bugs_todo)
 		button = self.wTree.get_widget("triage_button")
 		button.set_sensitive(len(bugs_todo) > 0)
 
