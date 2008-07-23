@@ -156,11 +156,11 @@ class Gui:
 
 	def toggle_triage_button(self):
 		bugs_todo = filter(lambda b: \
-			not b.has_nextaction() and not b.ignoring() and not b.sleeping() and
-			not b.is_done(),
-				self.controller.model.bugs.values())
-		if len(bugs_todo) > 0:
-			button.set_sensitive(False)
+			not b.has_nextaction() and not b.ignoring() and not b.sleeping(),
+			self.controller.model.bugs.values())
+		print "debug  : %d\n" % len(bugs_todo)
+		button = self.wTree.get_widget("triage_button")
+		button.set_sensitive(len(bugs_todo) > 0)
 
 	def update_summary_label(self):
 		model = self.controller.model
@@ -262,16 +262,20 @@ class Gui:
 			bug.get_nextaction(),
 			bug['subject']])
 		self.update_summary_label()
+		self.toggle_triage_button()
 
 	def bug_sleeping(self, bug):
 		self.hide_bug(bug['id'])
+		self.toggle_triage_button()
 
 	def bug_ignored(self, bug):
 		self.hide_bug(bug['id'])
+		self.toggle_triage_button()
 	
 	def bug_changed(self, bug):
 		if bug.sleeping() or bug.ignoring() or bug.is_done():
 			self.hide_bug(bug['id'])
+			self.toggle_triage_button()
 
 	def clear(self):
 		treestore = self.tree.get_model()
