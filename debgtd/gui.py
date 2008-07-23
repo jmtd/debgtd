@@ -42,7 +42,7 @@ class TriageWindow:
 		self.wTree.get_widget("ignorebutton").connect("clicked",
 			self.ignore_button)
 		self.wTree.get_widget("summarybutton").connect("clicked", lambda x: \
-			os.system("sensible-browser http://bugs.debian.org/%s &" \
+			self.current_bug and os.system("sensible-browser http://bugs.debian.org/%s &" \
 			% self.current_bug['id']))
 
 		# initialisation
@@ -50,6 +50,8 @@ class TriageWindow:
 		self.target = 0
 		self.current_bug = None
 
+	def open(self):
+		window = self.wTree.get_widget("triage_window")
 		self.get_next_bug()
 		window.show()
 
@@ -145,9 +147,20 @@ class Gui:
 
 		button = self.wTree.get_widget("triage_button")
 		button.connect("clicked", self.open_triage_window)
+		button.set_sensitive(False)
+
+		self.tw = TriageWindow(self.controller,self.gladefile)
 
 	def open_triage_window(self,button):
-		tw = TriageWindow(self.controller,self.gladefile)
+		self.tw.open()
+
+	def toggle_triage_button(self):
+		bugs_todo = filter(lambda b: \
+			not b.has_nextaction() and not b.ignoring() and not b.sleeping() and
+			not b.is_done(),
+				self.controller.model.bugs.values())
+		if len(bugs_todo) > 0:
+			button.set_sensitive(False)
 
 	def update_summary_label(self):
 		model = self.controller.model
