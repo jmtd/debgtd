@@ -174,7 +174,7 @@ class Gui:
 		nextact  = set(filter(lambda x: model.bugs[x].has_nextaction(), total))
 
 		displaying = nextact - ignoring
-		to_triage  = (total - ignoring) - nextact
+		to_triage  = total - ignoring - nextact - sleeping
 
 		label.set_text("displaying %d bugs, %d to triage " \
 			"(%d sleeping; %d ignored; %d done; %d total)" % \
