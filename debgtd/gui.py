@@ -166,16 +166,20 @@ class Gui:
 		model = self.controller.model
 		label = self.wTree.get_widget("num_bugs_label")
 
-		total = len(filter(lambda bug: not bug.is_done(), model.bugs.values()))
-		# XXX BUG there might be an intersection between these
-		# should use real set logic instead of arithmetic
-		sleeping = len(model.get_sleeping_bugs())
-		ignored = len(model.get_ignored_bugs())
-		nextactions = len(model.get_nextaction_bugs())
-		interested = total - sleeping - ignored
+		total    = set(model.bugs)
+		done     = set(filter(lambda x: model.bugs[x].is_done(), total))
+		sleeping = set(filter(lambda x: model.bugs[x].sleeping(), total))
+		ignoring = set(filter(lambda x: model.bugs[x].ignoring(), total))
+		nextact  = set(filter(lambda x: model.bugs[x].has_nextaction(), total))
 
-		label.set_text("displaying %d bugs, %d to triage (%d sleeping; %d ignored; %d total)" % \
-			(nextactions,interested - nextactions, sleeping,ignored,total))
+		displaying = nextact - ignoring
+		to_triage  = (total - ignoring) - nextact
+
+		label.set_text("displaying %d bugs, %d to triage " \
+			"(%d sleeping; %d ignored; %d done; %d total)" % \
+			(len(displaying), len(to_triage),
+			# XXX: the following aren't really of interest to the end-user
+			len(sleeping), len(ignoring), len(done), len(total)))
 
 	def populate_treeview(self):
 		model = self.controller.model
