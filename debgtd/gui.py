@@ -96,7 +96,10 @@ class TriageWindow:
 	def update_currentbug(self):
 		buginfo = self.wTree.get_widget("summarybutton")
 		if self.current_bug:
-			buginfo.set_label(self.current_bug['subject'])
+			text = self.current_bug['subject']
+			if self.current_bug.is_done():
+				text += " (bug is marked as done)"
+			buginfo.set_label(text)
 		else:
 			buginfo.set_label('there are no bugs to triage.')
 
