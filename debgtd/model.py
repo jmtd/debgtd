@@ -111,18 +111,19 @@ class Model:
 					del bug['debgtd']
 				self.add_bug(bug)
 
-		elif fmt >= 2:
-			bugs = tuple[2]
-			for bug in bugs:
-				self.add_bug(bug)
-		else:
+		elif not fmt >= 2:
 			sys.stderr.write("unsupported format %d\n" % fmt)
 			sys.exit(1)
+
+		bugs = tuple[2]
 
 		if fmt < 3:
 			for bug in bugs:
 				if not hasattr(bug, '_nextaction'):
 					bug.set_nextaction(None)
+
+		for bug in bugs:
+			self.add_bug(bug)
 
 	def sleep_bug(self,bugnum):
 		bug = self.bugs[bugnum]
