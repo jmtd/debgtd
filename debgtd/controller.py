@@ -169,6 +169,10 @@ class Controller:
 	def ignore_bug(self,bug):
 		self.model.ignore_bug(bug)
 		self.needswrite = True
+
+	def set_nextaction(self,bug,na):
+		bug.set_nextaction(na)
+		self.needswrite = True
 	
 	def set_user(self, user):
 		if self.model and self.model.user == user:

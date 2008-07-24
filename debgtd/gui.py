@@ -22,6 +22,96 @@ import os
 import debgtd
 from debgtd.controller import Controller
 
+class TriageWindow:
+	def __init__(self,controller,gladefile):
+		self.controller = controller
+		self.wTree = gtk.glade.XML(gladefile,"triage_window")
+		window = self.wTree.get_widget("triage_window")
+		window.resize(640,400)
+
+		# signals
+		window.connect("destroy", lambda x: self.close())
+		self.wTree.get_widget("closebutton").connect("clicked",
+			lambda x: self.close())
+		self.wTree.get_widget("applybutton").connect("clicked",
+			self.apply_button)
+		self.wTree.get_widget("nextaction").connect("activate",
+			self.apply_button)
+		self.wTree.get_widget("sleepbutton").connect("clicked",
+			self.sleep_button)
+		self.wTree.get_widget("ignorebutton").connect("clicked",
+			self.ignore_button)
+		self.wTree.get_widget("summarybutton").connect("clicked", lambda x: \
+			self.current_bug and os.system("sensible-browser http://bugs.debian.org/%s &" \
+			% self.current_bug['id']))
+
+		# initialisation
+		self.processed = 0
+		self.target = 0
+		self.current_bug = None
+
+	def open(self):
+		window = self.wTree.get_widget("triage_window")
+		self.get_next_bug()
+		window.show()
+
+	def close(self):
+		self.processed = 0
+		self.target    = 0
+		window = self.wTree.get_widget("triage_window")
+		if window:
+			window.hide()
+
+	def get_next_bug(self):
+		bugs_todo = filter(lambda b: \
+		not b.has_nextaction() and not b.ignoring() and not b.sleeping(),
+			self.controller.model.bugs.values())
+		if 0 < len(bugs_todo):
+			self.current_bug = bugs_todo[0]
+			if not self.target:
+				self.target = len(bugs_todo)
+		else:
+			self.current_bug = None
+			self.target = 0
+		self.wTree.get_widget("nextaction").set_text('')
+		self.update_currentbug()
+		self.update_progress()
+
+	def apply_button(self,button):
+		text = self.wTree.get_widget("nextaction").get_text()
+		self.controller.set_nextaction(self.current_bug, text)
+		self.processed += 1
+		self.get_next_bug()
+
+	def sleep_button(self,button):
+		self.controller.sleep_bug(self.current_bug['id'])
+		self.processed += 1
+		self.get_next_bug()
+
+	def ignore_button(self,button):
+		self.controller.ignore_bug(self.current_bug['id'])
+		self.processed += 1
+		self.get_next_bug()
+
+	def update_currentbug(self):
+		buginfo = self.wTree.get_widget("summarybutton")
+		if self.current_bug:
+			text = self.current_bug['subject']
+			if self.current_bug.is_done():
+				text += " (bug is marked as done)"
+			buginfo.set_label(text)
+		else:
+			buginfo.set_label('there are no bugs to triage.')
+
+	def update_progress(self):
+		progressbar = self.wTree.get_widget("progressbar")
+		progresslabel = self.wTree.get_widget("progresslabel")
+		progresslabel.set_text("%d / %d" % (self.processed, self.target))
+		if 0 == self.target:
+			progressbar.set_fraction( 1.0 )
+		else:
+			progressbar.set_fraction( float(self.processed) / float(self.target) )
+
 class Gui:
 	def __init__(self,controller):
 		self.controller = controller
@@ -57,24 +147,45 @@ class Gui:
 		self.wTree.get_widget("ignore_menu_item").connect("activate",
 			self.ignore_cb)
 
+		button = self.wTree.get_widget("triage_button")
+		button.connect("clicked", self.open_triage_window)
+		button.set_sensitive(False)
+
+		self.tw = TriageWindow(self.controller,self.gladefile)
+
+	def open_triage_window(self,button):
+		self.tw.open()
+
+	def toggle_triage_button(self):
+		bugs_todo = filter(lambda b: \
+			not b.has_nextaction() and not b.ignoring() and not b.sleeping(),
+			self.controller.model.bugs.values())
+		button = self.wTree.get_widget("triage_button")
+		button.set_sensitive(len(bugs_todo) > 0)
+
 	def update_summary_label(self):
 		model = self.controller.model
 		label = self.wTree.get_widget("num_bugs_label")
 
-		total = len(filter(lambda bug: not bug.is_done(), model.bugs.values()))
-		# XXX BUG there might be an intersection between these
-		# should use real set logic instead of arithmetic
-		sleeping = len(model.get_sleeping_bugs())
-		ignored = len(model.get_ignored_bugs())
-		interested = total - sleeping - ignored
+		total    = set(model.bugs)
+		done     = set(filter(lambda x: model.bugs[x].is_done(), total))
+		sleeping = set(filter(lambda x: model.bugs[x].sleeping(), total))
+		ignoring = set(filter(lambda x: model.bugs[x].ignoring(), total))
+		nextact  = set(filter(lambda x: model.bugs[x].has_nextaction(), total))
 
-		label.set_text("%d bugs (%d sleeping; %d ignored)" % \
-			(interested,sleeping,ignored))
+		displaying = nextact - ignoring
+		to_triage  = total - ignoring - nextact - sleeping
+
+		label.set_text("displaying %d bugs, %d to triage " \
+			"(%d sleeping; %d ignored; %d done; %d total)" % \
+			(len(displaying), len(to_triage),
+			# XXX: the following aren't really of interest to the end-user
+			len(sleeping), len(ignoring), len(done), len(total)))
 
 	def populate_treeview(self):
 		model = self.controller.model
 		tree = self.tree
-		treestore = gtk.TreeStore(int,str,str,str)
+		treestore = gtk.TreeStore(int,str,str,str,str)
 		tree.set_model(treestore)
 
 		column = gtk.TreeViewColumn('id')
@@ -98,11 +209,17 @@ class Gui:
 		column.set_sort_column_id(2)
 		treestore.set_sort_func(2, self.severity_sort_cb)
 
-		column = gtk.TreeViewColumn('subject')
+		column = gtk.TreeViewColumn('next-action')
 		tree.append_column(column)
 		cell = gtk.CellRendererText()
 		column.pack_start(cell,False)
 		column.add_attribute(cell, "text", 3)
+
+		column = gtk.TreeViewColumn('subject')
+		tree.append_column(column)
+		cell = gtk.CellRendererText()
+		column.pack_start(cell,False)
+		column.add_attribute(cell, "text", 4)
 
 	def row_selected_cb(self,tree,path,column):
 		treemodel = tree.get_model()
@@ -138,22 +255,28 @@ class Gui:
 	def bug_added(self, bug):
 		treestore = self.tree.get_model()
 		self.wTree.get_widget("refresh_data_button").set_label("Update")
-		if not bug.sleeping() and not bug.ignoring() and not bug.is_done():
+		if not bug.sleeping() and not bug.ignoring() and \
+			bug.has_nextaction():
 			treestore.append(None, [bug['id'],
 			bug['package'],
 			bug['severity'],
+			bug.get_nextaction(),
 			bug['subject']])
 		self.update_summary_label()
+		self.toggle_triage_button()
 
 	def bug_sleeping(self, bug):
 		self.hide_bug(bug['id'])
+		self.toggle_triage_button()
 
 	def bug_ignored(self, bug):
 		self.hide_bug(bug['id'])
+		self.toggle_triage_button()
 	
 	def bug_changed(self, bug):
 		if bug.sleeping() or bug.ignoring() or bug.is_done():
 			self.hide_bug(bug['id'])
+			self.toggle_triage_button()
 
 	def clear(self):
 		treestore = self.tree.get_model()
