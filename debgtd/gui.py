@@ -116,6 +116,11 @@ class Gui:
 	def __init__(self,controller):
 		self.controller = controller
 
+		try:
+			gtk.init_check()
+		except RuntimeError, e:
+			sys.exit('E: %s. Exiting.' % e)
+
 		if os.path.isfile("debgtd.glade"):
 			self.gladefile = "debgtd.glade"
 		elif os.path.isfile("/usr/local/share/debgtd/debgtd.glade"):
