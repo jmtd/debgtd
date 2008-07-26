@@ -7,8 +7,7 @@ DESKTOPDIR=$(PREFIX)/share/applications
 
 DESTDIR=
 
-help:
-	printf "make install\t\tinstall the tool\n"
+default: debgtd.desktop
 
 debgtd.desktop: debgtd.desktop.in
 	m4 -DPREFIX=$(BINDIR) < $< > $@
