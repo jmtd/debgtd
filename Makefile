@@ -23,8 +23,7 @@ install:
 	install -D -m 0644 debgtd.desktop $(DESTDIR)$(DESKTOPDIR)/debgtd.desktop
 
 clean:
-	rm -f *.pyc debgtd/*.pyc
-	rm debgtd.desktop
+	rm -f *.pyc debgtd/*.pyc debgtd.desktop
 
 FILES=$(DESTDIR)$(BINDIR)/debgtd \
 		$(DESTDIR)$(SHAREDIR)/debgtd/debgtd.glade \
