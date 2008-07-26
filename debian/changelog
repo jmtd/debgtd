@@ -1,11 +1,11 @@
-debgtd (1.2-2) unstable; urgency=low
+debgtd (1.2.1-1) unstable; urgency=low
 
   * add gtk.init_check to avoid segfault when DISPLAY is unset.
     Thanks Chris Lamb. Closes: #490086.
   * Add a menu file. Thanks Nelson A. de Oliveira for the suggestion.
     Closes: #492439. (also add a .desktop file whilst we're at it)
 
- -- Jon Dowland <jon@alcopop.org>  Sat, 26 Jul 2008 16:41:36 +0100
+ -- Jon Dowland <jon@alcopop.org>  Sat, 26 Jul 2008 16:46:28 +0100
 
 debgtd (1.2-1) unstable; urgency=low
 
