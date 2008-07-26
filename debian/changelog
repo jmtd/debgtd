@@ -1,3 +1,10 @@
+debgtd (1.2-2) unstable; urgency=low
+
+  * add gtk.init_check to avoid segfault when DISPLAY is unset.
+    Thanks Chris Lamb. Closes: #490086.
+
+ -- Jon Dowland <jon@alcopop.org>  Sat, 26 Jul 2008 16:12:48 +0100
+
 debgtd (1.2-1) unstable; urgency=low
 
   * New upstream version:
