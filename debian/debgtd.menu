@@ -2,4 +2,4 @@
     section="Applications/Project Management" \
     title="debgtd" \
     description="manages your Debian bugs" \
-    command="/usr/bin/debgtd
+    command="/usr/bin/debgtd"
