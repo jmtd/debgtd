@@ -1,7 +1,9 @@
 #!/usr/bin/make -f
 # vim: set ft=make:
 
-build:
+build: build-stamp
+build-stamp:
+	$(MAKE)
 
 binary: binary-indep install
 
@@ -10,6 +12,7 @@ clean:
 	dh_testroot
 	dh_clean
 	make clean
+	rm -f build-stamp
 
 VERSION=$(shell dpkg-parsechangelog | sed -ne 's,^Version: ,,p')
 UPSTREAM=$(shell echo $(VERSION) | cut -d- -f1)
