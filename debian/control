@@ -6,7 +6,7 @@ DM-Upload-Allowed: yes
 Standards-Version: 3.8.0
 Homepage: http://jmtd.net/computing/software/debgtd/
 Vcs-Git: http://alcopop.org/code/debian/gtd/git
-Build-Depends: debhelper (>= 7), python-support (>= 0.8.1), python (>= 2.5)
+Build-Depends: debhelper (>= 7), python-support (>= 0.8.1), python (>= 2.5), m4
 
 Package: debgtd
 Architecture: all
