@@ -1,0 +1,5 @@
+?package(debgtd):needs="x11" \
+    section="Applications/Project Management" \
+    title="debgtd" \
+    description="manages your Debian bugs" \
+    command="/usr/bin/debgtd
