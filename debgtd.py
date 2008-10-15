@@ -14,6 +14,8 @@
 #
 # see "LICENSE" for the full GPL-2.
 
+import sys
+
 from debgtd.controller import Controller
 from debgtd.gui import Gui
 
@@ -21,5 +23,10 @@ if __name__ == "__main__":
 	controller = Controller()
 	gui = Gui(controller)
 	controller.add_view(gui)
-	controller.go()
-	controller.save_to_file()
+	try:
+		try:
+			controller.go()
+		except KeyboardInterrupt:
+			sys.exit(1)
+	finally:
+		controller.save_to_file()
