@@ -202,6 +202,7 @@ class Gui:
 		cell = gtk.CellRendererText()
 		column.pack_start(cell, False)
 		column.add_attribute(cell, "text", 0)
+		column.set_sort_column_id(0)
 
 		column = gtk.TreeViewColumn('package')
 		tree.append_column(column)
@@ -223,6 +224,7 @@ class Gui:
 		cell = gtk.CellRendererText()
 		column.pack_start(cell,False)
 		column.add_attribute(cell, "text", 3)
+		column.set_sort_column_id(3)
 
 		column = gtk.TreeViewColumn('subject')
 		tree.append_column(column)
