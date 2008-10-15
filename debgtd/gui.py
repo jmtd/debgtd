@@ -18,6 +18,7 @@ import sys
 import gtk
 import gtk.glade
 import os
+import threading
 
 import debgtd
 from debgtd.controller import Controller
@@ -115,11 +116,14 @@ class TriageWindow:
 class Gui:
 	def __init__(self,controller):
 		self.controller = controller
+		self.active = True
 
 		try:
 			gtk.init_check()
 		except RuntimeError, e:
 			sys.exit('E: %s. Exiting.' % e)
+
+		gtk.gdk.threads_init()
 
 		if os.path.isfile("debgtd.glade"):
 			self.gladefile = "debgtd.glade"
@@ -133,8 +137,8 @@ class Gui:
 		window = self.wTree.get_widget("window1")
 		window.resize(800,600)
 		window.show()
-		self.wTree.get_widget("quit_menu_item").connect("activate", gtk.main_quit)
-		self.wTree.get_widget("window1").connect("destroy", gtk.main_quit)
+		self.wTree.get_widget("quit_menu_item").connect("activate", self.quit_cb)
+		self.wTree.get_widget("window1").connect("destroy", self.quit_cb)
 
 		self.tree = self.wTree.get_widget("treeview1")
 		self.tree.connect("row-activated", self.row_selected_cb)
@@ -251,9 +255,25 @@ class Gui:
 		return av - bv
 
 	def refresh_data_cb(self, button):
-		user = self.wTree.get_widget("user_email").get_text()
-		self.controller.set_user(user)
-		self.controller.import_new_bugs()
+		widgets = ("refresh_data_button", "sleep_bug_button",
+			"ignore_bug_button", "user_email", "sleep_menu_item",
+			"ignore_menu_item", "quit_menu_item")
+		for widget in widgets:
+			self.wTree.get_widget(widget).set_sensitive(False)
+
+		old_label = button.get_label()
+		button.set_label("Updating...")
+
+		def refresh_worker():
+			user = self.wTree.get_widget("user_email").get_text()
+			self.controller.set_user(user)
+			self.controller.import_new_bugs()
+			if not self.active:
+				return
+			for widget in widgets:
+				self.wTree.get_widget(widget).set_sensitive(True)
+			button.set_label(old_label)
+		threading.Thread(target=refresh_worker).start()
 
 	### listener methods for Model events
 
@@ -279,6 +299,8 @@ class Gui:
 		self.toggle_triage_button()
 	
 	def bug_changed(self, bug):
+		if not self.active:
+			return
 		if bug.sleeping() or bug.ignoring() or bug.is_done():
 			self.hide_bug(bug['id'])
 			self.toggle_triage_button()
@@ -324,3 +346,7 @@ class Gui:
 
 	def user_changed(self, user):
 		self.wTree.get_widget("user_email").set_text(user)
+
+	def quit_cb(self, *_):
+		self.active = False
+		gtk.main_quit()
