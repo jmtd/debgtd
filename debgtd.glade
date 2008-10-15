@@ -3,6 +3,7 @@
 <!--Generated with glade3 3.4.5 on Sun Jul 20 13:41:46 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
+    <property name="title" translatable="yes">DebGTD Bug Manager</property>
     <child>
       <widget class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
