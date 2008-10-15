@@ -233,7 +233,7 @@ class Gui:
 	def row_selected_cb(self,tree,path,column):
 		treemodel = tree.get_model()
 		row = treemodel[path[0]][0]
-		os.system("sensible-browser http://bugs.debian.org/%s &" % row)
+		os.system("sensible-browser http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=%s &" % row)
 
 	def ignore_cb(self,button):
 		offs,col = self.tree.get_cursor()
