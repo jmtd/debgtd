@@ -42,10 +42,9 @@ class TriageWindow:
 			self.sleep_button)
 		self.wTree.get_widget("ignorebutton").connect("clicked",
 			self.ignore_button)
-		self.wTree.get_widget("summarybutton").connect("clicked", lambda x: \
-			self.current_bug and os.system("sensible-browser http://bugs.debian.org/%s &" \
+		gtk.link_button_set_uri_hook(lambda x,y: self.current_bug and \
+			os.system("sensible-browser http://bugs.debian.org/%s &" \
 			% self.current_bug['id']))
-
 		# initialisation
 		self.processed = 0
 		self.target = 0
@@ -95,14 +94,25 @@ class TriageWindow:
 		self.get_next_bug()
 
 	def update_currentbug(self):
-		buginfo = self.wTree.get_widget("summarybutton")
+		package_label = self.wTree.get_widget("package_label")
+		severity_label = self.wTree.get_widget("severity_label")
+		subject_label = self.wTree.get_widget("subject_label")
+		status_label = self.wTree.get_widget("status_label")
 		if self.current_bug:
-			text = self.current_bug['subject']
 			if self.current_bug.is_done():
-				text += " (bug is marked as done)"
-			buginfo.set_label(text)
+				status_label.set_label("done")
+			else:
+				status_label.set_label("?")
+			subject_label.set_label(self.current_bug['subject'])
+			package_label.set_label(self.current_bug['package'])
+			severity_label.set_label(self.current_bug['severity'])
+			subject_label.set_sensitive(True)
 		else:
-			buginfo.set_label('there are no bugs to triage.')
+			package_label.set_label('there are no bugs to triage.')
+			severity_label.set_label('')
+			subject_label.set_sensitive(False)
+			subject_label.set_label('')
+			status_label.set_label('')
 
 	def update_progress(self):
 		progressbar = self.wTree.get_widget("progressbar")
