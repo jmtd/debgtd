@@ -330,7 +330,7 @@ class Gui:
 
 		iter = treemodel.get_iter_first()
 		rowid = bugnum + 1 # a fake value
-		while rowid != bugnum:
+		while iter and rowid != bugnum:
 			rowid = treemodel.get_value(iter, column)
 			if rowid == bugnum:
 				treemodel.remove(iter)
