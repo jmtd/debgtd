@@ -80,7 +80,7 @@ class TriageWindow:
 
 	def apply_button(self,button):
 		text = self.wTree.get_widget("nextaction").get_text()
-		self.controller.set_nextaction(self.current_bug, text)
+		self.controller.set_nextaction(self.current_bug['id'], text)
 		self.processed += 1
 		self.get_next_bug()
 
@@ -306,6 +306,10 @@ class Gui:
 		if bug.sleeping() or bug.ignoring() or bug.is_done():
 			self.hide_bug(bug['id'])
 			self.toggle_triage_button()
+		# XXX: hacky. remove the bug and add it again to update treeview
+		else:
+			self.hide_bug(bug['id'])
+			self.bug_added(bug)
 
 	def clear(self):
 		treestore = self.tree.get_model()

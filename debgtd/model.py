@@ -132,6 +132,12 @@ class Model:
 		for listener in self.listeners:
 			listener.bug_sleeping(bug)
 
+	def set_nextaction(self,bugnum,na):
+		bug = self.bugs[bugnum]
+		bug.set_nextaction(na)
+		for listener in self.listeners:
+			listener.bug_changed(bug)
+
 	def get_sleeping_bugs(self):
 		return [x for x in self.bugs.values() if x.sleeping()]
 	
