@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sun Jul 20 13:41:46 2008 -->
+<!--Generated with glade3 3.4.5 on Wed Nov 12 11:39:58 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
     <property name="title" translatable="yes">DebGTD Bug Manager</property>
@@ -275,8 +275,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">sleep</property>
+                <property name="label" translatable="yes">_Sleep</property>
+                <property name="use_underline">True</property>
                 <property name="response_id">0</property>
+                <accelerator key="s" modifiers="GDK_MOD1_MASK" signal="activate"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -288,8 +290,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">ignore</property>
+                <property name="label" translatable="yes">_Ignore</property>
+                <property name="use_underline">True</property>
                 <property name="response_id">0</property>
+                <accelerator key="I" modifiers="GDK_MOD1_MASK" signal="activate"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
