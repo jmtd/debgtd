@@ -1,1 +1,5 @@
 document versioning policy
+
+hide_bug in gui.py has some logic in there to handle situations where
+the bug is not being displayed (including when the list is empty). Should
+it do this, or should the caller not call it if it is not displayed?
