@@ -22,7 +22,7 @@ from pickle import load, dump
 
 # serialize_format will be used to be backwards-compatible
 # whenever we change the serialize or unserialize methods
-serialize_format = 3
+serialize_format = 4
 
 class Bug(dict):
 	def __init__(self, hash={}):
@@ -74,9 +74,11 @@ class Model:
 		self.user = user
 		self.bugs = {}
 		self.listeners = []
+		self.nextactions = set()
 
 	def serialize(self):
-		return (serialize_format, self.user, self.bugs.values())
+		return (serialize_format, self.user, self.bugs.values(),
+			list(self.nextactions))
 
 	# TODO: should consider handling serialize_format
 	def unserialize(self,tuple):
@@ -121,6 +123,9 @@ class Model:
 			for bug in bugs:
 				if not hasattr(bug, '_nextaction'):
 					bug.set_nextaction(None)
+
+		if fmt >= 4:
+			self.nextactions = set(tuple[3])
 
 		for bug in bugs:
 			self.add_bug(bug)
