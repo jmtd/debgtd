@@ -42,6 +42,8 @@ class TriageWindow:
 			self.sleep_button)
 		self.wTree.get_widget("ignorebutton").connect("clicked",
 			self.ignore_button)
+		self.wTree.get_widget("autocomplete_button").connect("clicked",
+			self.complete_button)
 		gtk.link_button_set_uri_hook(lambda x,y: self.current_bug and \
 			os.system("sensible-browser http://bugs.debian.org/%s &" \
 			% self.current_bug['id']))
@@ -122,6 +124,20 @@ class TriageWindow:
 			progressbar.set_fraction( 1.0 )
 		else:
 			progressbar.set_fraction( float(self.processed) / float(self.target) )
+	def complete_button(self,button):
+		"""fetch the current stem from the input box and find a string
+		   in our autocomplete set that matches it.
+		"""
+		widget = self.wTree.get_widget("nextaction")
+		stem = widget.get_text()
+		stemlength = len(stem)
+		autocomplete = set([x.get_nextaction() for x in
+			self.controller.model.bugs.values()]) - set([None])
+		for candidate in autocomplete:
+			if stem == candidate[0:stemlength]:
+				widget.set_text(candidate)
+				widget.select_region(stemlength, len(candidate))
+				return
 
 class Gui:
 	def __init__(self,controller):
