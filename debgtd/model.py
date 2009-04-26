@@ -55,7 +55,7 @@ class Bug(dict):
 		return self._ignoring
 
 	def unignore(self):
-		self.ignoring = False
+		self._ignoring = False
 
 	def has_nextaction(self):
 		return self._nextaction != None
