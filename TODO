@@ -3,20 +3,3 @@ document versioning policy
 hide_bug in gui.py has some logic in there to handle situations where
 the bug is not being displayed (including when the list is empty). Should
 it do this, or should the caller not call it if it is not displayed?
-
-string stash
-------------
-
-this will work by
-
-    adding a list of previously used next actions to our Model
-        bumping the serialize_format
-        saving the nextactions hash as the fourth tuple item
-        if fmt of loaded in data is >= 4, set nextactions from fourth tuple
-        item
-
-secondly, the triage window must
-
-    save submitted next actions to the nextactions hash
-    check on each keystroke/field modification whether there's a completion
-        we could apply
