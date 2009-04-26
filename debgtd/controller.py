@@ -87,10 +87,10 @@ class Controller:
 	def datafile(self):
 		"""calculate the path for the current model's data"""
 		if self.model:
-			base=os.environ["HOME"] + "/.local/share"
+			base = os.sep.join([os.environ["HOME"], ".local", "share"])
 			if "XDG_DATA_HOME" in os.environ:
 				base= os.environ["XDG_DATA_HOME"]
-			df = base + "/debgtd/" + self.email_to_filename()
+			df = os.sep.join([base, "debgtd", self.email_to_filename()])
 			return df 
 		return None
 

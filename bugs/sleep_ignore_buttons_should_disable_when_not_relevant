@@ -1,0 +1,2 @@
+When there are no bugs in the main window, or there is none selected, the
+"ignore" and "sleep" buttons should not be enabled for activation.
