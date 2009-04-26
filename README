@@ -58,3 +58,15 @@ annotations
 looking at my bug pile right now, I see some bugs that could use some
 attention, perhaps to see if they still apply, etc.: I cant' do the actual
 work now, but I could do with making a note of the identified "next action"
+
+reporting bugs against debgtd
+-----------------------------
+
+To report a bug against a version of debgtd packaged as part of Debian,
+please submit a bug to the Debian bug tracking system (BTS). See
+http://www.debian.org/Bugs for more information, or use reportbug(1).
+
+Bugs against non-packaged versions of Debian are kept as separate files
+within the "bugs" directory of the source. Either submit a patch adding a
+file describing your bug, or simply write an email describing it, both to
+jon+debgtd@alcopop.org.
