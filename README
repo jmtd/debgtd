@@ -1,5 +1,8 @@
 debgtd
 
+'debgtd' is a program that is design to help a user manage bugs that they are
+working on.
+
 Rationale: I try and track bugs in packages in Debian. I used to do this
 purely by which I have submitted. This was not ideal, because
 
