@@ -42,8 +42,6 @@ class TriageWindow:
 			self.sleep_button)
 		self.wTree.get_widget("ignorebutton").connect("clicked",
 			self.ignore_button)
-		self.wTree.get_widget("autocomplete_button").connect("clicked",
-			self.complete_button)
 		self.wTree.get_widget("nextaction").connect_after("insert-text",
 			self.nextaction_text_inserted)
 		gtk.link_button_set_uri_hook(lambda x,y: self.current_bug and \
@@ -126,8 +124,6 @@ class TriageWindow:
 			progressbar.set_fraction( 1.0 )
 		else:
 			progressbar.set_fraction( float(self.processed) / float(self.target) )
-	def complete_button(self,button):
-		pass
 
 	def nextaction_text_inserted(self, widget, newtxt, txtlen, pospointer):
 		cursor = widget.get_property("cursor-position")
