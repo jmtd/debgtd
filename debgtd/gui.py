@@ -44,6 +44,8 @@ class TriageWindow:
 			self.ignore_button)
 		self.wTree.get_widget("autocomplete_button").connect("clicked",
 			self.complete_button)
+		self.wTree.get_widget("nextaction").connect_after("insert-text",
+			self.nextaction_text_inserted)
 		gtk.link_button_set_uri_hook(lambda x,y: self.current_bug and \
 			os.system("sensible-browser http://bugs.debian.org/%s &" \
 			% self.current_bug['id']))
@@ -125,19 +127,21 @@ class TriageWindow:
 		else:
 			progressbar.set_fraction( float(self.processed) / float(self.target) )
 	def complete_button(self,button):
-		"""fetch the current stem from the input box and find a string
-		   in our autocomplete set that matches it.
-		"""
-		widget = self.wTree.get_widget("nextaction")
+		pass
+
+	def nextaction_text_inserted(self, widget, newtxt, txtlen, pospointer):
+		cursor = widget.get_property("cursor-position")
 		stem = widget.get_text()
-		stemlength = len(stem)
-		autocomplete = set([x.get_nextaction() for x in
-			self.controller.model.bugs.values()]) - set([None])
-		for candidate in autocomplete:
-			if stem == candidate[0:stemlength]:
-				widget.set_text(candidate)
-				widget.select_region(stemlength, len(candidate))
-				return
+		newlen = len(stem)
+		if newlen == cursor+1 and newlen > 0:
+			autocomplete = set([x.get_nextaction() for x in
+				self.controller.model.bugs.values()]) - set([None])
+			for candidate in autocomplete:
+				if stem == candidate[0:newlen]:
+					widget.set_text(candidate)
+					widget.select_region(newlen, -1) # failing?
+					widget.set_position(-1) # failing?
+					break
 
 class Gui:
 	def __init__(self,controller):
