@@ -2,7 +2,7 @@
 Name=DebGTD Bug Manager
 GenericName=Bug Manager
 Comment=Manage your Debian bugs
-Exec=/usr/local/bin/debgtd
+Exec=/usr/bin/debgtd
 Terminal=false
 Type=Application
 Categories=Utility

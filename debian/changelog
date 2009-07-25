@@ -7,8 +7,11 @@ debgtd (1.3-1) unstable; urgency=low
   * Update maintainer address.
   * Update Vcs-git: path in control file.
   * Add Vcs-browse: header in control file.
+  * debhelper changes:
+    * dh_prep instead of dh_clean -k
+    * remove dh_desktop
 
- -- Jon Dowland <jmtd@debian.org>  Sat, 25 Jul 2009 17:37:55 +0100
+ -- Jon Dowland <jmtd@debian.org>  Sat, 25 Jul 2009 18:16:04 +0100
 
 debgtd (1.2.1-1) unstable; urgency=low
 
