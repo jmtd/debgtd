@@ -170,7 +170,13 @@ class Gui:
 		button.connect("clicked", self.open_triage_window)
 		button.set_sensitive(False)
 
+		self.wTree.get_widget("user_email").connect("activate",
+			self.user_changed_cb)
+
 		self.tw = TriageWindow(self.controller,self.gladefile)
+
+	def user_changed_cb(self,label):
+		self.controller.set_user(label.get_text())
 
 	def open_triage_window(self,button):
 		self.tw.open()

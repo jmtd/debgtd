@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Wed Nov 12 18:56:43 2008 -->
+<?xml version="1.0"?>
 <glade-interface>
+  <!-- interface-requires gtk+ 2.16 -->
+  <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkWindow" id="window1">
     <property name="title" translatable="yes">DebGTD Bug Manager</property>
     <child>
@@ -20,8 +20,8 @@
                     <property name="visible">True</property>
                     <child>
                       <widget class="GtkImageMenuItem" id="quit_menu_item">
+                        <property name="label">gtk-quit</property>
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">gtk-quit</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                       </widget>
@@ -40,18 +40,20 @@
                     <property name="visible">True</property>
                     <child>
                       <widget class="GtkImageMenuItem" id="sleep_menu_item">
+                        <property name="label">Slee_p</property>
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Slee_p</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="p" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                        <property name="use_stock">True</property>
+                        <accelerator key="p" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </widget>
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="ignore_menu_item">
+                        <property name="label">_Ignore</property>
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">_Ignore</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="i" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                        <property name="use_stock">True</property>
+                        <accelerator key="i" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </widget>
                     </child>
                   </widget>
@@ -61,6 +63,7 @@
           </widget>
           <packing>
             <property name="expand">False</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
@@ -74,12 +77,14 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
               <widget class="GtkEntry" id="user_email">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <signal name="activate" handler="on_user_email_activate"/>
               </widget>
               <packing>
                 <property name="position">1</property>
@@ -87,11 +92,10 @@
             </child>
             <child>
               <widget class="GtkButton" id="refresh_data_button">
+                <property name="label" translatable="yes">Fetch</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">Fetch</property>
-                <property name="response_id">0</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -109,13 +113,12 @@
           <widget class="GtkScrolledWindow" id="scrolledwindow1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+            <property name="hscrollbar_policy">automatic</property>
+            <property name="vscrollbar_policy">automatic</property>
             <child>
               <widget class="GtkTreeView" id="treeview1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="headers_clickable">True</property>
               </widget>
             </child>
           </widget>
@@ -128,24 +131,23 @@
             <property name="visible">True</property>
             <child>
               <widget class="GtkButton" id="sleep_bug_button">
+                <property name="label" translatable="yes">Sleep bug</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">Sleep bug</property>
                 <property name="use_underline">True</property>
-                <property name="response_id">0</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
               <widget class="GtkButton" id="ignore_bug_button">
+                <property name="label" translatable="yes">Ignore bug</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">Ignore bug</property>
-                <property name="response_id">0</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -154,11 +156,10 @@
             </child>
             <child>
               <widget class="GtkButton" id="triage_button">
+                <property name="label" translatable="yes">triage new bugs</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">triage new bugs</property>
-                <property name="response_id">0</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -171,7 +172,7 @@
               </widget>
               <packing>
                 <property name="expand">False</property>
-                <property name="pack_type">GTK_PACK_END</property>
+                <property name="pack_type">end</property>
                 <property name="position">3</property>
               </packing>
             </child>
@@ -194,10 +195,10 @@
             <child>
               <widget class="GtkProgressBar" id="progressbar">
                 <property name="visible">True</property>
-                <property name="text" translatable="yes"></property>
               </widget>
               <packing>
                 <property name="expand">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -213,6 +214,7 @@
           </widget>
           <packing>
             <property name="expand">False</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
@@ -247,7 +249,7 @@
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">&lt;b&gt;severity&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
-                <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                <property name="justify">right</property>
               </widget>
               <packing>
                 <property name="top_attach">2</property>
@@ -260,7 +262,7 @@
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">&lt;b&gt;summary&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
-                <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                <property name="justify">right</property>
               </widget>
               <packing>
                 <property name="top_attach">1</property>
@@ -273,7 +275,7 @@
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">&lt;b&gt;package&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
-                <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                <property name="justify">right</property>
               </widget>
               <packing>
                 <property name="x_options">GTK_FILL</property>
@@ -284,7 +286,7 @@
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">&lt;b&gt;status&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
-                <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                <property name="justify">right</property>
               </widget>
               <packing>
                 <property name="top_attach">3</property>
@@ -306,12 +308,11 @@
             </child>
             <child>
               <widget class="GtkLinkButton" id="subject_label">
+                <property name="label" translatable="yes">subject_label</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">subject_label</property>
-                <property name="relief">GTK_RELIEF_NONE</property>
-                <property name="response_id">0</property>
+                <property name="relief">none</property>
                 <property name="uri">http://glade.gnome.org</property>
               </widget>
               <packing>
@@ -337,6 +338,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -358,26 +360,25 @@
             <property name="visible">True</property>
             <child>
               <widget class="GtkButton" id="applybutton">
+                <property name="label" translatable="yes">gtk-apply</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">gtk-apply</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">0</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
               <widget class="GtkButton" id="sleepbutton">
+                <property name="label" translatable="yes">_Sleep</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">_Sleep</property>
                 <property name="use_underline">True</property>
-                <property name="response_id">0</property>
-                <accelerator key="s" modifiers="GDK_MOD1_MASK" signal="activate"/>
+                <accelerator key="s" signal="activate" modifiers="GDK_MOD1_MASK"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -386,13 +387,12 @@
             </child>
             <child>
               <widget class="GtkButton" id="ignorebutton">
+                <property name="label" translatable="yes">_Ignore</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">_Ignore</property>
                 <property name="use_underline">True</property>
-                <property name="response_id">0</property>
-                <accelerator key="I" modifiers="GDK_MOD1_MASK" signal="activate"/>
+                <accelerator key="I" signal="activate" modifiers="GDK_MOD1_MASK"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -401,12 +401,11 @@
             </child>
             <child>
               <widget class="GtkButton" id="closebutton">
+                <property name="label" translatable="yes">gtk-close</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">gtk-close</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">0</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
