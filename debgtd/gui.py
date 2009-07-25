@@ -331,6 +331,7 @@ class Gui:
 		treestore = self.tree.get_model()
 		self.wTree.get_widget("refresh_data_button").set_label("Fetch")
 		treestore.clear()
+		self.update_summary_label()
 		# XXX: should clear the user too?
 
 	### helper methods for model event listener callbacks 
