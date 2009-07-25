@@ -1,13 +1,14 @@
 debgtd (1.3-1) unstable; urgency=low
  
   * new upstream version.
-    * Closes: #536696, #493668, #493669, #493672, #493673, #493676.
+    * Closes: #536696, #493668, #493669, #493672,
+              #493673, #493676, #499591.
   * bump standards version. 
   * Update maintainer address.
   * Update Vcs-git: path in control file.
   * Add Vcs-browse: header in control file.
 
- -- Jon Dowland <jmtd@debian.org>  Sat, 25 Jul 2009 17:34:23 +0100
+ -- Jon Dowland <jmtd@debian.org>  Sat, 25 Jul 2009 17:37:55 +0100
 
 debgtd (1.2.1-1) unstable; urgency=low
 
