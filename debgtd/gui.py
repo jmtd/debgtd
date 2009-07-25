@@ -43,7 +43,7 @@ class TriageWindow:
 		self.wTree.get_widget("ignorebutton").connect("clicked",
 			self.ignore_button)
 		gtk.link_button_set_uri_hook(lambda x,y: self.current_bug and \
-			os.system("sensible-browser http://bugs.debian.org/%s &" \
+			os.system("sensible-browser http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=%s &" \
 			% self.current_bug['id']))
 		# initialisation
 		self.processed = 0
