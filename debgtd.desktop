@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=DebGTD Bug Manager
+GenericName=Bug Manager
+Comment=Manage your Debian bugs
+Exec=/usr/local/bin/debgtd
+Terminal=false
+Type=Application
+Categories=Utility
