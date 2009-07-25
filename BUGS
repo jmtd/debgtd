@@ -1,0 +1,5 @@
+The preferred way to report bugs in debgtd is to the Debian Bug
+Tracking System: <http://www.debian.org/Bugs/>. Try using "reportbug".
+
+You can see a list of bugs reported against debgtd in the Debian BTS
+here: <http://bugs.debian.org/debgtd/>. 

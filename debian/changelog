@@ -1,0 +1,41 @@
+debgtd (1.2.1-1) unstable; urgency=low
+
+  * add gtk.init_check to avoid segfault when DISPLAY is unset.
+    Thanks Chris Lamb. Closes: #490086.
+  * Add a menu file. Thanks Nelson A. de Oliveira for the suggestion.
+    Closes: #492439. (also add a .desktop file whilst we're at it)
+
+ -- Jon Dowland <jon@alcopop.org>  Sat, 26 Jul 2008 16:46:28 +0100
+
+debgtd (1.2-1) unstable; urgency=low
+
+  * New upstream version:
+    * no longer mentions the file "BUGS" in the manpage. Closes: #490724;
+    * strip trailing / from http_proxy if present. Closes: #490720.
+
+ -- Jon Dowland <jon@alcopop.org>  Thu, 17 Jul 2008 21:07:19 +0100
+
+debgtd (1.1-2) unstable; urgency=low
+
+  * add required python modules to Depends:.
+    Thanks Luca Brivio. Closes: #490078.
+
+ -- Jon Dowland <jon@alcopop.org>  Wed, 09 Jul 2008 18:23:40 +0100
+
+debgtd (1.1-1) unstable; urgency=low
+
+  * New upstream version.
+  * bump debhelper compatibility to 7.
+    As a result, remove the BUGS-is-empty hack
+  * version the python-support dependency to versions I've tested
+  * remove X[SB]-Python-Support fields as suggested by python-support
+  * build-depend on python
+  * s/Svn/Git/ in control file
+
+ -- Jon Dowland <jon@alcopop.org>  Tue, 08 Jul 2008 09:10:48 +0100
+
+debgtd (1.0-1) unstable; urgency=low
+
+  * Initial release. (Closes: #489434)
+
+ -- Jon Dowland <jon@alcopop.org>  Sat, 05 Jul 2008 17:41:53 +0100
