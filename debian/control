@@ -1,11 +1,12 @@
 Source: debgtd
 Section: utils
 Priority: optional
-Maintainer: Jon Dowland <jon@alcopop.org>
+Maintainer: Jon Dowland <jmtd@debian.org>
 DM-Upload-Allowed: yes
-Standards-Version: 3.8.0
+Standards-Version: 3.8.2
 Homepage: http://jmtd.net/computing/software/debgtd/
-Vcs-Git: http://alcopop.org/code/debian/gtd/git
+Vcs-Git: git://github.com/jmtd/debgtd.git
+Vcs-Browser: http://github.com/jmtd/debgtd/
 Build-Depends: debhelper (>= 7), python-support (>= 0.8.1), python (>= 2.5), m4
 
 Package: debgtd
