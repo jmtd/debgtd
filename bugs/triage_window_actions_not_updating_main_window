@@ -1,3 +1,0 @@
-setting a next action in the triage window does not inform
-other listeners that the bug has changed -- the main window
-therefore does not update it's label. 
