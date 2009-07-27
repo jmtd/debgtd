@@ -12,7 +12,7 @@ default: debgtd.desktop
 debgtd.desktop: debgtd.desktop.in
 	m4 -DPREFIX=$(BINDIR) < $< > $@
 
-install:
+install: debgtd.desktop
 	install -D -m 0755 debgtd.py $(DESTDIR)$(BINDIR)/debgtd
 	install -D -m 0644 debgtd.glade $(DESTDIR)$(SHAREDIR)/debgtd/debgtd.glade
 	install -D -m 0644 debgtd/controller.py $(DESTDIR)$(LIBDIR)/debgtd/controller.py
