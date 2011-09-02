@@ -19,5 +19,4 @@ Description: tool to help organise and prioritise your Debian bugs
  .
  debgtd is intended to help users contribute to Debian by
  keeping track of which bugs they have submitted and determine
- need more the user's attention (such as requiring more
- information, etc.)
+ which need attention (such as requiring more information, etc.)             
